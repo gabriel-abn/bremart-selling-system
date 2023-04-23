@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --max-workers=1 --watch",
+    "test": "jest --max-workers=1",
+    "test:manual": "jest --watch --max-workers=1",
     "dev": "nodemon src/server.ts --watch"
   },
   "keywords": [],
