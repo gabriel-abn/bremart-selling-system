@@ -42,6 +42,21 @@
       "@main/*": [
         "src/main/*"
       ],
+      "@test-domain/*": [
+        "tests/domain/*"
+      ],
+      "@test-application/*": [
+        "tests/application/*"
+      ],
+      "@test-presentation/*": [
+        "tests/presentation/*"
+      ],
+      "@test-infra/*": [
+        "tests/infra/*"
+      ],
+      "@test-main/*": [
+        "tests/main/*"
+      ],
     }, /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
