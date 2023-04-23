@@ -97,7 +97,10 @@ export default {
     "^@domain/(.*)": "<rootDir>/src/domain/$1",
     "^@presentation/(.*)": "<rootDir>/src/presentation/$1",
     "^@infra/(.*)": "<rootDir>/src/infra/$1",
-    "^@tests/(.*)": "<rootDir>/tests/$1",
+    "^@test-application/(.*)": "<rootDir>/tests/application/$1",
+    "^@test-domain/(.*)": "<rootDir>/tests/domain/$1",
+    "^@test-presentation/(.*)": "<rootDir>/tests/presentation/$1",
+    "^@test-infra/(.*)": "<rootDir>/tests/infra/$1",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
