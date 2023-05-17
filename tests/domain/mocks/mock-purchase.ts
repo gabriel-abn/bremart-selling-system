@@ -10,7 +10,17 @@ export const mockPurchaseItem = (): PurchaseItem => {
   });
 };
 
-export const mockPurchase = (): Purchase => {
+export const mockInitialPurchase = (): {
+  items: PurchaseItem[];
+  userId?: string;
+} => {
+  return {
+    items: [mockPurchaseItem(), mockPurchaseItem(), mockPurchaseItem()],
+    userId: "1",
+  };
+};
+
+export const mockCompletePurchase = (): Purchase => {
   return Purchase.create({
     id: "ID" + Math.floor(Math.random() * 100).toString(),
     items: [mockPurchaseItem(), mockPurchaseItem(), mockPurchaseItem()],
