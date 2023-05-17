@@ -1,10 +1,12 @@
 import { Entity } from "./common";
+import { PaymentType } from "./payment-type";
 import { PurchaseItem } from "./purchase-item";
 
 export type PurchaseProps = {
   id: string;
   userId?: string;
   items: PurchaseItem[];
+  paymentType: PaymentType;
   total?: number;
 };
 
@@ -18,7 +20,11 @@ export class Purchase extends Entity<PurchaseProps> {
       ...props,
       total: props.items
         .map((item) => item.props.price)
-        .reduce((a, b) => a + b, 0),
+        .reduce((a, b) => {
+          return (
+            a + b - b * (props.paymentType === PaymentType.CASH ? 0.05 : 0)
+          );
+        }, 0),
     });
   }
 }
