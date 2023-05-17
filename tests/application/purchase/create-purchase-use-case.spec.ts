@@ -59,8 +59,6 @@ describe("Create purchase use case", () => {
       paymentType: PaymentType.CASH,
     });
 
-    console.log(mockPurchaseItem({ price: 600 }).props);
-
     expect(purchase.total).toBe(570);
   });
 });
