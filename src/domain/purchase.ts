@@ -5,7 +5,7 @@ export type PurchaseProps = {
   id: string;
   userId?: string;
   items: PurchaseItem[];
-  total: number;
+  total?: number;
 };
 
 export class Purchase extends Entity<PurchaseProps> {
