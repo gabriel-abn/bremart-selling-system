@@ -6,12 +6,12 @@ import {
 import { IUUIDGenerator } from "@domain/common";
 import { PaymentType } from "@domain/payment-type";
 import { Purchase } from "@domain/purchase";
-import { PurchaseItem } from "@domain/purchase-item";
+import { PurchaseItemProps } from "@domain/purchase-item";
 
 export namespace CreatePurchase {
   export type Params = {
     userId: string;
-    items: PurchaseItem[];
+    items: PurchaseItemProps[];
     paymentType: PaymentType;
   };
   export type Result = {
