@@ -55,7 +55,7 @@ describe("Create purchase use case", () => {
   it("should give 5% discount if payment type is in cash and total price greater than 500", async () => {
     const purchase = await sut.execute({
       userId: mockProps.userId,
-      items: [mockPurchaseItem({ price: 600 })],
+      items: [mockPurchaseItem({ price: 600 }).props],
       paymentType: PaymentType.CASH,
     });
 

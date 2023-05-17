@@ -26,7 +26,11 @@ export const mockCompletePurchase = (
     userId: mock.userId ? mock.userId : "1",
     items: mock.items
       ? mock.items
-      : [mockPurchaseItem({}), mockPurchaseItem({}), mockPurchaseItem({})],
+      : [
+          mockPurchaseItem({}).props,
+          mockPurchaseItem({}).props,
+          mockPurchaseItem({}).props,
+        ],
     paymentType: PaymentType.CASH,
     total: 0,
   });
