@@ -1,3 +1,3 @@
-export interface IUUIDFactory {
+export interface IUUIDGenerator {
   generate: () => string;
 }
