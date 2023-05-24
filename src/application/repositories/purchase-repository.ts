@@ -5,4 +5,5 @@ export interface IPurchaseRepository {
   findById(id: string): Promise<PurchaseProps>;
   getAll(): Promise<PurchaseProps[]>;
   edit(purchase: Purchase): Promise<PurchaseProps>;
+  delete(id: string): Promise<boolean>;
 }
