@@ -1,22 +1,41 @@
 import { IPurchaseRepository } from "@application/repositories";
-import { PaymentType } from "@domain/payment-type";
-import { PurchaseProps } from "@domain/purchase";
+import { Purchase, PurchaseProps } from "@domain/purchase";
 
 export class MockPurchaseRepository implements IPurchaseRepository {
-  async create(purchase: PurchaseProps): Promise<{ id: string }> {
-    return purchase.id ? { id: purchase.id } : { id: "1" };
+  private items: Purchase[] = [];
+
+  async create(purchase: Purchase): Promise<{ id: string }> {
+    this.items.push(purchase);
+
+    return { id: purchase.id };
   }
 
   async findById(id: string): Promise<PurchaseProps> {
-    if (id != "any_id") {
-      return null;
+    const purchase = this.items.find((purchase) => purchase.id === id);
+
+    if (purchase) {
+      return purchase.props;
     }
 
-    return {
-      id: "any_id",
-      items: [],
-      total: 0,
-      paymentType: PaymentType.CASH,
-    };
+    return null;
+  }
+
+  async getAll(): Promise<PurchaseProps[]> {
+    return this.items.map((p) => p.props);
+  }
+
+  async edit(purchase: Purchase): Promise<PurchaseProps> {
+    const edit = await this.findById(purchase.id);
+
+    const newPurchase = Purchase.create(purchase.props);
+
+    this.items.splice(
+      this.items.findIndex((item) => item.id == purchase.id),
+      1
+    );
+
+    this.items.push(newPurchase);
+
+    return newPurchase.props;
   }
 }
