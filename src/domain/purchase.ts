@@ -22,7 +22,9 @@ export class Purchase extends Entity<PurchaseProps> {
         .map((item) => item.price)
         .reduce((a, b) => {
           return (
-            a + b - b * (props.paymentType === PaymentType.CASH ? 0.05 : 0)
+            a +
+            b -
+            b * (props.paymentType === PaymentType.CASH && b > 500 ? 0.05 : 0)
           );
         }, 0),
     });
