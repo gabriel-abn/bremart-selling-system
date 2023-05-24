@@ -38,4 +38,19 @@ export class MockPurchaseRepository implements IPurchaseRepository {
 
     return newPurchase.props;
   }
+
+  async delete(id: string): Promise<boolean> {
+    const purchase = await this.findById(id);
+
+    if (!purchase) {
+      return false;
+    }
+
+    this.items.splice(
+      this.items.findIndex((item) => item.id == id),
+      1
+    );
+
+    return true;
+  }
 }
