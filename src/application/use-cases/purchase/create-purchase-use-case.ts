@@ -49,9 +49,7 @@ export class CreatePurchaseUseCase
       paymentType: data.paymentType,
     });
 
-    const save = await this.purchaseRepository.create({
-      ...purchase.props,
-    });
+    const save = await this.purchaseRepository.create(purchase);
 
     return {
       id: save.id,
