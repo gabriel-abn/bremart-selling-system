@@ -3,10 +3,19 @@ import {
   GetPurchaseUseCase,
 } from "@application/use-cases/purchase";
 import { MockPurchaseRepository } from "@test-application/mocks/repositories";
+import { mockCompletePurchase } from "@test-domain/mocks";
 
-const sut = new GetPurchaseUseCase(new MockPurchaseRepository());
+const repository = new MockPurchaseRepository();
+const sut = new GetPurchaseUseCase(repository);
 
 describe("Get Purchase Use Case", () => {
+  beforeAll(async () => {
+    for (let index = 0; index < 5; index++) {
+      await repository.create(mockCompletePurchase({ id: `any_id_${index}` }));
+    }
+
+    await repository.create(mockCompletePurchase({ id: "any_id" }));
+  });
   it("should return purchase by id", async () => {
     const purchase = await sut.execute({ id: "any_id" });
 
