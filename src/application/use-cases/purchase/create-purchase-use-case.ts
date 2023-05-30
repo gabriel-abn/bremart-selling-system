@@ -38,10 +38,6 @@ export class CreatePurchaseUseCase
       );
     }
 
-    if (!(await this.userRepository.getById(data.userId))) {
-      throw new ApplicationError("User not found", this.constructor.name);
-    }
-
     const purchase = Purchase.create({
       id: this.idGenerator.generate(),
       items: data.items,
