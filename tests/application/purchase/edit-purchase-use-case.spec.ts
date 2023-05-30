@@ -17,7 +17,7 @@ describe("Edit Purchase Use Case", () => {
     await repository.create(
       mockCompletePurchase({
         id: "discount_id",
-        items: [mockPurchaseItem({ price: 600 }).props],
+        items: [mockPurchaseItem({ price: 600 })],
         paymentType: PaymentType.CASH,
       })
     );
@@ -26,7 +26,7 @@ describe("Edit Purchase Use Case", () => {
     expect(async () => {
       await sut.execute({
         id: "invalid_id",
-        items: [mockPurchaseItem({}).props],
+        items: [mockPurchaseItem({})],
         paymentType: PaymentType.CASH,
       });
     }).rejects.toThrow("EditPurchaseUseCase: Purchase not found");
@@ -43,7 +43,7 @@ describe("Edit Purchase Use Case", () => {
   it("should return the edited purchase on success", async () => {
     const purchase = await sut.execute({
       id: "any_id",
-      items: [mockPurchaseItem({ price: 100 }).props],
+      items: [mockPurchaseItem({ price: 100 })],
       paymentType: PaymentType.CREDIT_CARD,
     });
 
@@ -52,7 +52,7 @@ describe("Edit Purchase Use Case", () => {
   it("should return the edited purchase if only one field provided", async () => {
     const purchase = await sut.execute({
       id: "any_id",
-      items: [mockPurchaseItem({ price: 100 }).props],
+      items: [mockPurchaseItem({ price: 100 })],
       paymentType: PaymentType.CASH,
     });
 
@@ -61,7 +61,7 @@ describe("Edit Purchase Use Case", () => {
   it("should remove discount if total price gets below 500.00", async () => {
     const purchase = await sut.execute({
       id: "discount_id",
-      items: [mockPurchaseItem({ price: 100 }).props],
+      items: [mockPurchaseItem({ price: 100 })],
       paymentType: PaymentType.CASH,
     });
 
