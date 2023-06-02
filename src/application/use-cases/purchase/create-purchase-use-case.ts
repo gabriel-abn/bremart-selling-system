@@ -1,5 +1,6 @@
 import { ApplicationError, UseCase } from "@application/common";
 import {
+  IPurchaseItemRepository,
   IPurchaseRepository,
   IUserRepository,
 } from "@application/repositories";
@@ -27,13 +28,27 @@ export class CreatePurchaseUseCase
   constructor(
     private idGenerator: IUUIDGenerator,
     private purchaseRepository: IPurchaseRepository,
-    private userRepository: IUserRepository
+    private userRepository: IUserRepository,
+    private purchaseItemRepository: IPurchaseItemRepository
   ) {}
 
   async execute(data: CreatePurchase.Params): Promise<CreatePurchase.Result> {
     if (data.items.length === 0) {
       throw new ApplicationError(
         "Purchase has no items",
+        this.constructor.name
+      );
+    }
+
+    const itensID = data.items.map((item) => item.id);
+
+    const purchaseItens = await this.purchaseItemRepository.findManybyID(
+      itensID
+    );
+
+    if (purchaseItens.length === 0) {
+      throw new ApplicationError(
+        "Purchase has invalid items",
         this.constructor.name
       );
     }
