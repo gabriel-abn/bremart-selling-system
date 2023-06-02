@@ -5,12 +5,14 @@ import {
   PurchaseProps,
 } from "@domain/index";
 
+import { faker } from "@faker-js/faker";
+
 export const mockPurchaseItem = (
   mock: Partial<PurchaseItemProps>
 ): PurchaseItemProps => {
   return {
-    id: "ID" + Math.floor(Math.random() * 100).toString(),
-    productId: "PRODUCT" + Math.floor(Math.random() * 100).toString(),
+    id: mock.id ? mock.id : "ID" + Math.floor(Math.random() * 100).toString(),
+    name: faker.commerce.productName(),
     quantity: 1,
     price: mock.price ? mock.price : 50,
     uniqueDiscount: 0,
@@ -23,9 +25,7 @@ export const mockCompletePurchase = (
   return Purchase.create({
     id: mock.id ? mock.id : "ID" + Math.floor(Math.random() * 100).toString(),
     userId: mock.userId ? mock.userId : "1",
-    items: mock.items
-      ? mock.items
-      : [mockPurchaseItem({}), mockPurchaseItem({}), mockPurchaseItem({})],
+    items: mock.items ? mock.items : [mockPurchaseItem({ id: "valid_id_1" })],
     paymentType: PaymentType.CASH,
     total: 0,
   });
