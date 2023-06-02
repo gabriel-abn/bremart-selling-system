@@ -1,5 +1,8 @@
 import { ApplicationError, UseCase } from "@application/common";
-import { IPurchaseRepository } from "@application/repositories";
+import {
+  IPurchaseItemRepository,
+  IPurchaseRepository,
+} from "@application/repositories";
 import { PaymentType } from "@domain/payment-type";
 import { Purchase } from "@domain/purchase";
 import { PurchaseItemProps } from "@domain/purchase-item";
@@ -20,7 +23,10 @@ export namespace EditPurchase {
 export class EditPurchaseUseCase
   implements UseCase<EditPurchase.Params, EditPurchase.Result>
 {
-  constructor(private purchaseRepository: IPurchaseRepository) {}
+  constructor(
+    private purchaseRepository: IPurchaseRepository,
+    private purchaseItemRepository: IPurchaseItemRepository
+  ) {}
 
   async execute(data: EditPurchase.Params): Promise<EditPurchase.Result> {
     const find = await this.purchaseRepository.findById(data.id);
@@ -31,6 +37,19 @@ export class EditPurchaseUseCase
 
     if (data.items.length == 0) {
       throw new ApplicationError("No items provided", this.constructor.name);
+    }
+
+    const itemsID = data.items.map((p) => p.id);
+
+    const purchaseItems = await this.purchaseItemRepository.findManybyID(
+      itemsID
+    );
+
+    if (purchaseItems.length == 0) {
+      throw new ApplicationError(
+        "Invalid items IDs provided",
+        this.constructor.name
+      );
     }
 
     const purchase = Purchase.create({ ...data });
