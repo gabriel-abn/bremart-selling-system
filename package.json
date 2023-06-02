@@ -12,7 +12,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@jest/globals": "^29.5.0",
+    "@types/faker": "^6.6.9",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.11",
     "@types/nodemon": "^1.19.2",
