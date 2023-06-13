@@ -6,7 +6,9 @@ export class MockUserRepository implements IUserRepository {
   public items: User[] = [];
 
   async register(user: User): Promise<{ id: string }> {
-    if (this.items.find((u) => u.props.cpf == user.props.cpf)) {
+    const exist = this.items.find((u) => u.props.cpf == user.props.cpf);
+
+    if (exist) {
       throw new ApplicationError(
         "CPF already exists in repository.",
         "User Repository: "
