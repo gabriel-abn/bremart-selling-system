@@ -1,4 +1,5 @@
 import { Entity } from "./common";
+import { DomainError } from "./common/domain-error";
 
 export type UserProps = {
   id: string;
@@ -24,6 +25,10 @@ export class User extends Entity<UserProps> {
       18
     ) {
       errors.push("Users with less than 18 years are not allowed");
+    }
+
+    if (errors.length > 0) {
+      throw new DomainError(errors);
     }
 
     return new User(props);
