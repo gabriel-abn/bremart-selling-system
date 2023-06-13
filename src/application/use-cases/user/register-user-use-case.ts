@@ -41,10 +41,10 @@ export class RegisterUserUseCase
       .slice(0, 9);
 
     const user = User.create({
+      ...params,
       id: newID,
       cpf: validCPF,
       rg: validRG,
-      ...params,
     });
 
     const result = await this.userRepository.register(user);
