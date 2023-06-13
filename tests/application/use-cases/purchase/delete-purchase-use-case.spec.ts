@@ -22,10 +22,8 @@ describe("Delete Purchase Use Case", () => {
   });
 
   it("should delete purchase from repository", async () => {
-    expect(async () => {
-      await sut.execute({
-        id: "any_id",
-      });
-    }).toBeTruthy();
+    const deleted = await sut.execute({ id: "any_id" });
+
+    expect(deleted).toBeTruthy();
   });
 });
