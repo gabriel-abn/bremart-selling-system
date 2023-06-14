@@ -6,7 +6,7 @@ O domínio dessa aplicação se baseia em um sistema de vendas de uma plataforma
 
 > Todas as entidades abaixo herdam de uma classe abstrata base chamada `Entity`, que possui um atributo `id` que é o identificador único da entidade, as propriedades da classe filha, e propriedades de auditoria, como `createdAt` e `updatedAt`.
 
-### Usuário
+### User
 
 O usuário é a entidade que representa o usuário da aplicação. Ele pode ser um cliente ou um administrador. Nesse serviço em específico, todo usuário é um cliente. A parte administrativa do negócio será tratada em outro serviço.
 
