@@ -12,6 +12,9 @@ export const mockPurchaseItem = (
 ): PurchaseItemProps => {
   return {
     id: mock.id ? mock.id : "ID" + Math.floor(Math.random() * 100).toString(),
+    productId: mock.productId
+      ? mock.productId
+      : Math.floor(Math.random() * 100).toString(),
     name: faker.commerce.productName(),
     quantity: 1,
     price: mock.price ? mock.price : 50,
