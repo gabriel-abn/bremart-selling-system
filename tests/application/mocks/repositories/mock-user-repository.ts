@@ -42,4 +42,8 @@ export class MockUserRepository implements IUserRepository {
 
     return user.props;
   }
+
+  async getAll(): Promise<UserProps[]> {
+    return this.items.map((u) => u.props);
+  }
 }
