@@ -20,14 +20,26 @@ export class MockUserRepository implements IUserRepository {
   }
 
   async getById(id: string): Promise<UserProps> {
-    return this.items.find((u) => {
+    const user = this.items.find((u) => {
       return u.id === id;
-    }).props;
+    });
+
+    if (!user) {
+      throw new ApplicationError("User not found.", "User Repository: ");
+    }
+
+    return user.props;
   }
 
   async getByCPF(cpf: string): Promise<UserProps> {
-    return this.items.find((u) => {
+    const user = this.items.find((u) => {
       return u.props.cpf === cpf;
-    }).props;
+    });
+
+    if (!user) {
+      throw new ApplicationError("User not found.", "User Repository: ");
+    }
+
+    return user.props;
   }
 }
