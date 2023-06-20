@@ -6,4 +6,5 @@ export interface IPurchaseRepository {
   getAll(): Promise<PurchaseProps[]>;
   edit(purchase: Purchase): Promise<PurchaseProps>;
   delete(id: string): Promise<boolean>;
+  getAllByUserId(userId: string): Promise<PurchaseProps[]>;
 }

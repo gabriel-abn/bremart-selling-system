@@ -53,4 +53,10 @@ export class MockPurchaseRepository implements IPurchaseRepository {
 
     return true;
   }
+
+  async getAllByUserId(userId: string): Promise<PurchaseProps[]> {
+    return this.items
+      .filter((p) => p.props.userId === userId)
+      .map((p) => p.props);
+  }
 }
