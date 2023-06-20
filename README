@@ -1,34 +1,33 @@
 # Selling System
 
-This application is a microsservice and part of a project for personal studies. It's main responsabilities are
-shopping and user services. It is in development in the moment of this documentation. (06-13-2023)
+This application is a microsservice and part of a project for personal studies and educational purposes.
+It's main responsabilities are shopping and user services. It is in development in the moment of this documentation. (06-13-2023)
 
-## Usage
+## Documentation
 
-To run this application, you need to run the following commands:
+- [PT-BR](docs/pt-br/README)
+- [EN-US](docs/en-us/README)
 
-```bash
-# Install dependencies
+## How to run
 
-# npm
-$ npm install
-
-# yarn
-$ yarn install
-
-# pnpm
-$ pnpm install
-```
+<!-- ### Docker
 
 ```bash
-# Run the application in development mode
+docker-compose up
+``` -->
 
-# npm
-$ npm run dev
+### Local
 
-# yarn
-$ yarn dev
+```bash
+# Installing dependencies
+npm install
 
-# pnpm
-$ pnpm dev
+# Running all tests
+npm run test
+
+# Running all tests in watch mode
+npm run test:manual
+
+# Running the application
+npm run start:dev
 ```

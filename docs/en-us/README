@@ -1,34 +1,17 @@
-# Selling System
+# Bremart Selling System
 
 This application is a microsservice and part of a project for personal studies. It's main responsabilities are
-shopping and user services. It is in development in the moment of this documentation. (06-13-2023)
+shopping and user services. It is in development in the moment of this documentation. (06-20-2023)
 
-## Usage
+## Tecnologies and Tools
 
-To run this application, you need to run the following commands:
+- [Node.js](https://nodejs.org/en/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Jest](https://jestjs.io/)
 
-```bash
-# Install dependencies
+## Architecture, Patterns and Practices
 
-# npm
-$ npm install
-
-# yarn
-$ yarn install
-
-# pnpm
-$ pnpm install
-```
-
-```bash
-# Run the application in development mode
-
-# npm
-$ npm run dev
-
-# yarn
-$ yarn dev
-
-# pnpm
-$ pnpm dev
-```
+- [Microservices](https://en.wikipedia.org/wiki/Microservices)
+- [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+- [SOLID](https://en.wikipedia.org/wiki/SOLID)
+- [TDD](https://en.wikipedia.org/wiki/Test-driven_development)
