@@ -5,8 +5,8 @@ It's main responsabilities are shopping and user services. It is in development 
 
 ## Documentation
 
-- [PT-BR](docs/pt-br/README)
-- [EN-US](docs/en-us/README)
+- [PT-BR](docs/pt-br/README.md)
+- [EN-US](docs/en-us/README.md)
 
 ## How to run
 
