@@ -57,7 +57,6 @@ A entidade `Lead` representa um lead que foi gerado por um usuário. Ela possui 
 - **purchaseId**: Compra que o lead foi gerado.
 - **paymentId**: Identificador do pagamento do lead.
 - **discountCoupon**: Cupom de desconto do lead.
-- **discountType**: Tipo do desconto do lead.
 - **discountAmount**: Valor do desconto do lead.
 - **status**: Status do lead.
 
