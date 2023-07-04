@@ -7,6 +7,7 @@ export type PurchaseProps = {
   userId?: string;
   items: PurchaseItemProps[];
   paymentType: PaymentType;
+  voucher?: string;
   total?: number;
 };
 

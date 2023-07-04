@@ -31,5 +31,6 @@ export const mockCompletePurchase = (
     items: mock.items ? mock.items : [mockPurchaseItem({ id: "valid_id_1" })],
     paymentType: PaymentType.CASH,
     total: 0,
+    voucher: mock.voucher ? mock.voucher : "valid_voucher",
   });
 };
