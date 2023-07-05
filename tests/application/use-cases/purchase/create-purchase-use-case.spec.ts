@@ -1,7 +1,9 @@
 import { ApplicationError } from "@application/common";
+import { CreateLeadService } from "@application/services/leads/create-lead-service";
 import { CreatePurchaseUseCase } from "@application/use-cases/purchase";
 import { PaymentType } from "@domain/payment-type";
 import {
+  MockLeadRepository,
   MockPurchaseItemRepository,
   MockPurchaseRepository,
   MockUserRepository,
@@ -13,15 +15,20 @@ import {
 } from "@test-domain/mocks";
 
 const makeSut = () => {
-  const mockPurchaseRepository = new MockPurchaseRepository();
-  const mockUserRepository = new MockUserRepository();
-  const mockPurchaseItemRepository = new MockPurchaseItemRepository();
+  const mockLeadRepository = new MockLeadRepository();
+
+  const leadService = new CreateLeadService(
+    mockLeadRepository,
+    null,
+    new UUIDGeneratorMock()
+  );
 
   const sut = new CreatePurchaseUseCase(
     new UUIDGeneratorMock(),
-    mockPurchaseRepository,
-    mockUserRepository,
-    mockPurchaseItemRepository
+    new MockPurchaseRepository(),
+    new MockUserRepository(),
+    new MockPurchaseItemRepository(),
+    leadService
   );
 
   return sut;

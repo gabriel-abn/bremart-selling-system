@@ -4,6 +4,7 @@ import {
   IPurchaseRepository,
   IUserRepository,
 } from "@application/repositories";
+import { CreateLeadService } from "@application/services/leads";
 import { IUUIDGenerator } from "@domain/common";
 import { PaymentType } from "@domain/payment-type";
 import { Purchase } from "@domain/purchase";
@@ -29,7 +30,8 @@ export class CreatePurchaseUseCase
     private idGenerator: IUUIDGenerator,
     private purchaseRepository: IPurchaseRepository,
     private userRepository: IUserRepository,
-    private purchaseItemRepository: IPurchaseItemRepository
+    private purchaseItemRepository: IPurchaseItemRepository,
+    private createLeadService: CreateLeadService
   ) {}
 
   async execute(data: CreatePurchase.Params): Promise<CreatePurchase.Result> {
@@ -53,11 +55,21 @@ export class CreatePurchaseUseCase
       );
     }
 
+    const user = await this.userRepository.getById(data.userId);
+
+    if (!user) {
+      throw new ApplicationError("User not found.", this.constructor.name);
+    }
+
     const purchase = Purchase.create({
       id: this.idGenerator.generate(),
       items: data.items,
-      userId: data.userId,
+      userId: user.id,
       paymentType: data.paymentType,
+    });
+
+    const lead = await this.createLeadService.execute({
+      purchase: purchase.props,
     });
 
     const save = await this.purchaseRepository.create(purchase);
