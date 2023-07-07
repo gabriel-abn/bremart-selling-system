@@ -2,6 +2,7 @@ import { ApplicationError } from "@application/common";
 import { CreateLeadService } from "@application/services/leads/create-lead-service";
 import { CreatePurchaseUseCase } from "@application/use-cases/purchase";
 import { PaymentType } from "@domain/payment-type";
+import { MockVoucherValidator } from "@test-application/mocks/protocols/apis";
 import {
   MockLeadRepository,
   MockPurchaseItemRepository,
@@ -13,49 +14,68 @@ import {
   mockCompletePurchase,
   mockPurchaseItem,
 } from "@test-domain/mocks";
+import { mockUser } from "@test-domain/mocks/mock-user";
 
 const makeSut = () => {
   const mockLeadRepository = new MockLeadRepository();
+  const userRepository = new MockUserRepository();
 
   const leadService = new CreateLeadService(
     mockLeadRepository,
-    null,
+    new MockVoucherValidator(),
     new UUIDGeneratorMock()
   );
+
+  userRepository.items.push(mockUser({ id: "1" }));
 
   const sut = new CreatePurchaseUseCase(
     new UUIDGeneratorMock(),
     new MockPurchaseRepository(),
-    new MockUserRepository(),
+    userRepository,
     new MockPurchaseItemRepository(),
     leadService
   );
 
-  return sut;
+  return { sut };
 };
 
-const mockProps = mockCompletePurchase({}).props;
+const mockProps = mockCompletePurchase({ userId: "1" }).props;
 
 describe("Create purchase use case", () => {
   it("should return a purchase", async () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
 
     const purchase = await sut.execute({
       userId: mockProps.userId,
       items: mockProps.items,
       paymentType: mockProps.paymentType,
+      voucher: "invalid",
     });
 
     expect(purchase).toBeTruthy();
   });
 
+  it("should throw if user's id not found", async () => {
+    expect(async () => {
+      const { sut } = makeSut();
+
+      await sut.execute({
+        userId: "invalid_user_id",
+        items: mockProps.items,
+        paymentType: mockProps.paymentType,
+        voucher: "invalid",
+      });
+    }).rejects.toThrow(ApplicationError);
+  });
+
   it("should return a purchase with a valid result", async () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
 
     const purchase = await sut.execute({
       userId: mockProps.userId,
       items: mockProps.items,
       paymentType: mockProps.paymentType,
+      voucher: "invalid",
     });
 
     expect(purchase.id).toBeTruthy();
@@ -65,23 +85,25 @@ describe("Create purchase use case", () => {
 
   it("should throw if purchase has no items", async () => {
     expect(async () => {
-      const sut = makeSut();
+      const { sut } = makeSut();
 
       await sut.execute({
         userId: mockProps.userId,
         paymentType: mockProps.paymentType,
         items: [],
+        voucher: "invalid",
       });
     }).rejects.toThrowError(ApplicationError);
   });
 
   it("should give 5% discount if payment type is in cash and total price greater than 500", async () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
 
     const purchase = await sut.execute({
       userId: mockProps.userId,
       items: [mockPurchaseItem({ id: "valid_id_1", price: 600 })],
       paymentType: PaymentType.CASH,
+      voucher: "invalid",
     });
 
     expect(purchase.total).toBe(570);
@@ -89,12 +111,13 @@ describe("Create purchase use case", () => {
 
   it("should throw if invalid purchase items given", async () => {
     expect(async () => {
-      const sut = makeSut();
+      const { sut } = makeSut();
 
       await sut.execute({
         items: [mockPurchaseItem({ id: "invalid_id" })],
         paymentType: PaymentType.CASH,
         userId: "1",
+        voucher: "invalid",
       });
     }).rejects.toThrowError(ApplicationError);
   });
