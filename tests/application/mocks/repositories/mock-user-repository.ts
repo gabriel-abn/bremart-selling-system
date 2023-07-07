@@ -21,11 +21,13 @@ export class MockUserRepository implements IUserRepository {
 
   async getById(id: string): Promise<UserProps> {
     const user = this.items.find((u) => {
-      return u.id === id;
+      if (u.id === id) {
+        return u;
+      }
     });
 
     if (!user) {
-      throw new ApplicationError("User not found.", "User Repository: ");
+      throw new ApplicationError("User not found.", "User Repository");
     }
 
     return user.props;

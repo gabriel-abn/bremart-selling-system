@@ -1,3 +1,4 @@
+import { ApplicationError } from "@application/common";
 import { ILeadRepository } from "@application/repositories";
 import { Lead, LeadProps } from "@domain/lead";
 
@@ -9,10 +10,14 @@ export class MockLeadRepository implements ILeadRepository {
     return { id: lead.id };
   }
   async findByPurchaseId(purchaseId: string): Promise<LeadProps> {
-    const purchase = this.items.find(
+    const lead = this.items.find(
       (item) => item.props.purchaseId === purchaseId
     );
 
-    return purchase.props;
+    if (!lead) {
+      throw new ApplicationError("Lead not found.", "LeadRepository");
+    }
+
+    return lead.props;
   }
 }
