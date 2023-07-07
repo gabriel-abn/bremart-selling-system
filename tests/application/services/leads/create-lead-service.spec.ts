@@ -1,5 +1,6 @@
 import { CreateLeadService } from "@application/services/leads/create-lead-service";
 import { CreatePurchaseUseCase } from "@application/use-cases/purchase";
+import { LeadStatus } from "@domain/lead";
 import { PaymentType } from "@domain/payment-type";
 import { MockVoucherValidator } from "@test-application/mocks/protocols/apis";
 import {
@@ -34,6 +35,8 @@ const makeSut = () => {
 
   const userMock = mockUser({ id: "any_id_1", cpf: "12312312300" });
 
+  userRepository.items.push(userMock);
+
   const sut = new CreatePurchaseUseCase(
     generator,
     purchaseRepository,
@@ -62,13 +65,14 @@ describe("Create Lead service", () => {
         mockPurchaseItem({ id: "any_id_1" }),
         mockPurchaseItem({ id: "any_id_2" }),
       ],
+      voucher: "invalid",
     });
 
     const lead = await leadRepository.findByPurchaseId(response.id);
 
     expect(lead).toBeTruthy();
   });
-  it("should have `not completed` status", async () => {
+  it("should have 'not completed' status", async () => {
     const { sut, leadRepository, userMock } = makeSut();
 
     const response = await sut.execute({
@@ -78,11 +82,12 @@ describe("Create Lead service", () => {
         mockPurchaseItem({ id: "any_id_1" }),
         mockPurchaseItem({ id: "any_id_2" }),
       ],
+      voucher: "invalid",
     });
 
     const lead = await leadRepository.findByPurchaseId(response.id);
 
-    expect(lead.status).toEqual("pending");
+    expect(lead.status).toEqual(LeadStatus.PENDING);
   });
   it("leads should not have initial value for payment field", async () => {
     const { sut, leadRepository, userMock } = makeSut();
@@ -94,6 +99,7 @@ describe("Create Lead service", () => {
         mockPurchaseItem({ id: "any_id_1" }),
         mockPurchaseItem({ id: "any_id_2" }),
       ],
+      voucher: "invalid",
     });
 
     const lead = await leadRepository.findByPurchaseId(response.id);
