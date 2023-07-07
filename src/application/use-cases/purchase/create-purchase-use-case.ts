@@ -15,11 +15,13 @@ export namespace CreatePurchase {
     userId: string;
     items: PurchaseItemProps[];
     paymentType: PaymentType;
+    voucher: string;
   };
   export type Result = {
     id: string;
     total: number;
     userId: string;
+    leadId: string;
   };
 }
 
@@ -57,15 +59,12 @@ export class CreatePurchaseUseCase
 
     const user = await this.userRepository.getById(data.userId);
 
-    if (!user) {
-      throw new ApplicationError("User not found.", this.constructor.name);
-    }
-
     const purchase = Purchase.create({
       id: this.idGenerator.generate(),
       items: data.items,
       userId: user.id,
       paymentType: data.paymentType,
+      voucher: data.voucher,
     });
 
     const lead = await this.createLeadService.execute({
@@ -78,6 +77,7 @@ export class CreatePurchaseUseCase
       id: save.id,
       total: purchase.props.total,
       userId: purchase.props.userId,
+      leadId: lead.id,
     };
   }
 }
