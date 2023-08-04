@@ -9,6 +9,10 @@ export class MockLeadRepository implements ILeadRepository {
     return { id: lead.id };
   }
   async findByPurchaseId(purchaseId: string): Promise<LeadProps> {
-    return this.items.find((item) => item.props.id === purchaseId).props;
+    const purchase = this.items.find(
+      (item) => item.props.purchaseId === purchaseId
+    );
+
+    return purchase.props;
   }
 }
