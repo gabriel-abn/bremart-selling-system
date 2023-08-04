@@ -25,8 +25,10 @@ export class CreateLeadService
   ) {}
 
   async execute(data: CreateLead.Params): Promise<CreateLead.Result> {
+    var voucher = { valid: false, discountAmount: 0 };
+
     if (data.purchase.voucher) {
-      var voucher = await this.voucherValidator.validateVoucher(
+      voucher = await this.voucherValidator.validateVoucher(
         data.purchase.voucher
       );
     }
