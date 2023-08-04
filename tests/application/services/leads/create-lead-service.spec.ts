@@ -30,7 +30,9 @@ const makeSut = () => {
     mockPurchaseItem({ id: "any_id_3" })
   );
 
-  const userMock = mockUser({ id: "any_id_1" });
+  userRepository.items.push(mockUser({ id: "any_id_1", cpf: "12312312300" }));
+
+  const userMock = mockUser({ id: "any_id_1", cpf: "12312312300" });
 
   const sut = new CreatePurchaseUseCase(
     generator,
@@ -80,7 +82,7 @@ describe("Create Lead service", () => {
 
     const lead = await leadRepository.findByPurchaseId(response.id);
 
-    expect(lead.status).toEqual("Not completed");
+    expect(lead.status).toEqual("pending");
   });
   it("leads should not have initial value for payment field", async () => {
     const { sut, leadRepository, userMock } = makeSut();
@@ -96,6 +98,6 @@ describe("Create Lead service", () => {
 
     const lead = await leadRepository.findByPurchaseId(response.id);
 
-    expect(lead.paymentId).toEqual(undefined);
+    expect(lead.paymentId).toEqual(null);
   });
 });
