@@ -105,8 +105,11 @@ type Purchase = {
   discountVoucher?: string = "";
   discountPercentage: number;
   discountValue: number;
-  totalValue: number;
+  purchaseValue: number;
   freightValue: number;
+  freightDiscountPercentage: number;
+  freightDiscountValue: number;
+  totalValue: number;
   deliveryStatus?: DeliveryStatus = null;
 }
 
@@ -128,14 +131,20 @@ type DeliveryStatus = {
 Uma **Purchase** terá uma lista de produtos, um tipo de pagamento, um status, um valor de desconto e um valor total. Representa a compra de um usuário.
 
 - Regras de negócio:
-  - Sobre o valor:
+  - Sobre o valor da compra:
     - O valor total será inicialmente calculado com base na soma de todos os produtos na compra
     - Inicialmente, o valor total deve ser maior que 0
     - O cálculo final do valor total será o seguinte:
-    > `totalValue = totalValue * (1 - discountPercentage) - discountValue`
+    > `purchaseValue = purchaseValue * (1 - discountPercentage) - discountValue`
     - O valor do desconto deve ser maior ou igual a 0 e menor que o valor total
     - Se a porcentagem do desconto for 100%, o valor total deve ser 0
     - Se o valor total for maior que 300 e o pagamento for feito por pix, o desconto deve ser de 10%
+  - Sobre o frete:
+    - O valor do frete deve ser maior ou igual a 0
+    - O cálculo do frete será o seguinte:
+    > `freightValue = freightValue * (1 - freightDiscountPercentage) - freightDiscountValue`
+  - O cálculo do valor total será o seguinte:
+  > `totalValue = purchaseValue + freightValue`
   - Sobre o status:
     - O status da compra inicial deve ser `PENDING_PAYMENT`
   - Sobre o status de entrega:
