@@ -6,69 +6,188 @@ O domínio dessa aplicação se baseia em um sistema de vendas de uma plataforma
 
 > Todas as entidades abaixo herdam de uma classe abstrata base chamada `Entity`, que possui um atributo `id` que é o identificador único da entidade, as propriedades da classe filha, e propriedades de auditoria, como `createdAt` e `updatedAt`.
 
+- DOING Transferir os testes unitários de regras de negócio para cada entidade
+
 ### User
 
-O usuário é a entidade que representa o usuário da aplicação. Ele pode ser um cliente ou um administrador. Nesse serviço em específico, todo usuário é um cliente. A parte administrativa do negócio será tratada em outro serviço.
+Um **User** deve ter, no mínimo, os seguintes atributos:
 
-- **id**: Identificador único do usuário.
-- **name**: Nome do usuário.
-- **email**: Email do usuário.
-- **password**: Senha do usuário.
-- **birthdate**: Data de nascimento do usuário.
-- **cpf**: CPF do usuário.
-- **rg**: RG do usuário.
-- **phone**: Telefone do usuário.
+```typescript
+type UserProps = {
+  name: string;
+  cpf: string;
+  email: string;
+  password: string;
+  birthDate: Date;
+  phone: string;
+  addresses?: Address[] = [];
+  defaultAddress?: Address;
+  shoppingCart?: Product[] = [];
+  purchaseHistory?: Purchase[] = [];
+  // Compras com o pagamento pendente
+  // Compras com o pagamento aprovado e pendente de entrega
+  // Compras com o pagamento aprovado e entregue
+}
+```
+
+- Regras de negócio:
+  - A data de nascimento deve ser maior que 18 anos
+
+- Casos de uso:
+  - TODO (User) Registrar um novo usuário
+  - TODO (User) Verificar email
+  - TODO (User) Verificar número de telefone
+  - TODO (User) Fazer login
+  - TODO (User) Adicionar um endereço
+  - TODO (User) Adicionar um produto ao carrinho
+  - TODO (User) Remover um produto do carrinho
+  - TODO (User) Finalizar uma compra, pegando os produtos do carrinho e criando uma nova compra
+  - TODO (User) Fazer o pagamento de uma compra
+  - TODO (User) Cancelar uma compra
+  - TODO (User) Mostrar o histórico de compras
+  - TODO (User) Mostrar o carrinho
+  - TODO (User) Mostrar os dados do usuário
+  - TODO (User) Atualizar os dados do usuário
+  - TODO (User) Atualizar a senha do usuário
+  - TODO (User) Atualizar o número de telefone do usuário
+  - TODO (User) Desativar o usuário
+  - TODO (User) Remover o usuário
+
+---
+
+### Address
+
+```typescript
+type Address = {
+  id: string;
+  street: string;
+  number: string;
+  complement: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  zipCode: string;
+}
+```
+
+O Address será um Value Object, ou seja, ele não terá um ID próprio, mas sim a base do ID do usuário que o possui. O ID do endereço terá como base o ID do usuário. O CEP será formatado como `00000-000`.
+
+- Casos de uso:
+  - TODO (Address) Adicionar um endereço
+  - TODO (Address) Remover um endereço
+  - TODO (Address) Atualizar um endereço
+
+---
+
+### Product
+
+```typescript
+type Product = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+}
+```
+
+O Product será uma entidade que não fará parte do CRUD dessa aplicação. Ele virá de outro microserviço, que será responsável por gerenciar os produtos.
 
 ---
 
 ### Purchase
 
-A entidade `Purchase` representa uma compra realizada por um usuário. Ela possui um relacionamento com a entidade `User`, que representa o usuário que realizou a compra, e com a entidade `PurchaseItem`, que representa os itens que foram comprados.
+```typescript
+type Purchase = {
+  products: Product[];
+  userId: string;
+  address: Address; 
+  status?: PurchaseStatus = PurchaseStatus.PENDING_PAYMENT;
+  discountVoucher?: string = "";
+  discountPercentage: number;
+  discountValue: number;
+  totalValue: number;
+  freightValue: number;
+  deliveryStatus?: DeliveryStatus = null;
+}
 
-- **id**: Identificador único da compra.
-- **userId**: Usuário que realizou a compra.
-- **total**: Valor total da compra.
-- **items**: Itens que foram comprados.
-- **paymentType**: Tipo de pagamento da compra.
+enum PurchaseStatus {
+  PENDING_PAYMENT = 'PENDING_PAYMENT',
+  PENDING_DELIVERY = 'PENDING_DELIVERY',
+  DELIVERED = 'DELIVERED',
+  CANCELED = 'CANCELED',
+}
 
-O campo `paymentType` representa um tipo de pagamento que pode ser utilizado em uma compra. Cada tipo de pagamento possui uma regra de negócio diferente que será tratada no momento da efetivação da compra, na entidade `Payment`.
+type DeliveryStatus = {
+  purchaseId: string;
+  trackingId: string;
+  description: string;
+  location: string;
+}
+```
 
----
+Uma **Purchase** terá uma lista de produtos, um tipo de pagamento, um status, um valor de desconto e um valor total. Representa a compra de um usuário.
 
-### PurchaseItem
+- Regras de negócio:
+  - Sobre o valor:
+    - O valor total será inicialmente calculado com base na soma de todos os produtos na compra
+    - Inicialmente, o valor total deve ser maior que 0
+    - O cálculo final do valor total será o seguinte:
+    > `totalValue = totalValue * (1 - discountPercentage) - discountValue`
+    - O valor do desconto deve ser maior ou igual a 0 e menor que o valor total
+    - Se a porcentagem do desconto for 100%, o valor total deve ser 0
+    - Se o valor total for maior que 300 e o pagamento for feito por pix, o desconto deve ser de 10%
+  - Sobre o status:
+    - O status da compra inicial deve ser `PENDING_PAYMENT`
+  - Sobre o status de entrega:
+    - O status de entrega deve ser `null` inicialmente
 
-A entidade `PurchaseItem` representa um item que foi comprado por um usuário. Ela possui um relacionamento com a entidade `Product`, que representa o produto que foi comprado, e com a entidade `Purchase`, que representa a compra que o item foi comprado. A entidade `Product` não será detalhada nesse documento, pois ela pertence a outro serviço, logo, a entidade `PurchaseItem` possui apenas o identificador do produto que será recuperado através de uma chamada a um repositório.
-
-- **id**: Identificador único do item.
-- **productId**: Identificador do produto do item.
-- **name**: Nome do produto.
-- **quantity**: Quantidade do item.
-- **price**: Preço do item.
-- **uniqueDiscount**: Desconto único do item.
-
----
-
-### Lead
-
-A entidade `Lead` representa um lead que foi gerado por um usuário. Ela possui um relacionamento com a entidade `User`, que representa o usuário que gerou o lead, e com a entidade `Purchase`, que representa a compra que o lead foi gerado.
-
-- **id**: Identificador único do lead.
-- **userId**: Usuário que gerou o lead.
-- **purchaseId**: Compra que o lead foi gerado.
-- **paymentId**: Identificador do pagamento do lead.
-- **discountCoupon**: Cupom de desconto do lead.
-- **discountAmount**: Valor do desconto do lead.
-- **status**: Status do lead.
+- Casos de uso:
+  - TODO (Purchase) Criar uma nova compra
+  - TODO (Purchase) Atualizar o status de pagamento
+  - TODO (Purchase) Atualizar o status de entrega
+  - TODO (Purchase) Cancelar uma compra
+  - TODO (Purchase) Mostrar os dados de uma compra
+  - TODO (Purchase) Remover uma compra
 
 ---
 
 ### Payment
 
-A entidade `Payment` representa um pagamento que foi realizado por um usuário. Ela possui um relacionamento com a entidade `Lead` que representa o lead que foi pago com a transação de pagamento.
+```typescript
+type Payment = {
+  purchaseId: string;
+  paymentType: PaymentType;
+  status: PaymentStatus;
+  value: number;
+}
 
-- **id**: Identificador único do pagamento.
-- **leadId**: Lead que foi pago.
-- **type**: Tipo do pagamento.
-- **status**: Status do pagamento.
-- **amount**: Valor do pagamento.
-- **paymentDate**: Data do pagamento.
+enum PaymentType {
+  CREDIT_CARD = 'CREDIT_CARD',
+  DEBIT_CARD = 'DEBIT_CARD',
+  BOLETO = 'BOLETO',
+  PIX = 'PIX',
+}
+
+enum PaymentStatus {
+  NOT_PAID = 'NOT_PAID',
+  PENDING = 'PENDING',
+  REJECTED = 'REJECTED',
+  CONFIRMED = 'CONFIRMED',
+}
+```
+
+Um **Payment** representa um pagamento de uma compra. Ele terá um tipo de pagamento, um status e um valor.
+
+- Regras de negócio:
+  - Sobre o status:
+    - Se o tipo de pagamento for `PIX` ou `DEBIT_CARD`:
+      - O status inicial deve ser `NOT_PAID`
+      - Após o pagamento, será atualizado para `CONFIRMED`
+    - Se o pagamento for feito por `CREDIT_CARD` ou `BOLETO`:
+      - O status inicial deve ser `PENDING`
+      - Após o pagamento, será atualizado para `CONFIRMED` ou `REJECTED`
+    - O status deve ser atualizado automaticamente pela aplicação, de acordo com o tipo de pagamento
+
+- Casos de uso:
+  - TODO (Payment) Criar um novo pagamento pendente
+  - TODO (Payment) Atualizar o status de um pagamento
