@@ -135,16 +135,16 @@ Uma **Purchase** terá uma lista de produtos, um tipo de pagamento, um status, u
     - O valor total será inicialmente calculado com base na soma de todos os produtos na compra
     - Inicialmente, o valor total deve ser maior que 0
     - O cálculo final do valor total será o seguinte:
-    > `purchaseValue = purchaseValue * (1 - discountPercentage) - discountValue`
+      `purchaseValue = purchaseValue * (1 - discountPercentage) - discountValue`
     - O valor do desconto deve ser maior ou igual a 0 e menor que o valor total
     - Se a porcentagem do desconto for 100%, o valor total deve ser 0
     - Se o valor total for maior que 300 e o pagamento for feito por pix, o desconto deve ser de 10%
   - Sobre o frete:
     - O valor do frete deve ser maior ou igual a 0
     - O cálculo do frete será o seguinte:
-    > `freightValue = freightValue * (1 - freightDiscountPercentage) - freightDiscountValue`
+      `freightValue = freightValue * (1 - freightDiscountPercentage) - freightDiscountValue`
   - O cálculo do valor total será o seguinte:
-  > `totalValue = purchaseValue + freightValue`
+    `totalValue = purchaseValue + freightValue`
   - Sobre o status:
     - O status da compra inicial deve ser `PENDING_PAYMENT`
   - Sobre o status de entrega:
