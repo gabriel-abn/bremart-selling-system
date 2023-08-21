@@ -31,14 +31,18 @@ type UserProps = {
 ```
 
 - Regras de negócio:
+  - Os campos iniciais são o email e senha
   - A data de nascimento deve ser maior que 18 anos
+  - A senha e o nome de usuário podem ser alterados
+  - Um usuário pode ter vários endereços de entrega, porém apenas um endereço padrão
+  - Se apenas um endereço for dado, ele será o padrão
 
 - Casos de uso:
   - TODO (User) Registrar um novo usuário
   - TODO (User) Verificar email
   - TODO (User) Verificar número de telefone
   - TODO (User) Fazer login
-  - TODO (User) Adicionar um endereço
+  - TODO (User) Adicionar um endereço de entrega
   - TODO (User) Adicionar um produto ao carrinho
   - TODO (User) Remover um produto do carrinho
   - TODO (User) Finalizar uma compra, pegando os produtos do carrinho e criando uma nova compra
