@@ -3,6 +3,21 @@ import { PaymentType } from "@domain/payment-type";
 import { mockCompletePurchase, mockProduct } from "@test-domain/mocks";
 
 describe("Purchase business rules", () => {
+  it("should throw if user id is not provided", () => {
+    expect(() => mockCompletePurchase({ userId: undefined })).toThrow(
+      DomainError
+    );
+  });
+  it("should throw if purchase has no items", () => {
+    expect(() => mockCompletePurchase({ items: [] })).toThrow(DomainError);
+  });
+  it("should return shopping cart", () => {
+    const purchase = mockCompletePurchase({
+      items: [mockProduct({}), mockProduct({})],
+    });
+
+    expect(purchase.getShoppingCart()).toHaveLength(2);
+  });
   describe("Purchase value", () => {
     it("should sum all products values and be greater than 0", () => {
       const purchase = mockCompletePurchase({
