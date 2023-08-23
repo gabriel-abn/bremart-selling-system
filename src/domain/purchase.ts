@@ -33,6 +33,10 @@ export class Purchase extends Entity<PurchaseProps> {
     return this.props.freightValue;
   }
 
+  public getTotalValue(): number {
+    return this.props.purchaseValue + this.props.freightValue;
+  }
+
   public static create(props: PurchaseProps): Purchase {
     var errors: string[] = [];
 

@@ -131,9 +131,16 @@ describe("Purchase business rules", () => {
       ).toThrow(DomainError);
     });
   });
-  // describe("Total value", () => {
-  //   it("should sum purchase and fright value", () => {});
-  // });
+  describe("Total value", () => {
+    it("should sum purchase and fright value", () => {
+      const purchase = mockCompletePurchase({
+        items: [mockProduct({ price: 100 })],
+        freightValue: 100,
+      });
+
+      expect(purchase.getTotalValue()).toBe(200);
+    });
+  });
   // describe("Purchase status", () => {
   //   it("should be initialized as 'PENDING_PAYMENT'", () => {});
   // });
