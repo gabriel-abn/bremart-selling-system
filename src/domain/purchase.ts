@@ -47,10 +47,6 @@ export class Purchase extends Entity<PurchaseProps> {
       errors.push("Total value must be greater than 0");
     }
 
-    if (props.paymentType === PaymentType.CASH && props.total > 500) {
-      props.total += props.total * 0.05;
-    }
-
     if (props.discountPercentage > 1 || props.discountPercentage < 0) {
       errors.push("Discount percentage must be between 0 and 1");
     }
@@ -61,6 +57,10 @@ export class Purchase extends Entity<PurchaseProps> {
 
     props.total =
       props.total * (1 - props.discountPercentage) - props.discountValue;
+
+    if (props.paymentType === PaymentType.PIX && props.total >= 300) {
+      props.total -= props.total * 0.1;
+    }
 
     if (errors.length > 0) throw new DomainError(errors);
 
