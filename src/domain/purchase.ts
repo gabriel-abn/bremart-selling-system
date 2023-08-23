@@ -10,7 +10,7 @@ export type PurchaseProps = {
   paymentType: PaymentType;
   discountPercentage: number;
   discountValue: number;
-  total?: number;
+  purchaseValue?: number;
 };
 
 export class Purchase extends Entity<PurchaseProps> {
@@ -23,7 +23,7 @@ export class Purchase extends Entity<PurchaseProps> {
   }
 
   public getTotal(): number {
-    return this.props.total;
+    return this.props.purchaseValue;
   }
 
   public static create(props: PurchaseProps): Purchase {
@@ -37,13 +37,13 @@ export class Purchase extends Entity<PurchaseProps> {
       errors.push("Purchase must have at least one item");
     }
 
-    props.total = props.items
+    props.purchaseValue = props.items
       .map((item) => item.price)
       .reduce((a, b) => {
         return a + b;
       }, 0);
 
-    if (props.total <= 0) {
+    if (props.purchaseValue <= 0) {
       errors.push("Total value must be greater than 0");
     }
 
@@ -51,15 +51,16 @@ export class Purchase extends Entity<PurchaseProps> {
       errors.push("Discount percentage must be between 0 and 1");
     }
 
-    if (props.discountValue > props.total) {
+    if (props.discountValue > props.purchaseValue) {
       errors.push("Discount value must be less than total value");
     }
 
-    props.total =
-      props.total * (1 - props.discountPercentage) - props.discountValue;
+    props.purchaseValue =
+      props.purchaseValue * (1 - props.discountPercentage) -
+      props.discountValue;
 
-    if (props.paymentType === PaymentType.PIX && props.total >= 300) {
-      props.total -= props.total * 0.1;
+    if (props.paymentType === PaymentType.PIX && props.purchaseValue >= 300) {
+      props.purchaseValue -= props.purchaseValue * 0.1;
     }
 
     if (errors.length > 0) throw new DomainError(errors);

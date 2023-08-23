@@ -21,7 +21,7 @@ export const mockCompletePurchase = (
     userId: "1",
     items: [mockProduct({ id: "valid_id_1" })],
     paymentType: PaymentType.CASH,
-    total: 0,
+    purchaseValue: 0,
     discountPercentage: 0,
     discountValue: 0,
     ...mock,
