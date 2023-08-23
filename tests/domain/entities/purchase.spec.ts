@@ -63,12 +63,31 @@ describe("Purchase business rules", () => {
 
       expect(purchase.getPurchaseValue()).toBe(270);
     });
+    it("should throw if discount percentage is greater than 1 or less than 0", () => {
+      expect(() =>
+        mockCompletePurchase({
+          discountPercentage: 2,
+          items: [mockProduct({ price: 50 })],
+        })
+      ).toThrow(DomainError);
+      expect(() =>
+        mockCompletePurchase({
+          discountPercentage: -1,
+          items: [mockProduct({ price: 50 })],
+        })
+      ).toThrow(DomainError);
+    });
   });
   describe("Freight value", () => {
     it("should be greater or equal to 0", () => {
       const purchase = mockCompletePurchase({ freightValue: 0 });
 
       expect(purchase.getFreightValue()).toBe(0);
+      expect(() =>
+        mockCompletePurchase({
+          freightValue: -1,
+        })
+      ).toThrow(DomainError);
     });
     it("should apply discount if any given", () => {
       const purchasePercentageDiscount = mockCompletePurchase({
@@ -96,6 +115,18 @@ describe("Purchase business rules", () => {
         mockCompletePurchase({
           freightValue: 100,
           freightDiscountValue: 200,
+        })
+      ).toThrow(DomainError);
+    });
+    it("should throw if discount percentage is greater than 1 or less than 0", () => {
+      expect(() =>
+        mockCompletePurchase({
+          freightDiscountPercentage: 2,
+        })
+      ).toThrow(DomainError);
+      expect(() =>
+        mockCompletePurchase({
+          freightDiscountPercentage: -1,
         })
       ).toThrow(DomainError);
     });
