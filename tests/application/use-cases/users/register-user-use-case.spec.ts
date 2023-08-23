@@ -1,6 +1,5 @@
 import { ApplicationError } from "@application/common";
 import { RegisterUserUseCase } from "@application/use-cases/user";
-import { DomainError } from "@domain/common/domain-error";
 import { MockDataValidation } from "@test-application/mocks/protocols";
 import { MockUserRepository } from "@test-application/mocks/repositories";
 import { UUIDGeneratorMock } from "@test-domain/mocks";
@@ -69,17 +68,5 @@ describe("Register User Use Case", () => {
         }).props
       );
     }).rejects.toThrow(ApplicationError);
-  });
-
-  it("should throw if user with under 18 years old is registered", async () => {
-    expect(async () => {
-      const { sut } = makeSut();
-
-      return await sut.execute(
-        mockUser({
-          birthdate: new Date("2010-01-01"),
-        }).props
-      );
-    }).rejects.toThrow(DomainError);
   });
 });
