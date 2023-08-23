@@ -1,4 +1,4 @@
-export type PurchaseItemProps = {
+export type Product = {
   id: string;
   productId: string;
   name: string;

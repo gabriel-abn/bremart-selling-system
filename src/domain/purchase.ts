@@ -1,12 +1,12 @@
 import { Entity } from "./common";
 import { DomainError } from "./common/domain-error";
 import { PaymentType } from "./payment-type";
-import { PurchaseItemProps } from "./purchase-item";
+import { Product } from "./product";
 
 export type PurchaseProps = {
   id: string;
   userId?: string;
-  items: PurchaseItemProps[];
+  items: Product[];
   paymentType: PaymentType;
   discountPercentage: number;
   discountValue: number;
@@ -18,7 +18,7 @@ export class Purchase extends Entity<PurchaseProps> {
     super(props, props.id);
   }
 
-  public getShoppingCart(): PurchaseItemProps[] {
+  public getShoppingCart(): Product[] {
     return this.props.items;
   }
 
