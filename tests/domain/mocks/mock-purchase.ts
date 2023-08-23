@@ -24,6 +24,9 @@ export const mockCompletePurchase = (
     purchaseValue: 0,
     discountPercentage: 0,
     discountValue: 0,
+    freightValue: 0,
+    freightDiscountPercentage: 0,
+    freightDiscountValue: 0,
     ...mock,
   });
 };

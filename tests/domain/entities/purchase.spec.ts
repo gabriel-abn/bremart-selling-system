@@ -9,7 +9,7 @@ describe("Purchase business rules", () => {
         items: [mockProduct({ price: 50 }), mockProduct({ price: 50 })],
       });
 
-      expect(purchase.getTotal()).toBe(100);
+      expect(purchase.getPurchaseValue()).toBe(100);
     });
     it("should apply discount if any given", () => {
       const purchasePercentageDiscount = mockCompletePurchase({
@@ -28,9 +28,9 @@ describe("Purchase business rules", () => {
         items: [mockProduct({ price: 100 })],
       });
 
-      expect(purchasePercentageDiscount.getTotal()).toBe(90);
-      expect(purchaseValueDiscount.getTotal()).toBe(40);
-      expect(purchaseBothDiscount.getTotal()).toBe(80);
+      expect(purchasePercentageDiscount.getPurchaseValue()).toBe(90);
+      expect(purchaseValueDiscount.getPurchaseValue()).toBe(40);
+      expect(purchaseBothDiscount.getPurchaseValue()).toBe(80);
     });
     it("should throw if discount total value is greater than purchase value", () => {
       expect(() =>
@@ -46,12 +46,45 @@ describe("Purchase business rules", () => {
         items: [mockProduct({ price: 300 })],
       });
 
-      expect(purchase.getTotal()).toBe(270);
+      expect(purchase.getPurchaseValue()).toBe(270);
     });
   });
-  // describe("Freight value", () => {
-  //   it("should be greater or equal to 0", () => {});
-  // });
+  describe("Freight value", () => {
+    it("should be greater or equal to 0", () => {
+      const purchase = mockCompletePurchase({ freightValue: 0 });
+
+      expect(purchase.getFreightValue()).toBe(0);
+    });
+    it("should apply discount if any given", () => {
+      const purchasePercentageDiscount = mockCompletePurchase({
+        freightValue: 100,
+        freightDiscountPercentage: 0.1,
+      });
+
+      const purchaseValueDiscount = mockCompletePurchase({
+        freightValue: 200,
+        freightDiscountValue: 10,
+      });
+
+      const purchaseBothDiscount = mockCompletePurchase({
+        freightValue: 300,
+        freightDiscountPercentage: 0.1,
+        freightDiscountValue: 10,
+      });
+
+      expect(purchasePercentageDiscount.getFreightValue()).toBe(90);
+      expect(purchaseValueDiscount.getFreightValue()).toBe(190);
+      expect(purchaseBothDiscount.getFreightValue()).toBe(260);
+    });
+    it("should throw if discount gets greater than initial value", () => {
+      expect(() =>
+        mockCompletePurchase({
+          freightValue: 100,
+          freightDiscountValue: 200,
+        })
+      ).toThrow(DomainError);
+    });
+  });
   // describe("Total value", () => {
   //   it("should sum purchase and fright value", () => {});
   // });

@@ -11,6 +11,9 @@ export type PurchaseProps = {
   discountPercentage: number;
   discountValue: number;
   purchaseValue?: number;
+  freightValue: number;
+  freightDiscountPercentage: number;
+  freightDiscountValue: number;
 };
 
 export class Purchase extends Entity<PurchaseProps> {
@@ -22,8 +25,12 @@ export class Purchase extends Entity<PurchaseProps> {
     return this.props.items;
   }
 
-  public getTotal(): number {
+  public getPurchaseValue(): number {
     return this.props.purchaseValue;
+  }
+
+  public getFreightValue(): number {
+    return this.props.freightValue;
   }
 
   public static create(props: PurchaseProps): Purchase {
@@ -62,6 +69,25 @@ export class Purchase extends Entity<PurchaseProps> {
     if (props.paymentType === PaymentType.PIX && props.purchaseValue >= 300) {
       props.purchaseValue -= props.purchaseValue * 0.1;
     }
+
+    if (props.freightValue < 0) {
+      errors.push("Freight value must be greater or equal to 0");
+    }
+
+    if (
+      props.freightDiscountPercentage > 1 ||
+      props.freightDiscountPercentage < 0
+    ) {
+      errors.push("Freight discount percentage must be between 0 and 1");
+    }
+
+    if (props.freightDiscountValue > props.freightValue) {
+      errors.push("Freight discount value must be less than freight value");
+    }
+
+    props.freightValue =
+      props.freightValue * (1 - props.freightDiscountPercentage) -
+      props.freightDiscountValue;
 
     if (errors.length > 0) throw new DomainError(errors);
 
