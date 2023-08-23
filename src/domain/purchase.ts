@@ -1,4 +1,5 @@
 import { Entity } from "./common";
+import { DomainError } from "./common/domain-error";
 import { PaymentType } from "./payment-type";
 import { PurchaseItemProps } from "./purchase-item";
 
@@ -60,6 +61,8 @@ export class Purchase extends Entity<PurchaseProps> {
 
     props.total =
       props.total * (1 - props.discountPercentage) - props.discountValue;
+
+    if (errors.length > 0) throw new DomainError(errors);
 
     return new Purchase(props);
   }
