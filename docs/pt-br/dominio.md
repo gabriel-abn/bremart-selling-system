@@ -105,7 +105,7 @@ type Purchase = {
   products: Product[];
   userId: string;
   address: Address; 
-  status?: PurchaseStatus = PurchaseStatus.PENDING_PAYMENT;
+  status?: PurchaseStatus;
   discountVoucher?: string = "";
   discountPercentage: number;
   discountValue: number;

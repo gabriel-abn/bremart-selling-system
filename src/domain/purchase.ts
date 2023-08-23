@@ -3,6 +3,13 @@ import { DomainError } from "./common/domain-error";
 import { PaymentType } from "./payment-type";
 import { Product } from "./product";
 
+export enum PurchaseStatus {
+  PENDING_PAYMENT = "PENDING_PAYMENT",
+  PENDING_DELIVERY = "PENDING_DELIVERY",
+  DELIVERED = "DELIVERED",
+  CANCELED = "CANCELED",
+}
+
 export type PurchaseProps = {
   id: string;
   userId?: string;
@@ -14,6 +21,7 @@ export type PurchaseProps = {
   freightValue: number;
   freightDiscountPercentage: number;
   freightDiscountValue: number;
+  status?: PurchaseStatus;
 };
 
 export class Purchase extends Entity<PurchaseProps> {
@@ -35,6 +43,14 @@ export class Purchase extends Entity<PurchaseProps> {
 
   public getTotalValue(): number {
     return this.props.purchaseValue + this.props.freightValue;
+  }
+
+  public getStatus(): string {
+    return this.props.status;
+  }
+
+  public setStatus(status: PurchaseStatus): void {
+    this.props.status = status;
   }
 
   public static create(props: PurchaseProps): Purchase {
@@ -95,6 +111,6 @@ export class Purchase extends Entity<PurchaseProps> {
 
     if (errors.length > 0) throw new DomainError(errors);
 
-    return new Purchase(props);
+    return new Purchase({ ...props, status: PurchaseStatus.PENDING_PAYMENT });
   }
 }

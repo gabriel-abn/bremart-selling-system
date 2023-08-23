@@ -1,5 +1,6 @@
 import { DomainError } from "@domain/common/domain-error";
 import { PaymentType } from "@domain/payment-type";
+import { PurchaseStatus } from "@domain/purchase";
 import { mockCompletePurchase, mockProduct } from "@test-domain/mocks";
 
 describe("Purchase business rules", () => {
@@ -141,11 +142,22 @@ describe("Purchase business rules", () => {
       expect(purchase.getTotalValue()).toBe(200);
     });
   });
-  // describe("Purchase status", () => {
-  //   it("should be initialized as 'PENDING_PAYMENT'", () => {});
-  // });
-  // describe("Delivery status", () => {
-  //   it("should be initialized as null", () => {});
-  //   it("should be able to update delivery status", () => {});
-  // });
+  describe("Purchase status", () => {
+    it("should be initialized as 'PENDING_PAYMENT'", () => {
+      const purchase = mockCompletePurchase();
+
+      expect(purchase.getStatus()).toBe("PENDING_PAYMENT");
+    });
+    it("should be able to update status", () => {
+      const purchase = mockCompletePurchase();
+
+      purchase.setStatus(PurchaseStatus.CANCELED);
+
+      expect(purchase.getStatus()).toBe("CANCELED");
+    });
+  });
+  describe("Delivery status", () => {
+    it("should be initialized as null", () => {});
+    it("should be able to update delivery status", () => {});
+  });
 });
