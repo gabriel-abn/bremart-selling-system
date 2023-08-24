@@ -5,10 +5,10 @@ export abstract class Entity<T> {
   protected readonly createdAt: Date;
   protected readonly updatedAt: Date;
 
-  constructor(props: T, id: string, createdAt?: Date, updatedAt?: Date) {
+  constructor(props: T, id: string, updatedAt?: Date) {
     this.id = id;
     this.props = props;
-    this.createdAt = new Date() ?? createdAt;
+    this.createdAt = new Date();
     this.updatedAt = new Date() ?? updatedAt;
   }
 
@@ -26,10 +26,6 @@ export abstract class Entity<T> {
 
     if (this === object) {
       return true;
-    }
-
-    if (!(object instanceof Entity)) {
-      return false;
     }
 
     return this.id === object.id;
