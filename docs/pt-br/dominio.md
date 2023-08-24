@@ -106,7 +106,7 @@ type Purchase = {
   userId: string;
   address: Address; 
   status?: PurchaseStatus;
-  discountVoucher?: string = "";
+  discountVoucher?: string;
   discountPercentage: number;
   discountValue: number;
   purchaseValue: number;
@@ -114,7 +114,7 @@ type Purchase = {
   freightDiscountPercentage: number;
   freightDiscountValue: number;
   totalValue: number;
-  deliveryStatus?: DeliveryStatus = null;
+  deliveryStatus?: DeliveryStatus;
 }
 
 enum PurchaseStatus {

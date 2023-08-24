@@ -10,6 +10,13 @@ export enum PurchaseStatus {
   CANCELED = "CANCELED",
 }
 
+export type DeliveryStatus = {
+  purchaseId: string;
+  trackingId: string;
+  description: string;
+  location: string;
+};
+
 export type PurchaseProps = {
   id: string;
   userId?: string;
@@ -22,6 +29,7 @@ export type PurchaseProps = {
   freightDiscountPercentage: number;
   freightDiscountValue: number;
   status?: PurchaseStatus;
+  deliveryStatus?: DeliveryStatus;
 };
 
 export class Purchase extends Entity<PurchaseProps> {
@@ -51,6 +59,14 @@ export class Purchase extends Entity<PurchaseProps> {
 
   public setStatus(status: PurchaseStatus): void {
     this.props.status = status;
+  }
+
+  public getDeliveryStatus(): DeliveryStatus {
+    return this.props.deliveryStatus;
+  }
+
+  public setDeliveryStatus(deliveryStatus: DeliveryStatus): void {
+    this.props.deliveryStatus = deliveryStatus;
   }
 
   public static create(props: PurchaseProps): Purchase {
@@ -111,6 +127,10 @@ export class Purchase extends Entity<PurchaseProps> {
 
     if (errors.length > 0) throw new DomainError(errors);
 
-    return new Purchase({ ...props, status: PurchaseStatus.PENDING_PAYMENT });
+    return new Purchase({
+      ...props,
+      status: PurchaseStatus.PENDING_PAYMENT,
+      deliveryStatus: null,
+    });
   }
 }

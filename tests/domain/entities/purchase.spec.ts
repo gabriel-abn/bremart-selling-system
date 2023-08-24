@@ -157,7 +157,27 @@ describe("Purchase business rules", () => {
     });
   });
   describe("Delivery status", () => {
-    it("should be initialized as null", () => {});
-    it("should be able to update delivery status", () => {});
+    it("should be initialized as null", () => {
+      const purchase = mockCompletePurchase();
+
+      expect(purchase.getDeliveryStatus()).toBeNull();
+    });
+    it("should be able to update delivery status", () => {
+      const purchase = mockCompletePurchase();
+
+      purchase.setDeliveryStatus({
+        description: "DELIVERED",
+        location: "São Paulo",
+        purchaseId: purchase.getId(),
+        trackingId: "123456789",
+      });
+
+      expect(purchase.getDeliveryStatus()).toEqual({
+        description: "DELIVERED",
+        location: "São Paulo",
+        purchaseId: purchase.getId(),
+        trackingId: "123456789",
+      });
+    });
   });
 });
