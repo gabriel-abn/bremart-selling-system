@@ -1,6 +1,6 @@
 import { Entity } from "./common";
 import { DomainError } from "./common/domain-error";
-import { PaymentType } from "./payment-type";
+import { PaymentType } from "./payment";
 import { Product } from "./product";
 
 export enum PurchaseStatus {

@@ -1,5 +1,5 @@
 export * from "./address";
-export * from "./payment-type";
+export * from "./payment";
 export * from "./product";
 export * from "./purchase";
 export * from "./user";

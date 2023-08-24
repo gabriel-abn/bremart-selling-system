@@ -1,5 +1,5 @@
 import { DomainError } from "@domain/common/domain-error";
-import { PaymentType } from "@domain/payment-type";
+import { PaymentType } from "@domain/payment";
 import { PurchaseStatus } from "@domain/purchase";
 import { mockCompletePurchase, mockProduct } from "@test-domain/mocks";
 
