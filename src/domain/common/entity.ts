@@ -1,9 +1,9 @@
 export abstract class Entity<T> {
-  public readonly id: string;
-  public readonly props: T;
+  protected readonly id: string;
+  protected readonly props: T;
 
-  public readonly createdAt: Date;
-  public readonly updatedAt: Date;
+  protected readonly createdAt: Date;
+  protected readonly updatedAt: Date;
 
   constructor(props: T, id: string, createdAt?: Date, updatedAt?: Date) {
     this.id = id;
@@ -37,5 +37,9 @@ export abstract class Entity<T> {
 
   public getProps = (): T => {
     return this.props;
+  };
+
+  public getId = (): string => {
+    return this.id;
   };
 }
