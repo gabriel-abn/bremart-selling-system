@@ -20,10 +20,10 @@ type UserProps = {
   password: string;
   birthDate: Date;
   phone: string;
-  addresses?: Address[] = [];
+  addresses?: Address[];
   defaultAddress?: Address;
-  shoppingCart?: Product[] = [];
-  purchaseHistory?: Purchase[] = [];
+  shoppingCart?: Product[];
+  purchaseHistory?: Purchase[];
   // Compras com o pagamento pendente
   // Compras com o pagamento aprovado e pendente de entrega
   // Compras com o pagamento aprovado e entregue
