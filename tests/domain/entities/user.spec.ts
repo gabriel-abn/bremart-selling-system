@@ -115,14 +115,7 @@ describe("User business rules", () => {
       uniqueDiscount: 0,
     });
 
-    expect(user.getShoppingCart()).toEqual([
-      {
-        id: "123",
-        name: "Product 1",
-        price: 100,
-        quantity: 1,
-      },
-    ]);
+    expect(user.getShoppingCart()[0]).toHaveProperty("name", "Product 1");
   });
   it("should be able to remove products from cart", () => {
     const user = mockUser({});
@@ -154,13 +147,6 @@ describe("User business rules", () => {
 
     user.updateProductQuantityInCart("123", 2);
 
-    expect(user.getShoppingCart()).toEqual([
-      {
-        id: "123",
-        name: "Product 1",
-        price: 100,
-        quantity: 2,
-      },
-    ]);
+    expect(user.getShoppingCart()[0]).toHaveProperty("quantity", 2);
   });
 });

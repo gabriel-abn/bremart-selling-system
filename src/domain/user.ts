@@ -110,6 +110,10 @@ export class User extends Entity<UserProps> {
       throw new DomainError(errors);
     }
 
-    return new User(props);
+    return new User({
+      purchaseHistory: [],
+      shoppingCart: [],
+      ...props,
+    });
   }
 }
