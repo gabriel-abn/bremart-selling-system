@@ -20,7 +20,7 @@ export const mockCompletePurchase = (
     id: "ID" + Math.floor(Math.random() * 100).toString(),
     userId: "1",
     items: [mockProduct({ id: "valid_id_1" })],
-    paymentType: PaymentType.CASH,
+    paymentType: PaymentType.PIX,
     purchaseValue: 0,
     discountPercentage: 0,
     discountValue: 0,
