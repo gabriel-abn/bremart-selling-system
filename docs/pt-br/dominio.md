@@ -37,26 +37,6 @@ type UserProps = {
   - Um usuário pode ter vários endereços de entrega, porém apenas um endereço padrão
   - Se apenas um endereço for dado, ele será o padrão
 
-- Casos de uso:
-  - TODO (User) Registrar um novo usuário
-  - TODO (User) Verificar email
-  - TODO (User) Verificar número de telefone
-  - TODO (User) Fazer login
-  - TODO (User) Adicionar um endereço de entrega
-  - TODO (User) Adicionar um produto ao carrinho
-  - TODO (User) Remover um produto do carrinho
-  - TODO (User) Finalizar uma compra, pegando os produtos do carrinho e criando uma nova compra
-  - TODO (User) Fazer o pagamento de uma compra
-  - TODO (User) Cancelar uma compra
-  - TODO (User) Mostrar o histórico de compras
-  - TODO (User) Mostrar o carrinho
-  - TODO (User) Mostrar os dados do usuário
-  - TODO (User) Atualizar os dados do usuário
-  - TODO (User) Atualizar a senha do usuário
-  - TODO (User) Atualizar o número de telefone do usuário
-  - TODO (User) Desativar o usuário
-  - TODO (User) Remover o usuário
-
 ---
 
 ### Address
