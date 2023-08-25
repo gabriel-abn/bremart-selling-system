@@ -192,14 +192,8 @@ enum PaymentStatus {
 Um **Payment** representa um pagamento de uma compra. Ele terá um tipo de pagamento, um status e um valor.
 
 - Regras de negócio:
-  - Sobre o status:
-    - Se o tipo de pagamento for `PIX` ou `DEBIT_CARD`:
-      - O status inicial deve ser `NOT_PAID`
-      - Após o pagamento, será atualizado para `CONFIRMED`
-    - Se o pagamento for feito por `CREDIT_CARD` ou `BOLETO`:
-      - O status inicial deve ser `PENDING`
-      - Após o pagamento, será atualizado para `CONFIRMED` ou `REJECTED`
-    - O status deve ser atualizado automaticamente pela aplicação, de acordo com o tipo de pagamento
+  - Todo pagamento começa com o status `PENDING`
+  - O tipo de pagamento deve ser um dos seguintes: `CREDIT_CARD`, `DEBIT_CARD`, `BOLETO` ou `PIX`
 
 - Casos de uso:
   - TODO (Payment) Criar um novo pagamento pendente
