@@ -32,6 +32,8 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   - Senha criptografada
   - Data de criação
 
+---
+
 #### TODO (User) Verificar email
 
 - Receber o email do usuário e o token de verificação
@@ -45,6 +47,8 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   - Email do usuário
   - Token de autenticação
 
+---
+
 #### TODO (User) Verificar número de telefone
 
 - Receber o número de telefone do usuário e o código de verificação
@@ -57,6 +61,8 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - Caso de sucesso:
   - Email do usuário
   - Confirmação de verificação do número de telefone
+
+---
 
 #### TODO (User) Fazer login
 
@@ -73,6 +79,8 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   - Email do usuário
   - Token de autenticação
 
+---
+
 #### TODO (User) Adicionar um endereço de entrega
 
 - Receber o email do usuário e os dados do endereço
@@ -86,31 +94,59 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
     - ID do endereço criptografado
     - Email do usuário
 
+---
+
 #### TODO (User) Adicionar um produto ao carrinho
+
+---
 
 #### TODO (User) Remover um produto do carrinho
 
+---
+
 #### TODO (User) Finalizar uma compra, pegando os produtos do carrinho e criando uma nova compra
+
+---
 
 #### TODO (User) Fazer o pagamento de uma compra
 
+---
+
 #### TODO (User) Cancelar uma compra
+
+---
 
 #### TODO (User) Mostrar o histórico de compras
 
+---
+
 #### TODO (User) Mostrar o carrinho
+
+---
 
 #### TODO (User) Mostrar os dados do usuário
 
+---
+
 #### TODO (User) Atualizar email do usuário
+
+---
 
 #### TODO (User) Atualizar os dados do usuário
 
+---
+
 #### TODO (User) Atualizar a senha do usuário
+
+---
 
 #### TODO (User) Atualizar o número de telefone do usuário
 
+---
+
 #### TODO (User) Desativar o usuário
+
+---
 
 #### TODO (User) Remover usuário
 
