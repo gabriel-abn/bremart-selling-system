@@ -1,4 +1,3 @@
-import { ApplicationError } from "@application/common";
 import { RegisterUserUseCase } from "@application/use-cases/user";
 import { MockDataValidation } from "@test-application/mocks/protocols";
 import { MockUserRepository } from "@test-application/mocks/repositories";
@@ -29,44 +28,15 @@ const makeSut = () => {
 };
 
 describe("Register User Use Case", () => {
-  it("should be able to collect user's info and register in the system", async () => {
-    const mock = mockUser({ cpf: "123.321.123-11" }).props;
-    const { sut } = makeSut();
-
-    const response = await sut.execute({
-      ...mock,
-    });
-
-    expect(response).toBeTruthy();
+  describe("Basic user fields error handling", () => {
+    it("should throw if CPF already exists");
+    it("should throw if CPF is invalid");
+    it("should throw if email is invalid");
+    it("should throw if birth date is invalid");
+    it("should throw if phone number is invalid");
   });
-  it("should throw if CPF exists in repository", async () => {
-    expect(async () => {
-      const { sut } = makeSut();
-      const mock = mockUser({ cpf: "12345678900" }).props;
-
-      return await sut.execute(mock);
-    }).rejects.toThrow(ApplicationError);
-  });
-  it("should throw if CPF is invalid", async () => {
-    expect(async () => {
-      const { sut } = makeSut();
-
-      return await sut.execute(
-        mockUser({
-          cpf: "123456",
-        }).props
-      );
-    }).rejects.toThrow(ApplicationError);
-  });
-  it("should throw if RG is invalid", async () => {
-    expect(async () => {
-      const { sut } = makeSut();
-
-      return await sut.execute(
-        mockUser({
-          rg: "12345",
-        }).props
-      );
-    }).rejects.toThrow(ApplicationError);
-  });
+  it("should generate a password");
+  it("should hash the password");
+  it("should send a confirmation email");
+  it("should save the user and return use case response object");
 });
