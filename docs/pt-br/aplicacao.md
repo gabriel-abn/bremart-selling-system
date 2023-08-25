@@ -60,6 +60,19 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 
 #### TODO (User) Fazer login
 
+- Receber email e senha
+- Recuperar senha criptografada do usuário
+  - Casos de erro:
+    - Email não encontrado
+    - Email não verificado
+- Verificar se a senha informada e a senha descriptografada são iguais
+  - Casos de erro:
+    - Senha inválida
+    - Usuário desativado
+- Caso de sucesso:
+  - Email do usuário
+  - Token de autenticação
+
 #### TODO (User) Adicionar um endereço de entrega
 
 #### TODO (User) Adicionar um produto ao carrinho
