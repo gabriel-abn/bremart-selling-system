@@ -14,19 +14,18 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 
 ### User
 
-#### DOING (User) Registrar um novo usuário
+#### TODO (User) Registrar um novo usuário
 
 - Receber nome, cpf, email, data de nascimento e telefone
   - Casos de erro:
+    - CPF já presente no repositório
     - CPF inválido
     - Email inválido
     - Formato da data de nascimento inválida
-    - Formato do telefone inválido
+    - Telefone inválido
 - A senha deve ser gerada automaticamente
 - A senha deve ser criptografada antes do armazenamento
 - O usuário deve receber um email de confirmação
-  - Casos de erro:
-    - Email inválido
 - Caso de Sucesso:
   - ID do usuário criptografado
   - Email do usuário
@@ -34,6 +33,17 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   - Data de criação
 
 #### TODO (User) Verificar email
+
+- Receber o email do usuário e o token de verificação
+- Verificar se o token corresponde com o email do usuário
+  - Casos de erro:
+    - Token expirado
+    - Token não corresponde com o email do usuário
+    - Email inválido
+    - Usuário já verificado
+- Caso de Sucesso:
+  - Email do usuário
+  - Token de autenticação
 
 #### TODO (User) Verificar número de telefone
 
