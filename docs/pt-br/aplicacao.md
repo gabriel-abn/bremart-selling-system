@@ -40,12 +40,23 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
     - Token expirado
     - Token não corresponde com o email do usuário
     - Email inválido
-    - Usuário já verificado
+    - Email já verificado
 - Caso de Sucesso:
   - Email do usuário
   - Token de autenticação
 
 #### TODO (User) Verificar número de telefone
+
+- Receber o número de telefone do usuário e o código de verificação
+- Verificar se o código corresponde com o número de telefone do usuário
+  - Casos de erro:
+    - Código expirado
+    - Código não corresponde com o número de telefone do usuário
+    - Número de telefone inválido
+    - Número de telefone já verificado
+- Caso de sucesso:
+  - Email do usuário
+  - Confirmação de verificação do número de telefone
 
 #### TODO (User) Fazer login
 
