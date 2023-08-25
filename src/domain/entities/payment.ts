@@ -1,4 +1,4 @@
-import { DomainError, Entity } from "./common";
+import { DomainError, Entity } from "../common";
 
 export type PaymentProps = {
   id: string;

@@ -1,5 +1,4 @@
-import { Entity } from "./common";
-import { DomainError } from "./common/domain-error";
+import { DomainError, Entity } from "../common";
 import { PaymentType } from "./payment";
 import { Product } from "./product";
 

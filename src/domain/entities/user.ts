@@ -1,5 +1,5 @@
+import { DomainError, Entity } from "../common";
 import { Address } from "./address";
-import { DomainError, Entity } from "./common";
 import { Product } from "./product";
 import { Purchase } from "./purchase";
 
