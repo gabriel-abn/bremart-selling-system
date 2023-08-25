@@ -1,11 +1,29 @@
+import { DomainError } from "@domain/common";
+import { PaymentStatus } from "@domain/payment";
+import { mockPayment } from "@test-domain/mocks";
+
 describe("Payment business rules", () => {
-  describe("Payment type", () => {
-    it("should have valid payment type", () => {});
-  });
   describe("Payment status", () => {
-    it("should be initialized as 'NOT_PAID' if payment type is 'PIX' or 'DEBIT_CARD'", () => {});
-    it("should be initialized as 'PENDING' if payment type is 'CREDIT_CARD' or 'BOLETO'", () => {});
-    it("should be able to update payment status to 'CONFIRMED'", () => {});
-    it("should be able to update payment status to 'REJECTED' if type is 'CREDIT_CARD' or 'BOLETO'", () => {});
+    it("should create a payment with status pending", () => {
+      const pendingPayment = mockPayment({});
+
+      expect(pendingPayment.status).toBe("PENDING");
+    });
+    it("should update payment status just if it's pending", () => {
+      const pendingPayment = mockPayment({});
+
+      pendingPayment.updateStatus(PaymentStatus.CONFIRMED);
+
+      expect(pendingPayment.status).toBe("CONFIRMED");
+    });
+    it("should throw if update confirmed payment status", () => {
+      const confirmedPayment = mockPayment({});
+
+      confirmedPayment.updateStatus(PaymentStatus.CONFIRMED);
+
+      expect(() =>
+        confirmedPayment.updateStatus(PaymentStatus.PENDING)
+      ).toThrowError(DomainError);
+    });
   });
 });
