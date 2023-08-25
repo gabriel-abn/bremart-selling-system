@@ -1,4 +1,9 @@
-import { PaymentType, Product, Purchase, PurchaseProps } from "@domain/index";
+import {
+  PaymentType,
+  Product,
+  Purchase,
+  PurchaseProps,
+} from "@domain/entities";
 
 import { faker } from "@faker-js/faker";
 
@@ -16,9 +21,20 @@ export const mockProduct = (mock: Partial<Product>): Product => {
 export const mockCompletePurchase = (
   mock?: Partial<PurchaseProps>
 ): Purchase => {
+  const id = Math.floor(Math.random() * 100).toString();
   return Purchase.create({
-    id: "ID" + Math.floor(Math.random() * 100).toString(),
+    id: "ID" + id,
     userId: "1",
+    address: {
+      id: id + "1",
+      street: faker.location.street(),
+      number: faker.location.buildingNumber(),
+      city: faker.location.city(),
+      state: faker.location.state(),
+      complement: faker.location.secondaryAddress(),
+      neighborhood: faker.location.county(),
+      zipCode: faker.location.zipCode(),
+    },
     items: [mockProduct({ id: "valid_id_1" })],
     paymentType: PaymentType.PIX,
     purchaseValue: 0,

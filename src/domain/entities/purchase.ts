@@ -1,4 +1,5 @@
 import { DomainError, Entity } from "../common";
+import { Address } from "./address";
 import { PaymentType } from "./payment";
 import { Product } from "./product";
 
@@ -20,6 +21,7 @@ export type PurchaseProps = {
   id: string;
   userId?: string;
   items: Product[];
+  address: Address;
   paymentType: PaymentType;
   discountPercentage: number;
   discountValue: number;
@@ -66,6 +68,20 @@ export class Purchase extends Entity<PurchaseProps> {
 
   public setDeliveryStatus(deliveryStatus: DeliveryStatus): void {
     this.props.deliveryStatus = deliveryStatus;
+  }
+
+  public updateDeliveryAddress(address: Address): void {
+    for (const field in address) {
+      if (address[field] === null || address[field] === "") {
+        throw new DomainError([`Address ${field} must be provided`]);
+      }
+    }
+
+    this.props.address = address;
+  }
+
+  public getDeliveryAddress(): Address {
+    return this.props.address;
   }
 
   public static create(props: PurchaseProps): Purchase {
@@ -123,6 +139,16 @@ export class Purchase extends Entity<PurchaseProps> {
     props.freightValue =
       props.freightValue * (1 - props.freightDiscountPercentage) -
       props.freightDiscountValue;
+
+    if (props.address === null) {
+      errors.push("Address must be provided");
+    }
+
+    for (const field in props.address) {
+      if (props.address[field] === null || props.address[field] === "") {
+        errors.push(`Address ${field} must be provided`);
+      }
+    }
 
     if (errors.length > 0) throw new DomainError(errors);
 

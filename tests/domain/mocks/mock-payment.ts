@@ -1,4 +1,4 @@
-import { Payment, PaymentProps, PaymentType } from "@domain/payment";
+import { Payment, PaymentProps, PaymentType } from "@domain/entities";
 
 export const mockPayment = (mock?: Partial<PaymentProps>): Payment =>
   Payment.create({

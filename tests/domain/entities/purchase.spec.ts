@@ -1,6 +1,5 @@
 import { DomainError } from "@domain/common/domain-error";
-import { PaymentType } from "@domain/payment";
-import { PurchaseStatus } from "@domain/purchase";
+import { PaymentType, PurchaseStatus } from "@domain/entities";
 import { mockCompletePurchase, mockProduct } from "@test-domain/mocks";
 
 describe("Purchase business rules", () => {
@@ -18,6 +17,66 @@ describe("Purchase business rules", () => {
     });
 
     expect(purchase.getShoppingCart()).toHaveLength(2);
+  });
+  describe("Delivery address", () => {
+    it("should throw if address is not provided", () => {
+      expect(() => mockCompletePurchase({ address: null })).toThrow(
+        DomainError
+      );
+    });
+    it("should throw if address fields are not valid", () => {
+      expect(() =>
+        mockCompletePurchase({
+          address: {
+            street: "",
+            number: "",
+            city: "",
+            state: "",
+            neighborhood: "",
+            complement: "",
+            zipCode: "",
+          },
+        })
+      ).toThrow(DomainError);
+    });
+    it("should be able to update delivery address", () => {
+      const purchase = mockCompletePurchase({});
+
+      purchase.updateDeliveryAddress({
+        street: "Rua B",
+        number: "321",
+        city: "São Paulo",
+        state: "SP",
+        neighborhood: "Bairro",
+        complement: "Complemento",
+        zipCode: "12345678",
+      });
+
+      expect(purchase.getDeliveryAddress()).toEqual({
+        street: "Rua B",
+        number: "321",
+        city: "São Paulo",
+        state: "SP",
+        neighborhood: "Bairro",
+        complement: "Complemento",
+        zipCode: "12345678",
+      });
+    });
+    it("should throw if update delivery address with invalid fields", () => {
+      const purchase = mockCompletePurchase({});
+
+      expect(() =>
+        purchase.updateDeliveryAddress({
+          street: "",
+          number: "",
+          city: "",
+          state: "",
+          neighborhood: "",
+          complement: "",
+          zipCode: "",
+        })
+      ).toThrow(DomainError);
+    });
   });
   describe("Purchase value", () => {
     it("should sum all products values and be greater than 0", () => {

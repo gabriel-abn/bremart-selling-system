@@ -1,4 +1,4 @@
-import { User, UserProps } from "@domain/user";
+import { User, UserProps } from "@domain/entities";
 import { faker } from "@faker-js/faker";
 
 export const mockUser = (mock: Partial<UserProps>): User => {
