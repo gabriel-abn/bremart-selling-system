@@ -75,6 +75,17 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 
 #### TODO (User) Adicionar um endereço de entrega
 
+- Receber o email do usuário e os dados do endereço
+  - Casos de erro:
+    - Email não encontrado
+    - Email não verificado
+    - Usuário desativado
+    - Endereço já cadastrado
+    - Formato do endereço inválido
+  - Caso de sucesso:
+    - ID do endereço criptografado
+    - Email do usuário
+
 #### TODO (User) Adicionar um produto ao carrinho
 
 #### TODO (User) Remover um produto do carrinho
