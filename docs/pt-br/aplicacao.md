@@ -12,7 +12,13 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 
 ---
 
-### User
+## User
+
+### Serviços
+
+---
+
+### Casos de uso
 
 #### TODO (User) Registrar um novo usuário
 
@@ -86,8 +92,6 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - Receber o email do usuário e os dados do endereço
   - Casos de erro:
     - Email não encontrado
-    - Email não verificado
-    - Usuário desativado
     - Endereço já cadastrado
     - Formato do endereço inválido
   - Caso de sucesso:
@@ -97,6 +101,17 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 ---
 
 #### TODO (User) Adicionar um produto ao carrinho
+
+- Receber o email do usuário e os dados do produto
+  - Casos de erro:
+    - Email não encontrado
+    - Produto não encontrado
+    - Produto indisponível
+    - Produto já adicionado ao carrinho
+    - Quantidade inválida
+  - Caso de sucesso:
+    - ID do produto criptografado
+    - Email do usuário
 
 ---
 
