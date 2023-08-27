@@ -1,4 +1,4 @@
-<!-- markdownlint-disable md033 -->
+<!-- markdownlint-disable md033 md024 -->
 
 # Aplicação
 
@@ -96,7 +96,7 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 </details>
 
 <details>
-  <summary> <b> Fazer login </b> </summary>
+  <summary> <b> Fazer Login </b> </summary>
 
 - DOING (User) login
 - Receber email e senha
@@ -166,7 +166,7 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 </details>
 
 <details>
-  <summary> <b> Mostrar o histórico de compras </b> </summary>
+  <summary> <b> Mostrar o histórico de compras do usuário </b> </summary>
 
 </details>
 
@@ -210,6 +210,35 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 
 </details>
 
+<details>
+  <summary> <b> Recuperar todos os usuários </b> </summary>
+
+</details>
+
 ### Serviços
 
 ---
+
+## Purchase
+
+### Casos de uso
+
+<details>
+  <summary> <b> Criar uma nova compra </b> </summary>
+
+</details>
+
+### Serviços
+
+---
+
+## Payments
+
+### Casos de uso
+
+<details>
+  <summary> <b> Registrar um pagamento </b> </summary>
+
+</details>
+
+### Serviços
