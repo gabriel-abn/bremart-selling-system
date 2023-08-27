@@ -36,7 +36,7 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   - ID do usuário criptografado
   - Email do usuário
   - Senha criptografada
-  - Data de criação
+  - Tempo máximo de espera para verificação do email
 
 ---
 
@@ -50,8 +50,9 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
     - Email inválido
     - Email já verificado
 - Caso de Sucesso:
+  - ID do usuário criptografado
   - Email do usuário
-  - Token de autenticação
+  - Tempo máximo de espera para verificação do email
 
 ---
 
@@ -70,6 +71,24 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 
 ---
 
+#### TODO (User) Fazer Sign In
+
+- Receber nome, cpf, email, data de nascimento e telefone
+  - Casos de erro:
+    - CPF já presente no repositório
+    - CPF inválido
+    - Email já presente no repositório
+    - Email inválido
+    - Formato da data de nascimento inválida
+    - Formato do telefone inválido
+- Mandar email de verificação
+- Caso de sucesso:
+  - ID do usuário criptografado
+  - Email do usuário
+  - Tempo máximo de espera para verificação do email
+
+---
+
 #### TODO (User) Fazer login
 
 - Receber email e senha
@@ -82,7 +101,7 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
     - Senha inválida
     - Usuário desativado
 - Caso de sucesso:
-  - Email do usuário
+  - Informações do usuário
   - Token de autenticação
 
 ---
