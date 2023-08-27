@@ -1,3 +1,5 @@
+<!-- markdownlint-disable md033 -->
+
 # Aplicação
 
 ## Casos de uso e Serviços
@@ -14,14 +16,12 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 
 ## User
 
-### Serviços
-
----
-
 ### Casos de uso
 
-#### TODO (User) Registrar um novo usuário
+<details>
+  <summary> <b> Registrar um novo usuário </b> </summary>
 
+- DOING (User) register-user
 - Receber nome, cpf, email, data de nascimento e telefone
   - Casos de erro:
     - CPF já presente no repositório
@@ -38,10 +38,12 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   - Senha criptografada
   - Tempo máximo de espera para verificação do email
 
----
+</details>
 
-#### TODO (User) Verificar email
+<details>
+  <summary> <b> Verificar email </b> </summary>
 
+- DOING (User) verify-email
 - Receber o email do usuário e o token de verificação
 - Verificar se o token corresponde com o email do usuário
   - Casos de erro:
@@ -54,10 +56,12 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   - Email do usuário
   - Tempo máximo de espera para verificação do email
 
----
+</details>
 
-#### TODO (User) Verificar número de telefone
+<details>
+  <summary> <b> Verificar número de telefone </b> </summary>
 
+- DOING (User) verify-phone
 - Receber o número de telefone do usuário e o código de verificação
 - Verificar se o código corresponde com o número de telefone do usuário
   - Casos de erro:
@@ -69,10 +73,12 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   - Email do usuário
   - Confirmação de verificação do número de telefone
 
----
+</details>
 
-#### TODO (User) Fazer Sign In
+<details>
+  <summary> <b> Fazer Sign In </b> </summary>
 
+- DOING (User) sign-in
 - Receber nome, cpf, email, data de nascimento e telefone
   - Casos de erro:
     - CPF já presente no repositório
@@ -87,10 +93,12 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   - Email do usuário
   - Tempo máximo de espera para verificação do email
 
----
+</details>
 
-#### TODO (User) Fazer login
+<details>
+  <summary> <b> Fazer login </b> </summary>
 
+- DOING (User) login
 - Receber email e senha
 - Recuperar senha criptografada do usuário
   - Casos de erro:
@@ -104,10 +112,12 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   - Informações do usuário
   - Token de autenticação
 
----
+</details>
 
-#### TODO (User) Adicionar um endereço de entrega
+<details>
+  <summary> <b> Adicionar um endereço de entrega </b> </summary>
 
+- DOING (User) add-address
 - Receber o email do usuário e os dados do endereço
   - Casos de erro:
     - Email não encontrado
@@ -117,9 +127,10 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
     - ID do endereço criptografado
     - Email do usuário
 
----
+</details>
 
-#### TODO (User) Adicionar um produto ao carrinho
+<details>
+  <summary> <b> Adicionar um produto ao carrinho </b> </summary>
 
 - Receber o email do usuário e os dados do produto
   - Casos de erro:
@@ -132,56 +143,73 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
     - ID do produto criptografado
     - Email do usuário
 
----
+</details>
 
-#### TODO (User) Remover um produto do carrinho
+<details>
+  <summary> <b> Remover um produto do carrinho </b> </summary>
 
----
+</details>
 
-#### TODO (User) Finalizar uma compra, pegando os produtos do carrinho e criando uma nova compra
+<details>
+  <summary> <b> Finalizar uma compra, pegando os produtos do carrinho e criando uma nova compra </b> </summary>
 
----
+</details>
 
-#### TODO (User) Fazer o pagamento de uma compra
+<details>
+  <summary> <b> Fazer o pagamento de uma compra </b> </summary>
 
----
+</details>
 
-#### TODO (User) Cancelar uma compra
+<details>
+  <summary> <b> Cancelar uma compra </b> </summary>
 
----
+</details>
 
-#### TODO (User) Mostrar o histórico de compras
+<details>
+  <summary> <b> Mostrar o histórico de compras </b> </summary>
 
----
+</details>
 
-#### TODO (User) Mostrar o carrinho
+<details>
+  <summary> <b> Mostrar o carrinho </b> </summary>
 
----
+</details>
 
-#### TODO (User) Mostrar os dados do usuário
+<details>
+  <summary> <b> Mostrar os dados do usuário </b> </summary>
 
----
+</details>
 
-#### TODO (User) Atualizar email do usuário
+<details>
+  <summary> <b> Atualizar email do usuário </b> </summary>
 
----
+</details>
 
-#### TODO (User) Atualizar os dados do usuário
+<details>
+  <summary> <b> Atualizar os dados do usuário </b> </summary>
 
----
+</details>
 
-#### TODO (User) Atualizar a senha do usuário
+<details>
+  <summary> <b> Atualizar a senha do usuário </b> </summary>
 
----
+</details>
 
-#### TODO (User) Atualizar o número de telefone do usuário
+<details>
+  <summary> <b> Atualizar o número de telefone do usuário </b> </summary>
 
----
+</details>
 
-#### TODO (User) Desativar o usuário
+<details>
+  <summary> <b> Desativar o usuário </b> </summary>
 
----
+</details>
 
-#### TODO (User) Remover usuário
+<details>
+  <summary> <b> Remover usuário </b> </summary>
+
+</details>
+
+### Serviços
 
 ---
