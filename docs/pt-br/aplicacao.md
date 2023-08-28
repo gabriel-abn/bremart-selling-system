@@ -118,100 +118,209 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   <summary> <b> Adicionar um endereço de entrega </b> </summary>
 
 - DOING (User) add-address
-- Receber o email do usuário e os dados do endereço
+- Receber o id do usuário e os dados do endereço
   - Casos de erro:
-    - Email não encontrado
+    - ID do usuário não encontrado
     - Endereço já cadastrado
     - Formato do endereço inválido
-  - Caso de sucesso:
-    - ID do endereço criptografado
-    - Email do usuário
+- Caso de sucesso:
+  - ID do endereço criptografado
 
 </details>
 
 <details>
   <summary> <b> Adicionar um produto ao carrinho </b> </summary>
 
-- Receber o email do usuário e os dados do produto
+- TODO (User) add-product-to-cart
+- Receber o id do usuário e os dados do produto
   - Casos de erro:
-    - Email não encontrado
     - Produto não encontrado
     - Produto indisponível
     - Produto já adicionado ao carrinho
     - Quantidade inválida
-  - Caso de sucesso:
-    - ID do produto criptografado
-    - Email do usuário
+- Caso de sucesso:
+  - Índice do produto no carrinho
+  - Valor total do carrinho
 
 </details>
 
 <details>
   <summary> <b> Remover um produto do carrinho </b> </summary>
 
+- TODO (User) remove-product-from-cart
+- Receber o id do usuário e o id do produto
+  - Casos de erro:
+    - Produto não encontrado
+    - Produto não adicionado ao carrinho
+- Caso de sucesso:
+  - Valor total do carrinho
+
 </details>
 
 <details>
   <summary> <b> Finalizar uma compra, pegando os produtos do carrinho e criando uma nova compra </b> </summary>
+
+- TODO (User) finish-purchase
+- Receber o id do usuário
+  - Casos de erro:
+    - ID do usuário não encontrado
+- Recuperar todos os produtos do carrinho
+  - Casos de erro:
+    - Carrinho vazio
+- Criar uma nova compra com os produtos do carrinho
+- Caso de sucesso:
+  - ID da compra criptografado
+  - Valor total da compra
 
 </details>
 
 <details>
   <summary> <b> Fazer o pagamento de uma compra </b> </summary>
 
+- TODO (User) pay-purchase
+- Receber o id do usuário e o id da compra
+  - Casos de erro:
+    - ID do usuário não encontrado
+    - ID da compra não encontrado
+    - ID da compra não pertence ao usuário
+- Verificar status da compra
+  - Casos de erro:
+    - Compra já paga
+    - Compra cancelada
+- Acionar serviço de pagamento pelo método de pagamento escolhido
+- Caso de sucesso:
+  - ID da compra criptografado
+  - Valor total da compra
+
 </details>
 
 <details>
   <summary> <b> Cancelar uma compra </b> </summary>
+
+- TODO (User) cancel-purchase
+- Receber o id do usuário e o id da compra
+  - Casos de erro:
+    - ID do usuário não encontrado
+    - ID da compra não encontrado
+    - ID da compra não pertence ao usuário
+- Verificar status da compra
+  - Casos de erro:
+    - Compra já paga
+    - Compra já cancelada
+- Caso de sucesso:
+  - ID da compra criptografado
+  - Data de cancelamento
 
 </details>
 
 <details>
   <summary> <b> Mostrar o histórico de compras do usuário </b> </summary>
 
+- TODO (User) show-purchase-history
+- Receber o id do usuário
+  - Casos de erro:
+    - ID do usuário não encontrado
+- Recuperar todas as compras do usuário
+- Caso de sucesso:
+  - ID do usuário criptografado
+  - Lista de compras
+
 </details>
 
 <details>
   <summary> <b> Mostrar o carrinho </b> </summary>
+
+- TODO (User) show-cart
+- Receber o id do usuário
+  - Casos de erro:
+    - ID do usuário não encontrado
+- Recuperar todos os produtos do carrinho
+- Caso de sucesso:
+  - ID do usuário criptografado
+  - Lista de produtos do carrinho
 
 </details>
 
 <details>
   <summary> <b> Mostrar os dados do usuário </b> </summary>
 
-</details>
-
-<details>
-  <summary> <b> Atualizar email do usuário </b> </summary>
+- TODO (User) get-user
+- Receber o id do usuário
+  - Casos de erro:
+    - ID do usuário não encontrado
+- Caso de sucesso:
+  - ID do usuário criptografado
+  - Dados do usuário
+    - Nome
+    - CPF
+    - Email
+    - Data de nascimento
+    - Telefone
 
 </details>
 
 <details>
   <summary> <b> Atualizar os dados do usuário </b> </summary>
 
+- TODO (User) update-user
+- Receber o id do usuário e os dados do usuário
+  - Casos de erro:
+    - ID do usuário não encontrado
+    - Formato da data de nascimento inválida
+    - Formato do telefone inválido
+
 </details>
 
 <details>
-  <summary> <b> Atualizar a senha do usuário </b> </summary>
+  <summary> <b> Alterar a senha do usuário </b> </summary>
+
+- TODO (User) change-password
 
 </details>
 
 <details>
   <summary> <b> Atualizar o número de telefone do usuário </b> </summary>
 
+- TODO (User) change-phone-number
+
 </details>
 
 <details>
   <summary> <b> Desativar o usuário </b> </summary>
+
+- TODO (User) disable-user
+- Receber o id do usuário
+  - Casos de erro:
+    - ID do usuário não encontrado
+    - Usuário já desativado
+- Desativar o usuário
+- Caso de sucesso:
+  - ID do usuário criptografado
+  - Email do usuário
 
 </details>
 
 <details>
   <summary> <b> Remover usuário </b> </summary>
 
+- TODO (User) remove-user
+- Receber o id do usuário
+  - Casos de erro:
+    - ID do usuário não encontrado
+- Remover o usuário
+- Caso de sucesso:
+  - ID do usuário criptografado
+  - Email do usuário
+
 </details>
 
 <details>
   <summary> <b> Recuperar todos os usuários </b> </summary>
+
+- DOING (User) get-all-users
+- Recuperar todos os usuários
+- Caso de sucesso:
+  - Lista de usuários
 
 </details>
 
