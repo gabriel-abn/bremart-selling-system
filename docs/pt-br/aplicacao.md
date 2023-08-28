@@ -275,6 +275,27 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   <summary> <b> Alterar a senha do usuário </b> </summary>
 
 - TODO (User) change-password
+- Receber o email do usuário e um campo opcional contendo um token de verificação e a nova senha
+- Se o caso de uso receber apenas o email do usuário:
+  - Enviar um email para o usuário com um link para alterar a senha
+    - Casos de erro:
+      - Email não encontrado
+  - Caso de sucesso:
+    - Email do usuário
+    - Token de verificação
+    - Tempo máximo de espera para verificação do email
+- Se o caso de uso receber o email do usuário, a senha e o token de verificação:
+  - Verificar se o token corresponde com o email do usuário
+    - Casos de erro:
+      - Token expirado
+      - Token não corresponde com o email do usuário
+      - Email inválido
+  - Alterar a senha do usuário
+    - Casos de erro:
+      - Email não encontrado
+  - Caso de sucesso:
+    - Email do usuário
+    - Senha criptografada
 
 </details>
 
@@ -282,6 +303,29 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
   <summary> <b> Atualizar o número de telefone do usuário </b> </summary>
 
 - TODO (User) change-phone-number
+- Receber o id do usuário e um campo opcional contendo um token de verificação e o novo número de telefone
+- Se receber o id do usuário e o novo número de telefone
+  - Enviar um código de verificação para o novo número de telefone
+    - Casos de erro:
+      - ID do usuário não encontrado
+      - Formato do telefone inválido
+  - Caso de sucesso:
+    - Id do usuário criptografado
+    - Token de verificação
+    - Tempo máximo de espera para verificação do número de telefone
+- Se receber o id do usuário, o novo número de telefone e o token de verificação
+  - Verificar se o código corresponde com o número de telefone do usuário
+    - Casos de erro:
+      - Código expirado
+      - Código não corresponde com o número de telefone do usuário
+      - Número de telefone inválido
+  - Alterar o número de telefone do usuário
+    - Casos de erro:
+      - ID do usuário não encontrado
+      - Formato do telefone inválido
+  - Caso de sucesso:
+    - ID do usuário criptografado
+    - Número de telefone
 
 </details>
 
