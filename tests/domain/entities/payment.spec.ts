@@ -1,5 +1,5 @@
 import { DomainError } from "@domain/common";
-import { PaymentStatus } from "@domain/payment";
+import { PaymentStatus } from "@domain/entities";
 import { mockPayment } from "@test-domain/mocks";
 
 describe("Payment business rules", () => {

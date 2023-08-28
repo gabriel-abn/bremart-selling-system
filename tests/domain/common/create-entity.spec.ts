@@ -1,5 +1,5 @@
 import { Entity } from "@domain/common";
-import { PurchaseProps } from "@domain/purchase";
+import { PurchaseProps } from "@domain/entities";
 import { mockCompletePurchase } from "@test-domain/mocks";
 
 describe("Create Entity", () => {
