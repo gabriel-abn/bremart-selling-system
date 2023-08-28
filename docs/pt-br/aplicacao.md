@@ -12,6 +12,13 @@ Os **casos de uso** serão os processos da aplicação os quais os atores serão
 
 Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema, ou seja, serão processos internos da aplicação.
 
+Todo caso de uso ou serviço tem seus casos de erro e casos de sucesso. Os casos de erro devem ser identificados por um nome e uma descrição.
+
+Exemplo:
+
+- Caso de erro:
+  - CPF já presente no repositório (`CPF_EXISTS`: "CPF já presente no repositório.")
+
 ---
 
 ## User
@@ -24,11 +31,11 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - DOING (User) register-user
 - Receber nome, cpf, email, data de nascimento e telefone
   - Casos de erro:
-    - CPF já presente no repositório
-    - CPF inválido
-    - Email inválido
-    - Formato da data de nascimento inválida
-    - Telefone inválido
+    - CPF já presente no repositório (`CPF_EXISTS`: "CPF já presente no repositório.")
+    - CPF inválido (`INVALID_CPF`: "CPF inválido.")
+    - Email inválido (`INVALID_EMAIL`: "Email inválido.")
+    - Formato da data de nascimento inválida (`INVALID_DATE_FORMAT`: "Formato da data de nascimento inválida.")
+    - Telefone inválido (`INVALID_PHONE_NUMBER`: "Telefone inválido.")
 - A senha deve ser gerada automaticamente
 - A senha deve ser criptografada antes do armazenamento
 - O usuário deve receber um email de confirmação
@@ -47,10 +54,10 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - Receber o email do usuário e o token de verificação
 - Verificar se o token corresponde com o email do usuário
   - Casos de erro:
-    - Token expirado
-    - Token não corresponde com o email do usuário
-    - Email inválido
-    - Email já verificado
+    - Token expirado (`EXPIRED_TOKEN`: "Token expirado.")
+    - Token não corresponde com o email do usuário (`INVALID_TOKEN`: "Token não corresponde com o email do usuário.")
+    - Email inválido (`INVALID_EMAIL`: "Email inválido.")
+    - Email já verificado (`EMAIL_ALREADY_VERIFIED`: "Email já verificado.")
 - Caso de Sucesso:
   - ID do usuário criptografado
   - Email do usuário
@@ -65,10 +72,10 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - Receber o número de telefone do usuário e o código de verificação
 - Verificar se o código corresponde com o número de telefone do usuário
   - Casos de erro:
-    - Código expirado
-    - Código não corresponde com o número de telefone do usuário
-    - Número de telefone inválido
-    - Número de telefone já verificado
+    - Código expirado (`EXPIRED_CODE`: "Código expirado.")
+    - Código não corresponde com o número de telefone do usuário (`INVALID_CODE`: "Código não corresponde com o número de telefone do usuário.")
+    - Número de telefone inválido (`INVALID_PHONE_NUMBER`: "Número de telefone inválido.")
+    - Número de telefone já verificado (`PHONE_NUMBER_ALREADY_VERIFIED`: "Número de telefone já verificado.")
 - Caso de sucesso:
   - Email do usuário
   - Confirmação de verificação do número de telefone
@@ -81,12 +88,12 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - DOING (User) sign-in
 - Receber nome, cpf, email, data de nascimento e telefone
   - Casos de erro:
-    - CPF já presente no repositório
-    - CPF inválido
-    - Email já presente no repositório
-    - Email inválido
-    - Formato da data de nascimento inválida
-    - Formato do telefone inválido
+    - CPF já presente no repositório (`CPF_EXISTS`: "CPF já presente no repositório.")
+    - CPF inválido (`INVALID_CPF`: "CPF inválido.")
+    - Email já presente no repositório (`EMAIL_EXISTS`: "Email já presente no repositório.")
+    - Email inválido (`INVALID_EMAIL`: "Email inválido.")
+    - Formato da data de nascimento inválida (`INVALID_DATE_FORMAT`: "Formato da data de nascimento inválida.")
+    - Formato do telefone inválido (`INVALID_PHONE_NUMBER_FORMAT`: "Formato do telefone inválido.")
 - Mandar email de verificação
 - Caso de sucesso:
   - ID do usuário criptografado
@@ -102,12 +109,12 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - Receber email e senha
 - Recuperar senha criptografada do usuário
   - Casos de erro:
-    - Email não encontrado
-    - Email não verificado
+    - Email não encontrado (`EMAIL_NOT_FOUND`: "Email não encontrado.")
+    - Email não verificado (`EMAIL_NOT_VERIFIED`: "Email não verificado.")
 - Verificar se a senha informada e a senha descriptografada são iguais
   - Casos de erro:
-    - Senha inválida
-    - Usuário desativado
+    - Senha inválida (`INVALID_PASSWORD`: "Senha inválida.")
+    - Usuário desativado (`USER_DISABLED`: "Usuário desativado.")
 - Caso de sucesso:
   - Informações do usuário
   - Token de autenticação
@@ -120,9 +127,9 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - DOING (User) add-address
 - Receber o id do usuário e os dados do endereço
   - Casos de erro:
-    - ID do usuário não encontrado
-    - Endereço já cadastrado
-    - Formato do endereço inválido
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+    - Endereço já cadastrado (`ADDRESS_ALREADY_EXISTS`: "Endereço já cadastrado.")
+    - Formato do endereço inválido (`INVALID_ADDRESS_FORMAT`: "Formato do endereço inválido.")
 - Caso de sucesso:
   - ID do endereço criptografado
 
@@ -134,10 +141,10 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - TODO (User) add-product-to-cart
 - Receber o id do usuário e os dados do produto
   - Casos de erro:
-    - Produto não encontrado
-    - Produto indisponível
-    - Produto já adicionado ao carrinho
-    - Quantidade inválida
+    - Produto não encontrado (`PRODUCT_NOT_FOUND`: "Produto não encontrado.")
+    - Produto indisponível (`PRODUCT_UNAVAILABLE`: "Produto indisponível.")
+    - Produto já adicionado ao carrinho (`PRODUCT_ALREADY_ADDED`: "Produto já adicionado ao carrinho.")
+    - Quantidade inválida (`INVALID_QUANTITY`: "Quantidade inválida.")
 - Caso de sucesso:
   - Índice do produto no carrinho
   - Valor total do carrinho
@@ -150,8 +157,8 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - TODO (User) remove-product-from-cart
 - Receber o id do usuário e o id do produto
   - Casos de erro:
-    - Produto não encontrado
-    - Produto não adicionado ao carrinho
+    - Produto não encontrado (`PRODUCT_NOT_FOUND`: "Produto não encontrado.")
+    - Produto não adicionado ao carrinho (`PRODUCT_NOT_ADDED`: "Produto não adicionado ao carrinho.")
 - Caso de sucesso:
   - Valor total do carrinho
 
@@ -163,10 +170,10 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - TODO (User) finish-purchase
 - Receber o id do usuário
   - Casos de erro:
-    - ID do usuário não encontrado
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
 - Recuperar todos os produtos do carrinho
   - Casos de erro:
-    - Carrinho vazio
+    - Carrinho vazio (`EMPTY_CART`: "Carrinho vazio.")
 - Criar uma nova compra com os produtos do carrinho
 - Caso de sucesso:
   - ID da compra criptografado
@@ -180,13 +187,13 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - TODO (User) pay-purchase
 - Receber o id do usuário e o id da compra
   - Casos de erro:
-    - ID do usuário não encontrado
-    - ID da compra não encontrado
-    - ID da compra não pertence ao usuário
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+    - ID da compra não encontrado (`PURCHASE_NOT_FOUND`: "ID da compra não encontrado.")
+    - ID da compra não pertence ao usuário (`PURCHASE_NOT_BELONG_TO_USER`: "ID da compra não pertence ao usuário.")
 - Verificar status da compra
   - Casos de erro:
-    - Compra já paga
-    - Compra cancelada
+    - Compra já paga (`PURCHASE_ALREADY_PAID`: "Compra já paga.")
+    - Compra cancelada (`PURCHASE_CANCELED`: "Compra cancelada.")
 - Acionar serviço de pagamento pelo método de pagamento escolhido
 - Caso de sucesso:
   - ID da compra criptografado
@@ -200,13 +207,13 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - TODO (User) cancel-purchase
 - Receber o id do usuário e o id da compra
   - Casos de erro:
-    - ID do usuário não encontrado
-    - ID da compra não encontrado
-    - ID da compra não pertence ao usuário
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+    - ID da compra não encontrado (`PURCHASE_NOT_FOUND`: "ID da compra não encontrado.")
+    - ID da compra não pertence ao usuário (`PURCHASE_NOT_BELONG_TO_USER`: "ID da compra não pertence ao usuário.")
 - Verificar status da compra
   - Casos de erro:
-    - Compra já paga
-    - Compra já cancelada
+    - Compra já paga (`PURCHASE_ALREADY_PAID`: "Compra já paga.")
+    - Compra já cancelada (`PURCHASE_CANCELED`: "Compra cancelada.")
 - Caso de sucesso:
   - ID da compra criptografado
   - Data de cancelamento
@@ -219,7 +226,7 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - TODO (User) show-purchase-history
 - Receber o id do usuário
   - Casos de erro:
-    - ID do usuário não encontrado
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
 - Recuperar todas as compras do usuário
 - Caso de sucesso:
   - ID do usuário criptografado
@@ -233,7 +240,7 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - TODO (User) show-cart
 - Receber o id do usuário
   - Casos de erro:
-    - ID do usuário não encontrado
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
 - Recuperar todos os produtos do carrinho
 - Caso de sucesso:
   - ID do usuário criptografado
@@ -247,7 +254,7 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - TODO (User) get-user
 - Receber o id do usuário
   - Casos de erro:
-    - ID do usuário não encontrado
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
 - Caso de sucesso:
   - ID do usuário criptografado
   - Dados do usuário
@@ -279,7 +286,7 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - Se o caso de uso receber apenas o email do usuário:
   - Enviar um email para o usuário com um link para alterar a senha
     - Casos de erro:
-      - Email não encontrado
+      - Email não encontrado (`EMAIL_NOT_FOUND`: "Email não encontrado.")
   - Caso de sucesso:
     - Email do usuário
     - Token de verificação
@@ -287,12 +294,12 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - Se o caso de uso receber o email do usuário, a senha e o token de verificação:
   - Verificar se o token corresponde com o email do usuário
     - Casos de erro:
-      - Token expirado
-      - Token não corresponde com o email do usuário
-      - Email inválido
+      - Token expirado (`EXPIRED_TOKEN`: "Token expirado.")
+      - Token não corresponde com o email do usuário (`INVALID_TOKEN`: "Token não corresponde com o email do usuário.")
+      - Email inválido (`INVALID_EMAIL`: "Email inválido.")
   - Alterar a senha do usuário
     - Casos de erro:
-      - Email não encontrado
+      - Email não encontrado (`EMAIL_NOT_FOUND`: "Email não encontrado.")
   - Caso de sucesso:
     - Email do usuário
     - Senha criptografada
@@ -307,8 +314,8 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - Se receber o id do usuário e o novo número de telefone
   - Enviar um código de verificação para o novo número de telefone
     - Casos de erro:
-      - ID do usuário não encontrado
-      - Formato do telefone inválido
+      - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+      - Formato do telefone inválido (`INVALID_PHONE_NUMBER_FORMAT`: "Formato do telefone inválido.")
   - Caso de sucesso:
     - Id do usuário criptografado
     - Token de verificação
@@ -316,13 +323,13 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - Se receber o id do usuário, o novo número de telefone e o token de verificação
   - Verificar se o código corresponde com o número de telefone do usuário
     - Casos de erro:
-      - Código expirado
-      - Código não corresponde com o número de telefone do usuário
-      - Número de telefone inválido
+      - Código expirado (`EXPIRED_CODE`: "Código expirado.")
+      - Código não corresponde com o número de telefone do usuário (`INVALID_CODE`: "Código não corresponde com o número de telefone do usuário.")
+      - Número de telefone inválido (`INVALID_PHONE_NUMBER`: "Número de telefone inválido.")
   - Alterar o número de telefone do usuário
     - Casos de erro:
-      - ID do usuário não encontrado
-      - Formato do telefone inválido
+      - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+      - Formato do telefone inválido (`INVALID_PHONE_NUMBER_FORMAT`: "Formato do telefone inválido.")
   - Caso de sucesso:
     - ID do usuário criptografado
     - Número de telefone
@@ -335,8 +342,8 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - TODO (User) disable-user
 - Receber o id do usuário
   - Casos de erro:
-    - ID do usuário não encontrado
-    - Usuário já desativado
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+    - Usuário já desativado (`USER_DISABLED`: "Usuário já desativado.")
 - Desativar o usuário
 - Caso de sucesso:
   - ID do usuário criptografado
@@ -350,7 +357,7 @@ Os **serviços** serão os *casos de uso* os quais o ator é o próprio sistema,
 - TODO (User) remove-user
 - Receber o id do usuário
   - Casos de erro:
-    - ID do usuário não encontrado
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
 - Remover o usuário
 - Caso de sucesso:
   - ID do usuário criptografado
