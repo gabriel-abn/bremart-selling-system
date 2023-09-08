@@ -15,6 +15,18 @@ Este projeto é um microsserviço e parte de um projeto para estudos pessoais. S
 - [Princípios SOLID](https://en.wikipedia.org/wiki/SOLID)
 - [TDD](https://en.wikipedia.org/wiki/Test-driven_development)
 
+## Arquitetura
+
+### Autorização e autenticação
+
+#### Sign In
+
+![signin](../diagrams/signin.drawio.svg)
+
+#### Login
+
+![login](../diagrams/login.drawio.svg)
+
 ## Documentação
 
 A documentação do projeto está destrinchada em quatro partes, seguindo a arquitetura proposta:
