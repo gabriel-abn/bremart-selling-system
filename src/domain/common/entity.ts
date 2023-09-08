@@ -38,4 +38,8 @@ export abstract class Entity<T> {
   public getId = (): string => {
     return this.id;
   };
+
+  public toString(): string {
+    return `${this.constructor.name}: ${this.id}`;
+  }
 }
