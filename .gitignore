@@ -2,3 +2,4 @@ node_modules
 coverage
 .vscode
 todo.md
+test.ts
