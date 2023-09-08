@@ -1,12 +1,14 @@
 import { ApplicationError } from "@application/common";
 import { IUserRepository } from "@application/repositories";
-import { User, UserProps } from "@domain/user";
+import { User, UserProps } from "@domain/entities/user";
 
 export class MockUserRepository implements IUserRepository {
   public items: User[] = [];
 
   async register(user: User): Promise<{ id: string }> {
-    const exist = this.items.find((u) => u.props.cpf == user.props.cpf);
+    const exist = this.items.find(
+      (u) => u.getProps().cpf == user.getProps().cpf
+    );
 
     if (exist) {
       throw new ApplicationError(
@@ -16,12 +18,12 @@ export class MockUserRepository implements IUserRepository {
     }
 
     this.items.push(user);
-    return { id: user.id };
+    return { id: user.getId() };
   }
 
   async getById(id: string): Promise<UserProps> {
     const user = this.items.find((u) => {
-      if (u.id === id) {
+      if (u.getId() === id) {
         return u;
       }
     });
@@ -30,22 +32,22 @@ export class MockUserRepository implements IUserRepository {
       throw new ApplicationError("User not found.", "User Repository");
     }
 
-    return user.props;
+    return user.getProps();
   }
 
   async getByCPF(cpf: string): Promise<UserProps> {
     const user = this.items.find((u) => {
-      return u.props.cpf === cpf;
+      return u.getProps().cpf === cpf;
     });
 
     if (!user) {
       throw new ApplicationError("User not found.", "User Repository: ");
     }
 
-    return user.props;
+    return user.getProps();
   }
 
   async getAll(): Promise<UserProps[]> {
-    return this.items.map((u) => u.props);
+    return this.items.map((u) => u.getProps());
   }
 }
