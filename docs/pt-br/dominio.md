@@ -6,8 +6,6 @@ O domínio dessa aplicação se baseia em um sistema de vendas de uma plataforma
 
 > Todas as entidades abaixo herdam de uma classe abstrata base chamada `Entity`, que possui um atributo `id` que é o identificador único da entidade, as propriedades da classe filha, e propriedades de auditoria, como `createdAt` e `updatedAt`.
 
-- DOING Transferir os testes unitários de regras de negócio para cada entidade
-
 ### User
 
 Um **User** deve ter, no mínimo, os seguintes atributos:
@@ -55,11 +53,6 @@ type Address = {
 ```
 
 O Address será um Value Object, ou seja, ele não terá um ID próprio, mas sim a base do ID do usuário que o possui. O ID do endereço terá como base o ID do usuário. O CEP será formatado como `00000-000`.
-
-- Casos de uso:
-  - TODO (Address) Adicionar um endereço
-  - TODO (Address) Remover um endereço
-  - TODO (Address) Atualizar um endereço
 
 ---
 
@@ -133,15 +126,7 @@ Uma **Purchase** terá uma lista de produtos, um tipo de pagamento, um status, u
     - O status da compra inicial deve ser `PENDING_PAYMENT`
   - Sobre o status de entrega:
     - O status de entrega deve ser `null` inicialmente
-
-- Casos de uso:
-  - TODO (Purchase) Criar uma nova compra
-  - TODO (Purchase) Atualizar o status de pagamento
-  - TODO (Purchase) Atualizar o status de entrega
-  - TODO (Purchase) Cancelar uma compra
-  - TODO (Purchase) Mostrar os dados de uma compra
-  - TODO (Purchase) Remover uma compra
-
+  
 ---
 
 ### Payment
@@ -174,7 +159,3 @@ Um **Payment** representa um pagamento de uma compra. Ele terá um tipo de pagam
 - Regras de negócio:
   - Todo pagamento começa com o status `PENDING`
   - O tipo de pagamento deve ser um dos seguintes: `CREDIT_CARD`, `DEBIT_CARD`, `BOLETO` ou `PIX`
-
-- Casos de uso:
-  - TODO (Payment) Criar um novo pagamento pendente
-  - TODO (Payment) Atualizar o status de um pagamento

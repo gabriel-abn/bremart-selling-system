@@ -28,7 +28,7 @@ Exemplo:
 <details>
   <summary> <b> Registrar um novo usuário </b> </summary>
 
-- DOING (User) register-user
+- TEST (User) register-user
 - Receber nome, cpf, email, data de nascimento e telefone
   - Casos de erro:
     - CPF já presente no repositório (`CPF_EXISTS`: "CPF já presente no repositório.")
@@ -50,7 +50,7 @@ Exemplo:
 <details>
   <summary> <b> Verificar email </b> </summary>
 
-- DOING (User) verify-email
+- TEST (User) verify-email
 - Receber o email do usuário e o token de verificação
 - Verificar se o token corresponde com o email do usuário
   - Casos de erro:
@@ -68,7 +68,7 @@ Exemplo:
 <details>
   <summary> <b> Verificar número de telefone </b> </summary>
 
-- DOING (User) verify-phone
+- TEST (User) verify-phone
 - Receber o número de telefone do usuário e o código de verificação
 - Verificar se o código corresponde com o número de telefone do usuário
   - Casos de erro:
@@ -83,48 +83,9 @@ Exemplo:
 </details>
 
 <details>
-  <summary> <b> Fazer Sign In </b> </summary>
-
-- DOING (User) sign-in
-- Receber nome, cpf, email, data de nascimento e telefone
-  - Casos de erro:
-    - CPF já presente no repositório (`CPF_EXISTS`: "CPF já presente no repositório.")
-    - CPF inválido (`INVALID_CPF`: "CPF inválido.")
-    - Email já presente no repositório (`EMAIL_EXISTS`: "Email já presente no repositório.")
-    - Email inválido (`INVALID_EMAIL`: "Email inválido.")
-    - Formato da data de nascimento inválida (`INVALID_DATE_FORMAT`: "Formato da data de nascimento inválida.")
-    - Formato do telefone inválido (`INVALID_PHONE_NUMBER_FORMAT`: "Formato do telefone inválido.")
-- Mandar email de verificação
-- Caso de sucesso:
-  - ID do usuário criptografado
-  - Email do usuário
-  - Tempo máximo de espera para verificação do email
-
-</details>
-
-<details>
-  <summary> <b> Fazer Login </b> </summary>
-
-- DOING (User) login
-- Receber email e senha
-- Recuperar senha criptografada do usuário
-  - Casos de erro:
-    - Email não encontrado (`EMAIL_NOT_FOUND`: "Email não encontrado.")
-    - Email não verificado (`EMAIL_NOT_VERIFIED`: "Email não verificado.")
-- Verificar se a senha informada e a senha descriptografada são iguais
-  - Casos de erro:
-    - Senha inválida (`INVALID_PASSWORD`: "Senha inválida.")
-    - Usuário desativado (`USER_DISABLED`: "Usuário desativado.")
-- Caso de sucesso:
-  - Informações do usuário
-  - Token de autenticação
-
-</details>
-
-<details>
   <summary> <b> Adicionar um endereço de entrega </b> </summary>
 
-- DOING (User) add-address
+- TEST (User) add-address
 - Receber o id do usuário e os dados do endereço
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
@@ -138,7 +99,7 @@ Exemplo:
 <details>
   <summary> <b> Adicionar um produto ao carrinho </b> </summary>
 
-- TODO (User) add-product-to-cart
+- DOING (User) add-product-to-cart
 - Receber o id do usuário e os dados do produto
   - Casos de erro:
     - Produto não encontrado (`PRODUCT_NOT_FOUND`: "Produto não encontrado.")
@@ -154,69 +115,13 @@ Exemplo:
 <details>
   <summary> <b> Remover um produto do carrinho </b> </summary>
 
-- TODO (User) remove-product-from-cart
+- DOING (User) remove-product-from-cart
 - Receber o id do usuário e o id do produto
   - Casos de erro:
     - Produto não encontrado (`PRODUCT_NOT_FOUND`: "Produto não encontrado.")
     - Produto não adicionado ao carrinho (`PRODUCT_NOT_ADDED`: "Produto não adicionado ao carrinho.")
 - Caso de sucesso:
   - Valor total do carrinho
-
-</details>
-
-<details>
-  <summary> <b> Finalizar uma compra, pegando os produtos do carrinho e criando uma nova compra </b> </summary>
-
-- TODO (User) finish-purchase
-- Receber o id do usuário
-  - Casos de erro:
-    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
-- Recuperar todos os produtos do carrinho
-  - Casos de erro:
-    - Carrinho vazio (`EMPTY_CART`: "Carrinho vazio.")
-- Criar uma nova compra com os produtos do carrinho
-- Caso de sucesso:
-  - ID da compra criptografado
-  - Valor total da compra
-
-</details>
-
-<details>
-  <summary> <b> Fazer o pagamento de uma compra </b> </summary>
-
-- TODO (User) pay-purchase
-- Receber o id do usuário e o id da compra
-  - Casos de erro:
-    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
-    - ID da compra não encontrado (`PURCHASE_NOT_FOUND`: "ID da compra não encontrado.")
-    - ID da compra não pertence ao usuário (`PURCHASE_NOT_BELONG_TO_USER`: "ID da compra não pertence ao usuário.")
-- Verificar status da compra
-  - Casos de erro:
-    - Compra já paga (`PURCHASE_ALREADY_PAID`: "Compra já paga.")
-    - Compra cancelada (`PURCHASE_CANCELED`: "Compra cancelada.")
-- Acionar serviço de pagamento pelo método de pagamento escolhido
-- Caso de sucesso:
-  - ID da compra criptografado
-  - Valor total da compra
-
-</details>
-
-<details>
-  <summary> <b> Cancelar uma compra </b> </summary>
-
-- TODO (User) cancel-purchase
-- Receber o id do usuário e o id da compra
-  - Casos de erro:
-    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
-    - ID da compra não encontrado (`PURCHASE_NOT_FOUND`: "ID da compra não encontrado.")
-    - ID da compra não pertence ao usuário (`PURCHASE_NOT_BELONG_TO_USER`: "ID da compra não pertence ao usuário.")
-- Verificar status da compra
-  - Casos de erro:
-    - Compra já paga (`PURCHASE_ALREADY_PAID`: "Compra já paga.")
-    - Compra já cancelada (`PURCHASE_CANCELED`: "Compra cancelada.")
-- Caso de sucesso:
-  - ID da compra criptografado
-  - Data de cancelamento
 
 </details>
 
@@ -281,7 +186,7 @@ Exemplo:
 <details>
   <summary> <b> Alterar a senha do usuário </b> </summary>
 
-- TODO (User) change-password
+- DOING (User) change-password
 - Receber o email do usuário e um campo opcional contendo um token de verificação e a nova senha
 - Se o caso de uso receber apenas o email do usuário:
   - Enviar um email para o usuário com um link para alterar a senha
@@ -294,12 +199,10 @@ Exemplo:
 - Se o caso de uso receber o email do usuário, a senha e o token de verificação:
   - Verificar se o token corresponde com o email do usuário
     - Casos de erro:
+      - Email não encontrado (`EMAIL_NOT_FOUND`: "Email não encontrado.")
       - Token expirado (`EXPIRED_TOKEN`: "Token expirado.")
       - Token não corresponde com o email do usuário (`INVALID_TOKEN`: "Token não corresponde com o email do usuário.")
-      - Email inválido (`INVALID_EMAIL`: "Email inválido.")
   - Alterar a senha do usuário
-    - Casos de erro:
-      - Email não encontrado (`EMAIL_NOT_FOUND`: "Email não encontrado.")
   - Caso de sucesso:
     - Email do usuário
     - Senha criptografada
@@ -384,7 +287,38 @@ Exemplo:
 ### Casos de uso
 
 <details>
-  <summary> <b> Criar uma nova compra </b> </summary>
+  <summary> <b> Finalizar uma compra, pegando os produtos do carrinho e criando uma nova compra </b> </summary>
+
+- TODO (Purchase) create-purchase
+- Receber o id do usuário
+  - Casos de erro:
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+- Recuperar todos os produtos do carrinho
+  - Casos de erro:
+    - Carrinho vazio (`EMPTY_CART`: "Carrinho vazio.")
+- Criar uma nova compra com os produtos do carrinho
+- Caso de sucesso:
+  - ID da compra criptografado
+  - Valor total da compra
+
+</details>
+
+<details>
+  <summary> <b> Cancelar uma compra </b> </summary>
+
+- DOING (Purchase) cancel-purchase
+- Receber o id do usuário e o id da compra
+  - Casos de erro:
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+    - ID da compra não encontrado (`PURCHASE_NOT_FOUND`: "ID da compra não encontrado.")
+    - ID da compra não pertence ao usuário (`PURCHASE_NOT_BELONG_TO_USER`: "ID da compra não pertence ao usuário.")
+- Verificar status da compra
+  - Casos de erro:
+    - Compra já cancelada (`PURCHASE_CANCELED`: "Compra cancelada.")
+    - Compra já entregue (`PURCHASE_ALREADY_DELIVERED`: "Compra já entregue.")
+- Caso de sucesso:
+  - ID da compra criptografado
+  - Data de cancelamento
 
 </details>
 
@@ -397,8 +331,64 @@ Exemplo:
 ### Casos de uso
 
 <details>
-  <summary> <b> Registrar um pagamento </b> </summary>
+  <summary> <b> Fazer o pagamento de uma compra </b> </summary>
+
+- TODO (Payment) create-payment
+- Receber o id do usuário e o id da compra
+  - Casos de erro:
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+    - ID da compra não encontrado (`PURCHASE_NOT_FOUND`: "ID da compra não encontrado.")
+    - ID da compra não pertence ao usuário (`PURCHASE_NOT_BELONG_TO_USER`: "ID da compra não pertence ao usuário.")
+- Verificar status da compra
+  - Casos de erro:
+    - Compra já paga (`PURCHASE_ALREADY_PAID`: "Compra já paga.")
+    - Compra cancelada (`PURCHASE_CANCELED`: "Compra cancelada.")
+- Acionar serviço de pagamento pelo método de pagamento escolhido
+- Caso de sucesso:
+  - ID da compra criptografado
+  - Valor total da compra
+
+</details>
+
+<details>
+  <summary> <b> Atualizar o status de pagamento de uma compra </b> </summary>
+
+- FIXME (Purchase) update-payment-status
+- Receber o id do usuário e o id da compra
+  - Casos de erro:
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+    - ID da compra não encontrado (`PURCHASE_NOT_FOUND`: "ID da compra não encontrado.")
+    - ID da compra não pertence ao usuário (`PURCHASE_NOT_BELONG_TO_USER`: "ID da compra não pertence ao usuário.")
+- Verificar status da compra
+  - Casos de erro:
+    - Compra já paga (`PURCHASE_ALREADY_PAID`: "Compra já paga.")
+    - Compra cancelada (`PURCHASE_CANCELED`: "Compra cancelada.")
 
 </details>
 
 ### Serviços
+
+<details>
+  <summary> <b> Pagamento no cartão de crédito </b> </summary>
+
+- TODO (Payment) credit-card-payment
+
+</details>
+<details>
+  <summary> <b> Pagamento no cartão de débito </b> </summary>
+
+- TODO (Payment) debit-card-payment
+
+</details>
+<details>
+  <summary> <b> Pagamento no boleto </b> </summary>
+
+- TODO (Payment) bank-slip-payment
+
+</details>
+<details>
+  <summary> <b> Pagamento no pix </b> </summary>
+
+- TODO (Payment) pix-payment
+
+</details>
