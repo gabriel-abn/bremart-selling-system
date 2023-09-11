@@ -99,7 +99,7 @@ Exemplo:
 <details>
   <summary> <b> Adicionar um produto ao carrinho </b> </summary>
 
-- DOING (User) add-product-to-cart
+- TEST (User) add-product-to-cart
 - Receber o id do usuário e os dados do produto
   - Casos de erro:
     - Produto não encontrado (`PRODUCT_NOT_FOUND`: "Produto não encontrado.")
@@ -115,12 +115,13 @@ Exemplo:
 <details>
   <summary> <b> Remover um produto do carrinho </b> </summary>
 
-- DOING (User) remove-product-from-cart
+- TEST (User) remove-product-from-cart
 - Receber o id do usuário e o id do produto
   - Casos de erro:
     - Produto não encontrado (`PRODUCT_NOT_FOUND`: "Produto não encontrado.")
     - Produto não adicionado ao carrinho (`PRODUCT_NOT_ADDED`: "Produto não adicionado ao carrinho.")
 - Caso de sucesso:
+  - Status
   - Valor total do carrinho
 
 </details>
@@ -186,7 +187,7 @@ Exemplo:
 <details>
   <summary> <b> Alterar a senha do usuário </b> </summary>
 
-- DOING (User) change-password
+- TEST (User) change-password
 - Receber o email do usuário e um campo opcional contendo um token de verificação e a nova senha
 - Se o caso de uso receber apenas o email do usuário:
   - Enviar um email para o usuário com um link para alterar a senha
@@ -271,7 +272,7 @@ Exemplo:
 <details>
   <summary> <b> Recuperar todos os usuários </b> </summary>
 
-- DOING (User) get-all-users
+- TEST (User) get-all-users
 - Recuperar todos os usuários
 - Caso de sucesso:
   - Lista de usuários
