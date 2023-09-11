@@ -1,12 +1,7 @@
-import { UseCase } from "@application/common";
 import { IUserRepository } from "@application/repositories";
-import { UserProps } from "@domain/user";
+import { GetAllUsers } from "@domain/use-cases/user";
 
-export namespace GetAllUsers {
-  export type Result = UserProps[];
-}
-
-export class GetAllUsersUseCase implements UseCase<void, GetAllUsers.Result> {
+export class GetAllUsersUseCase implements GetAllUsers {
   constructor(private readonly repository: IUserRepository) {}
 
   async execute(): Promise<GetAllUsers.Result> {

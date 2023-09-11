@@ -1,6 +1,7 @@
 import { GetAllUsersUseCase } from "@application/use-cases/user";
 import { MockUserRepository } from "@test-application/mocks/repositories";
 import { mockUser } from "@test-domain/mocks/mock-user";
+import { describe, expect, it } from "vitest";
 
 const makeSut = () => {
   const repository = new MockUserRepository();
