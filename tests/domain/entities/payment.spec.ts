@@ -1,6 +1,7 @@
 import { DomainError } from "@domain/common";
 import { PaymentStatus } from "@domain/entities";
 import { mockPayment } from "@test-domain/mocks";
+import { describe, expect, it } from "vitest";
 
 describe("Payment business rules", () => {
   describe("Payment status", () => {

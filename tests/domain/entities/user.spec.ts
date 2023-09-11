@@ -1,5 +1,6 @@
 import { DomainError } from "@domain/common/domain-error";
 import { mockUser } from "@test-domain/mocks/mock-user";
+import { describe, expect, it } from "vitest";
 
 describe("User business rules", () => {
   it("should throw if user has less than 18 years old", () => {

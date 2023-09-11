@@ -1,6 +1,7 @@
 import { Entity } from "@domain/common";
 import { PurchaseProps } from "@domain/entities";
 import { mockCompletePurchase } from "@test-domain/mocks";
+import { describe, expect, it } from "vitest";
 
 describe("Create Entity", () => {
   it("should be able to create an entity", () => {

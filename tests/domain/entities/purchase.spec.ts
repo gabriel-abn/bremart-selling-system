@@ -1,6 +1,7 @@
 import { DomainError } from "@domain/common/domain-error";
 import { PaymentType, PurchaseStatus } from "@domain/entities";
 import { mockCompletePurchase, mockProduct } from "@test-domain/mocks";
+import { describe, expect, it } from "vitest";
 
 describe("Purchase business rules", () => {
   it("should throw if user id is not provided", () => {
