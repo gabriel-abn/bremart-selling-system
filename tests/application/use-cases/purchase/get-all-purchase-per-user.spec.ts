@@ -6,6 +6,7 @@ import {
 } from "@test-application/mocks/repositories";
 import { mockCompletePurchase } from "@test-domain/mocks";
 import { mockUser } from "@test-domain/mocks/mock-user";
+import { describe, expect, it } from "vitest";
 
 const makeSut = () => {
   const userRepository = new MockUserRepository();

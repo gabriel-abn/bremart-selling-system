@@ -1,6 +1,7 @@
 import { DeletePurchaseUseCase } from "@application/use-cases/purchase";
 import { MockPurchaseRepository } from "@test-application/mocks/repositories";
 import { mockCompletePurchase } from "@test-domain/mocks";
+import { beforeAll, describe, expect, it } from "vitest";
 
 const repository = new MockPurchaseRepository();
 const sut = new DeletePurchaseUseCase(repository);
