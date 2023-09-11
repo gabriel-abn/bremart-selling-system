@@ -129,7 +129,7 @@ Exemplo:
 <details>
   <summary> <b> Mostrar o histórico de compras do usuário </b> </summary>
 
-- TODO (User) show-purchase-history
+- TEST (User) show-purchase-history
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
