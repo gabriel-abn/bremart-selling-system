@@ -1,16 +1,14 @@
 import { ApplicationError, UseCase } from "@application/common";
 import {
-  IPurchaseItemRepository,
+  IProductRepository,
   IPurchaseRepository,
 } from "@application/repositories";
-import { PaymentType } from "@domain/payment-type";
-import { Purchase } from "@domain/purchase";
-import { PurchaseItemProps } from "@domain/purchase-item";
+import { PaymentType, Product } from "@domain/entities";
 
 export namespace EditPurchase {
   export type Params = {
     id: string;
-    items: PurchaseItemProps[];
+    items: Product[];
     paymentType: PaymentType;
   };
   export type Result = {
@@ -25,7 +23,7 @@ export class EditPurchaseUseCase
 {
   constructor(
     private purchaseRepository: IPurchaseRepository,
-    private purchaseItemRepository: IPurchaseItemRepository
+    private purchaseItemRepository: IProductRepository
   ) {}
 
   async execute(data: EditPurchase.Params): Promise<EditPurchase.Result> {
@@ -52,14 +50,10 @@ export class EditPurchaseUseCase
       );
     }
 
-    const purchase = Purchase.create({ ...data });
-
-    const edit = await this.purchaseRepository.edit(purchase);
-
     return {
-      id: edit.id,
-      total: edit.total,
-      userId: edit.userId,
+      id: "",
+      total: 3,
+      userId: "",
     };
   }
 }

@@ -1,5 +1,5 @@
 import { IPurchaseRepository } from "@application/repositories";
-import { Purchase, PurchaseProps } from "@domain/purchase";
+import { Purchase, PurchaseProps } from "@domain/entities";
 
 export class MockPurchaseRepository implements IPurchaseRepository {
   private items: Purchase[] = [];
@@ -7,36 +7,36 @@ export class MockPurchaseRepository implements IPurchaseRepository {
   async create(purchase: Purchase): Promise<{ id: string }> {
     this.items.push(purchase);
 
-    return { id: purchase.id };
+    return { id: purchase.getId() };
   }
 
   async findById(id: string): Promise<PurchaseProps> {
-    const purchase = this.items.find((purchase) => purchase.id === id);
+    const purchase = this.items.find((purchase) => purchase.getId() === id);
 
     if (purchase) {
-      return purchase.props;
+      return purchase.getProps();
     }
 
     return null;
   }
 
   async getAll(): Promise<PurchaseProps[]> {
-    return this.items.map((p) => p.props);
+    return this.items.map((p) => p.getProps());
   }
 
   async edit(purchase: Purchase): Promise<PurchaseProps> {
-    const edit = await this.findById(purchase.id);
+    const edit = await this.findById(purchase.getId());
 
-    const newPurchase = Purchase.create(purchase.props);
+    const newPurchase = Purchase.create(purchase.getProps());
 
     this.items.splice(
-      this.items.findIndex((item) => item.id == purchase.id),
+      this.items.findIndex((item) => item.getId() == purchase.getId()),
       1
     );
 
     this.items.push(newPurchase);
 
-    return newPurchase.props;
+    return newPurchase.getProps();
   }
 
   async delete(id: string): Promise<boolean> {
@@ -47,7 +47,7 @@ export class MockPurchaseRepository implements IPurchaseRepository {
     }
 
     this.items.splice(
-      this.items.findIndex((item) => item.id == id),
+      this.items.findIndex((item) => item.getId() == id),
       1
     );
 
@@ -56,7 +56,7 @@ export class MockPurchaseRepository implements IPurchaseRepository {
 
   async getAllByUserId(userId: string): Promise<PurchaseProps[]> {
     return this.items
-      .filter((p) => p.props.userId === userId)
-      .map((p) => p.props);
+      .filter((p) => p.getProps().userId === userId)
+      .map((p) => p.getProps());
   }
 }

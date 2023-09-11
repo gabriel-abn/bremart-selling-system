@@ -1,30 +1,23 @@
 import { ApplicationError } from "@application/common";
-import { CreateLeadService } from "@application/services/leads/create-lead-service";
 import { CreatePurchaseUseCase } from "@application/use-cases/purchase";
-import { PaymentType } from "@domain/payment-type";
-import { MockVoucherValidator } from "@test-application/mocks/protocols/apis";
+import { PaymentType } from "@domain/entities";
 import {
   MockLeadRepository,
-  MockPurchaseItemRepository,
+  MockProductRepository,
   MockPurchaseRepository,
   MockUserRepository,
 } from "@test-application/mocks/repositories";
 import {
   UUIDGeneratorMock,
   mockCompletePurchase,
-  mockPurchaseItem,
+  mockProduct,
 } from "@test-domain/mocks";
 import { mockUser } from "@test-domain/mocks/mock-user";
+import { describe, expect, it } from "vitest";
 
 const makeSut = () => {
   const mockLeadRepository = new MockLeadRepository();
   const userRepository = new MockUserRepository();
-
-  const leadService = new CreateLeadService(
-    mockLeadRepository,
-    new MockVoucherValidator(),
-    new UUIDGeneratorMock()
-  );
 
   userRepository.items.push(mockUser({ id: "1" }));
 
@@ -32,14 +25,13 @@ const makeSut = () => {
     new UUIDGeneratorMock(),
     new MockPurchaseRepository(),
     userRepository,
-    new MockPurchaseItemRepository(),
-    leadService
+    new MockProductRepository()
   );
 
   return { sut };
 };
 
-const mockProps = mockCompletePurchase({ userId: "1" }).props;
+const mockProps = mockCompletePurchase({ userId: "1" }).getProps();
 
 describe("Create purchase use case", () => {
   it("should return a purchase", async () => {
@@ -101,8 +93,8 @@ describe("Create purchase use case", () => {
 
     const purchase = await sut.execute({
       userId: mockProps.userId,
-      items: [mockPurchaseItem({ id: "valid_id_1", price: 600 })],
-      paymentType: PaymentType.CASH,
+      items: [mockProduct({ id: "valid_id_1", price: 600 })],
+      paymentType: PaymentType.PIX,
       voucher: "invalid",
     });
 
@@ -114,8 +106,8 @@ describe("Create purchase use case", () => {
       const { sut } = makeSut();
 
       await sut.execute({
-        items: [mockPurchaseItem({ id: "invalid_id" })],
-        paymentType: PaymentType.CASH,
+        items: [mockProduct({ id: "invalid_id" })],
+        paymentType: PaymentType.PIX,
         userId: "1",
         voucher: "invalid",
       });

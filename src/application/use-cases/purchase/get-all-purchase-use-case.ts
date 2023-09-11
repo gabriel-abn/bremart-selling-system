@@ -1,6 +1,6 @@
 import { UseCase } from "@application/common";
 import { IPurchaseRepository } from "@application/repositories";
-import { PurchaseProps } from "@domain/purchase";
+import { PurchaseProps } from "@domain/entities";
 
 export class GetAllPurchaseUseCase implements UseCase<null, PurchaseProps[]> {
   constructor(private readonly purchaseRepository: IPurchaseRepository) {}

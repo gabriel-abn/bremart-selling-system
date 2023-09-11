@@ -1,19 +1,16 @@
 import { ApplicationError, UseCase } from "@application/common";
 import {
-  IPurchaseItemRepository,
+  IProductRepository,
   IPurchaseRepository,
   IUserRepository,
 } from "@application/repositories";
-import { CreateLeadService } from "@application/services/leads";
 import { IUUIDGenerator } from "@domain/common";
-import { PaymentType } from "@domain/payment-type";
-import { Purchase } from "@domain/purchase";
-import { PurchaseItemProps } from "@domain/purchase-item";
+import { PaymentType, Product } from "@domain/entities";
 
 export namespace CreatePurchase {
   export type Params = {
     userId: string;
-    items: PurchaseItemProps[];
+    items: Product[];
     paymentType: PaymentType;
     voucher: string;
   };
@@ -32,8 +29,7 @@ export class CreatePurchaseUseCase
     private idGenerator: IUUIDGenerator,
     private purchaseRepository: IPurchaseRepository,
     private userRepository: IUserRepository,
-    private purchaseItemRepository: IPurchaseItemRepository,
-    private createLeadService: CreateLeadService
+    private purchaseItemRepository: IProductRepository
   ) {}
 
   async execute(data: CreatePurchase.Params): Promise<CreatePurchase.Result> {
@@ -59,25 +55,11 @@ export class CreatePurchaseUseCase
 
     const user = await this.userRepository.getById(data.userId);
 
-    const purchase = Purchase.create({
-      id: this.idGenerator.generate(),
-      items: data.items,
-      userId: user.id,
-      paymentType: data.paymentType,
-      voucher: data.voucher,
-    });
-
-    const lead = await this.createLeadService.execute({
-      purchase: purchase.props,
-    });
-
-    const save = await this.purchaseRepository.create(purchase);
-
     return {
-      id: save.id,
-      total: purchase.props.total,
-      userId: purchase.props.userId,
-      leadId: lead.id,
+      id: "",
+      leadId: "",
+      total: 0,
+      userId: "",
     };
   }
 }

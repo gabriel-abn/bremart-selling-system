@@ -2,7 +2,7 @@ import { UseCase } from "@application/common";
 import { IDataValidation } from "@application/protocols";
 import { IUserRepository } from "@application/repositories";
 import { IUUIDGenerator } from "@domain/common";
-import { User } from "@domain/user";
+import { User } from "@domain/entities";
 
 export namespace RegisterUser {
   export type Params = {
@@ -45,6 +45,7 @@ export class RegisterUserUseCase
       id: newID,
       cpf: validCPF,
       rg: validRG,
+      addresses: [],
     });
 
     const result = await this.userRepository.register(user);

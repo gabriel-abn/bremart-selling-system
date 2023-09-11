@@ -1,6 +1,6 @@
 import { ApplicationError, UseCase } from "@application/common";
 import { IPurchaseRepository } from "@application/repositories";
-import { PurchaseItemProps } from "@domain/purchase-item";
+import { Product } from "@domain/entities";
 
 export namespace GetPurchase {
   export type Params = {
@@ -8,7 +8,7 @@ export namespace GetPurchase {
   };
   export type Result = {
     id: string;
-    items: PurchaseItemProps[];
+    items: Product[];
     total: number;
   };
 }
@@ -28,7 +28,7 @@ export class GetPurchaseUseCase
     return {
       id: purchase.id,
       items: purchase.items,
-      total: purchase.total,
+      total: 0,
     };
   }
 }

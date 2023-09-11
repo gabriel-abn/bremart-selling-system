@@ -3,7 +3,7 @@ import {
   IPurchaseRepository,
   IUserRepository,
 } from "@application/repositories";
-import { PurchaseProps } from "@domain/purchase";
+import { PurchaseProps } from "@domain/entities";
 
 export namespace GetAllPurchasePerUser {
   export type Params = {

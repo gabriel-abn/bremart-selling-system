@@ -1,14 +1,15 @@
 import { ApplicationError } from "@application/common";
 import { EditPurchaseUseCase } from "@application/use-cases/purchase";
-import { PaymentType } from "@domain/payment-type";
+import { PaymentType } from "@domain/entities";
 import {
-  MockPurchaseItemRepository,
+  MockProductRepository,
   MockPurchaseRepository,
 } from "@test-application/mocks/repositories";
-import { mockCompletePurchase, mockPurchaseItem } from "@test-domain/mocks";
+import { mockCompletePurchase, mockProduct } from "@test-domain/mocks";
+import { beforeAll, describe, expect, it } from "vitest";
 
 const purchaseRepository = new MockPurchaseRepository();
-const purchaseItemRepository = new MockPurchaseItemRepository();
+const purchaseItemRepository = new MockProductRepository();
 const sut = new EditPurchaseUseCase(purchaseRepository, purchaseItemRepository);
 
 describe("Edit Purchase Use Case", () => {
@@ -22,8 +23,8 @@ describe("Edit Purchase Use Case", () => {
     await purchaseRepository.create(
       mockCompletePurchase({
         id: "discount_id",
-        items: [mockPurchaseItem({ price: 600 })],
-        paymentType: PaymentType.CASH,
+        items: [mockProduct({ price: 600 })],
+        paymentType: PaymentType.PIX,
       })
     );
   });
@@ -31,8 +32,8 @@ describe("Edit Purchase Use Case", () => {
     expect(async () => {
       await sut.execute({
         id: "invalid_id",
-        items: [mockPurchaseItem({})],
-        paymentType: PaymentType.CASH,
+        items: [mockProduct({})],
+        paymentType: PaymentType.PIX,
       });
     }).rejects.toThrow("EditPurchaseUseCase: Purchase not found");
   });
@@ -41,14 +42,14 @@ describe("Edit Purchase Use Case", () => {
       await sut.execute({
         id: "any_id",
         items: [],
-        paymentType: PaymentType.CASH,
+        paymentType: PaymentType.PIX,
       });
     }).rejects.toThrow("EditPurchaseUseCase: No items provided");
   });
   it("should return the edited purchase on success", async () => {
     const purchase = await sut.execute({
       id: "any_id",
-      items: [mockPurchaseItem({ id: "valid_id_1", price: 100 })],
+      items: [mockProduct({ id: "valid_id_1", price: 100 })],
       paymentType: PaymentType.CREDIT_CARD,
     });
 
@@ -57,7 +58,7 @@ describe("Edit Purchase Use Case", () => {
   it("should return the edited purchase if only one field provided", async () => {
     const purchase = await sut.execute({
       id: "any_id",
-      items: [mockPurchaseItem({ id: "valid_id_1", price: 100 })],
+      items: [mockProduct({ id: "valid_id_1", price: 100 })],
       paymentType: PaymentType.BOLETO,
     });
 
@@ -66,8 +67,8 @@ describe("Edit Purchase Use Case", () => {
   it("should remove discount if total price gets below 500.00", async () => {
     const purchase = await sut.execute({
       id: "discount_id",
-      items: [mockPurchaseItem({ id: "valid_id_1", price: 100 })],
-      paymentType: PaymentType.CASH,
+      items: [mockProduct({ id: "valid_id_1", price: 100 })],
+      paymentType: PaymentType.PIX,
     });
 
     expect(purchase.total).toBe(100);
@@ -76,8 +77,8 @@ describe("Edit Purchase Use Case", () => {
     expect(async () => {
       await sut.execute({
         id: "any_id",
-        items: [mockPurchaseItem({})],
-        paymentType: PaymentType.CASH,
+        items: [mockProduct({})],
+        paymentType: PaymentType.PIX,
       });
     }).rejects.toThrowError(ApplicationError);
   });

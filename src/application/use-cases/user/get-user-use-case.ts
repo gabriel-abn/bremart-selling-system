@@ -1,7 +1,7 @@
 import { UseCase } from "@application/common";
 import { IDataValidation } from "@application/protocols";
 import { IUserRepository } from "@application/repositories";
-import { UserProps } from "@domain/user";
+import { UserProps } from "@domain/entities";
 
 export namespace GetUser {
   export type Params = Partial<{

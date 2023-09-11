@@ -1,4 +1,4 @@
-import { Purchase, PurchaseProps } from "@domain/purchase";
+import { Purchase, PurchaseProps } from "@domain/entities";
 
 export interface IPurchaseRepository {
   create(purchase: Purchase): Promise<{ id: string }>;
