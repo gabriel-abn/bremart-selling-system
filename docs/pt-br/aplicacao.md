@@ -258,7 +258,7 @@ Exemplo:
 <details>
   <summary> <b> Remover usuário </b> </summary>
 
-- TODO (User) remove-user
+- TEST (User) remove-user
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")

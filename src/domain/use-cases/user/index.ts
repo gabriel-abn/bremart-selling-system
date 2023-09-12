@@ -6,6 +6,7 @@ export * from "./get-all-users";
 export * from "./get-user";
 export * from "./register-user";
 export * from "./remove-product-from-cart";
+export * from "./remove-user";
 export * from "./show-purchase-historic";
 export * from "./show-shopping-cart";
 export * from "./update-user";
