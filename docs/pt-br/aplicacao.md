@@ -143,7 +143,7 @@ Exemplo:
 <details>
   <summary> <b> Mostrar o carrinho </b> </summary>
 
-- TODO (User) show-cart
+- TEST (User) show-shopping-cart
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
