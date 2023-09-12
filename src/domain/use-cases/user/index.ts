@@ -7,5 +7,6 @@ export * from "./register-user";
 export * from "./remove-product-from-cart";
 export * from "./show-purchase-historic";
 export * from "./show-shopping-cart";
+export * from "./update-user";
 export * from "./verify-email";
 export * from "./verify-phone";

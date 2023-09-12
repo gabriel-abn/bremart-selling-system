@@ -175,7 +175,7 @@ Exemplo:
 <details>
   <summary> <b> Atualizar os dados do usuário </b> </summary>
 
-- TODO (User) update-user
+- TEST (User) update-user
 - Receber o id do usuário e os dados do usuário
   - Casos de erro:
     - ID do usuário não encontrado
