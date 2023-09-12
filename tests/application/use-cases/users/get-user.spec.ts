@@ -47,6 +47,13 @@ describe("Get User Use Case", () => {
       await sut.execute({
         cpf: "000.000.000-00",
       });
-    }).rejects.toThrow(ApplicationError);
+    }).rejects.toThrowError(ApplicationError);
+  });
+  it("should throw if neither cpf nor id provided", async () => {
+    expect(async () => {
+      const { sut } = makeSut();
+
+      await sut.execute({});
+    }).rejects.toThrowError(ApplicationError);
   });
 });

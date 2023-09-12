@@ -157,8 +157,8 @@ Exemplo:
 <details>
   <summary> <b> Mostrar os dados do usuário </b> </summary>
 
-- TODO (User) get-user
-- Receber o id do usuário
+- DONE (User) get-user
+- Receber o id ou cpf do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
 - Caso de sucesso:
@@ -213,7 +213,7 @@ Exemplo:
 <details>
   <summary> <b> Atualizar o número de telefone do usuário </b> </summary>
 
-- TODO (User) change-phone-number
+- REVIEW (User) change-phone-number
 - Receber o id do usuário e um campo opcional contendo um token de verificação e o novo número de telefone
 - Se receber o id do usuário e o novo número de telefone
   - Enviar um código de verificação para o novo número de telefone

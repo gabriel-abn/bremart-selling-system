@@ -1,23 +1,10 @@
-import { UseCase } from "@application/common";
+import { ApplicationError } from "@application/common";
 import { IDataValidation } from "@application/protocols";
 import { IUserRepository } from "@application/repositories";
-import { UserProps } from "@domain/entities";
+import { User } from "@domain/entities";
+import { GetUser } from "@domain/use-cases/user";
 
-export namespace GetUser {
-  export type Params = Partial<{
-    id: string;
-    cpf: string;
-  }>;
-
-  export type Result = {
-    name: string;
-    email: string;
-    phone: string;
-    birthdate: string;
-  };
-}
-
-export class GetUserUseCase implements UseCase<GetUser.Params, GetUser.Result> {
+export class GetUserUseCase implements GetUser {
   constructor(
     private repository: IUserRepository,
     private dataValidator: IDataValidation
@@ -25,22 +12,17 @@ export class GetUserUseCase implements UseCase<GetUser.Params, GetUser.Result> {
 
   async execute(params: GetUser.Params): Promise<GetUser.Result> {
     var validCPF: string;
-    var exist: UserProps;
+    var exist: User;
 
     if (params.id) {
       exist = await this.repository.getById(params.id);
-    }
-    if (params.cpf) {
+    } else if (params.cpf) {
       validCPF = await this.dataValidator.validateCPF(params.cpf);
-
       exist = await this.repository.getByCPF(validCPF);
+    } else {
+      throw new ApplicationError("User not found", "USER_NOT_FOUND");
     }
 
-    return {
-      name: exist.name,
-      email: exist.email,
-      birthdate: exist.birthdate.toUTCString(),
-      phone: exist.phone,
-    };
+    return exist;
   }
 }
