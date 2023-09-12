@@ -1,4 +1,5 @@
 import { ApplicationError } from "@application/common";
+import { describe, expect, it } from "vitest";
 
 describe("Application error", () => {
   it("should return detailed error message", () => {
