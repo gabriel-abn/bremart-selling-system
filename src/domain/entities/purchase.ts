@@ -84,6 +84,10 @@ export class Purchase extends Entity<PurchaseProps> {
     return this.props.address;
   }
 
+  public static restore(props: PurchaseProps): Purchase {
+    return new Purchase(props);
+  }
+
   public static create(props: PurchaseProps): Purchase {
     var errors: string[] = [];
 

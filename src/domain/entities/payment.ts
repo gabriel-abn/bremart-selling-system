@@ -40,6 +40,10 @@ export class Payment extends Entity<PaymentProps> {
     return this.props.status;
   }
 
+  public static restore(props: PaymentProps): Payment {
+    return new Payment(props);
+  }
+
   public static create(props: PaymentProps): Payment {
     return new Payment({
       ...props,

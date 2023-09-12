@@ -88,6 +88,10 @@ export class User extends Entity<UserProps> {
     return this.props.purchaseHistory;
   }
 
+  public static restore(props: UserProps): User {
+    return new User(props);
+  }
+
   public static create(props: UserProps): User {
     var errors: string[] = [];
 
