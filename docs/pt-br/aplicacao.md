@@ -243,7 +243,7 @@ Exemplo:
 <details>
   <summary> <b> Desativar o usuário </b> </summary>
 
-- TODO (User) disable-user
+- TEST (User) disable-user
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")

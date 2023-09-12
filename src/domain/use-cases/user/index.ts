@@ -1,6 +1,7 @@
 export * from "./add-address";
 export * from "./add-product-to-cart";
 export * from "./change-password";
+export * from "./disable-user";
 export * from "./get-all-users";
 export * from "./get-user";
 export * from "./register-user";
