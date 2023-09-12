@@ -1,6 +1,6 @@
 import { ApplicationError } from "@application/common";
 import { IUserRepository } from "@application/repositories";
-import { User, UserProps } from "@domain/entities/user";
+import { User } from "@domain/entities/user";
 
 export class MockUserRepository implements IUserRepository {
   public items: User[] = [];
@@ -21,7 +21,7 @@ export class MockUserRepository implements IUserRepository {
     return { id: user.getId() };
   }
 
-  async getById(id: string): Promise<UserProps> {
+  async getById(id: string): Promise<User> {
     const user = this.items.find((u) => {
       if (u.getId() === id) {
         return u;
@@ -32,10 +32,10 @@ export class MockUserRepository implements IUserRepository {
       throw new ApplicationError("User not found.", "User Repository");
     }
 
-    return user.getProps();
+    return user;
   }
 
-  async getByCPF(cpf: string): Promise<UserProps> {
+  async getByCPF(cpf: string): Promise<User> {
     const user = this.items.find((u) => {
       return u.getProps().cpf === cpf;
     });
@@ -44,10 +44,10 @@ export class MockUserRepository implements IUserRepository {
       throw new ApplicationError("User not found.", "User Repository: ");
     }
 
-    return user.getProps();
+    return user;
   }
 
-  async getAll(): Promise<UserProps[]> {
-    return this.items.map((u) => u.getProps());
+  async getAll(): Promise<User[]> {
+    return this.items;
   }
 }
