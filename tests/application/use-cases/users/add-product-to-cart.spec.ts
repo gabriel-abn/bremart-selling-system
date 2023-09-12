@@ -1,3 +1,5 @@
+import { describe, it } from "vitest";
+
 describe("Add Product To Cart", () => {
   it("should throw if product does not exist", () => {});
   it("should throw if product is not available", () => {});

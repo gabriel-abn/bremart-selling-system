@@ -1,3 +1,5 @@
+import { describe, it } from "vitest";
+
 describe("Verify phone", () => {
   it("should throw if verify code is invalid");
   it("should throw if verify code is expired");

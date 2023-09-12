@@ -1,3 +1,5 @@
+import { describe, it } from "vitest";
+
 describe("Verify email", () => {
   it("should throw if email not found");
   it("should throw if verification token is invalid");

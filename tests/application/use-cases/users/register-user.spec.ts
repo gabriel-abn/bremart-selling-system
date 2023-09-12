@@ -3,6 +3,7 @@ import { MockDataValidation } from "@test-application/mocks/protocols";
 import { MockUserRepository } from "@test-application/mocks/repositories";
 import { UUIDGeneratorMock } from "@test-domain/mocks";
 import { mockUser } from "@test-domain/mocks/mock-user";
+import { describe, it } from "vitest";
 
 const makeSut = () => {
   const userRepository = new MockUserRepository();
