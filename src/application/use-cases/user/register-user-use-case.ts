@@ -1,6 +1,6 @@
 import { IEmailSender, IHasher } from "@application/protocols";
 import { IDataValidation } from "@application/protocols/apis";
-import { IUserRepository } from "@application/repositories";
+import { ITokenRepository, IUserRepository } from "@application/repositories";
 import { IUUIDGenerator } from "@domain/common";
 import { User } from "@domain/entities";
 import { RegisterUser } from "@domain/use-cases/user";
@@ -11,7 +11,8 @@ export class RegisterUserUseCase implements RegisterUser {
     private uuidGenerator: IUUIDGenerator,
     private dataValidator: IDataValidation,
     private emailSender: IEmailSender,
-    private hasher: IHasher
+    private hasher: IHasher,
+    private tokenRepository: ITokenRepository
   ) {}
 
   async execute(params: RegisterUser.Params): Promise<RegisterUser.Result> {
@@ -37,12 +38,17 @@ export class RegisterUserUseCase implements RegisterUser {
       birthDate: new Date(params.birthDate),
     });
 
+    const token = this.uuidGenerator.generate().split("-")[0].toUpperCase();
+
+    await this.tokenRepository.save(token, user.getProps().email);
+
     await this.emailSender.sendEmail({
       to: user.getProps().email,
       subject: "Bem vindo ao sistema",
       template: "welcome",
       params: {
         "user.name": user.getName(),
+        token: token,
       },
     });
 

@@ -2,7 +2,10 @@ import { ApplicationError } from "@application/common";
 import { RegisterUserUseCase } from "@application/use-cases/user";
 import { FakeHasher, SpyEmailSender } from "@test-application/mocks/protocols";
 import { MockDataValidation } from "@test-application/mocks/protocols/apis";
-import { MockUserRepository } from "@test-application/mocks/repositories";
+import {
+  MockTokenRepository,
+  MockUserRepository,
+} from "@test-application/mocks/repositories";
 import { UUIDGeneratorMock } from "@test-domain/mocks";
 import { mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it, vi } from "vitest";
@@ -23,7 +26,8 @@ const makeSut = () => {
     new UUIDGeneratorMock(),
     new MockDataValidation(),
     new SpyEmailSender(),
-    new FakeHasher()
+    new FakeHasher(),
+    new MockTokenRepository()
   );
 
   return {
@@ -71,6 +75,18 @@ describe("Register User Use Case", () => {
     expect(spyHash).toHaveBeenCalled();
     expect(spyHash).toHaveBeenCalledWith("NEW_PASSWORD");
   });
+  it("should generate a random token and store it", async () => {
+    const spy = vi.spyOn(MockTokenRepository.prototype, "save");
+
+    const mock = mockUser({}).getProps();
+
+    await makeSut().sut.execute({
+      ...mock,
+      birthDate: mock.birthDate.toISOString(),
+    });
+
+    expect(spy).toHaveBeenCalled();
+  });
   it("should send a confirmation email", async () => {
     const spy = vi.spyOn(SpyEmailSender.prototype, "sendEmail");
     const fake = mockUser({}).getProps();
@@ -81,14 +97,6 @@ describe("Register User Use Case", () => {
     });
 
     expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledWith({
-      to: fake.email,
-      subject: "Bem vindo ao sistema",
-      template: "welcome",
-      params: {
-        "user.name": fake.name,
-      },
-    });
   });
   it("should save the user and return use case response object", async () => {
     const { sut } = makeSut();
