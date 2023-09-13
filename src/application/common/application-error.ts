@@ -1,5 +1,5 @@
 export class ApplicationError extends Error {
-  constructor(message: string, private className: string) {
-    super(className + ": " + message);
+  constructor(message: string, error: string) {
+    super(error + ": " + message);
   }
 }

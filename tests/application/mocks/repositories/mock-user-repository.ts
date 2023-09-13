@@ -13,7 +13,7 @@ export class MockUserRepository implements IUserRepository {
     if (exist) {
       throw new ApplicationError(
         "CPF already exists in repository.",
-        "User Repository: "
+        "CPF_EXISTS"
       );
     }
 
@@ -29,7 +29,7 @@ export class MockUserRepository implements IUserRepository {
     });
 
     if (!user) {
-      throw new ApplicationError("User not found.", "User Repository");
+      throw new ApplicationError("User not found.", "USER_NOT_FOUND");
     }
 
     return user;
@@ -41,7 +41,7 @@ export class MockUserRepository implements IUserRepository {
     });
 
     if (!user) {
-      throw new ApplicationError("User not found.", "User Repository: ");
+      throw new ApplicationError("User not found.", "USER_NOT_FOUND");
     }
 
     return user;
