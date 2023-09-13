@@ -7,6 +7,7 @@ export namespace RegisterUser {
     email: string;
     birthDate: string;
     phone: string;
+    rg: string;
   };
 
   export type Result = {

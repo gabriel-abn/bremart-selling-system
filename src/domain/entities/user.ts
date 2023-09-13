@@ -10,7 +10,7 @@ export type UserProps = {
   password: string;
   cpf: string;
   rg: string;
-  birthdate: Date;
+  birthDate: Date;
   phone: string;
   addresses: Address[];
   defaultAddress?: Address;
@@ -96,7 +96,7 @@ export class User extends Entity<UserProps> {
     var errors: string[] = [];
 
     if (
-      new Date(Date.now()).getFullYear() - props.birthdate.getFullYear() <
+      new Date(Date.now()).getFullYear() - props.birthDate.getFullYear() <
       18
     ) {
       errors.push("Users with less than 18 years are not allowed");

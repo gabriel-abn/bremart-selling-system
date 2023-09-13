@@ -6,7 +6,7 @@ describe("User business rules", () => {
   it("should throw if user has less than 18 years old", () => {
     expect(() =>
       mockUser({
-        birthdate: new Date("2010-01-01"),
+        birthDate: new Date("2010-01-01"),
       })
     ).toThrow(DomainError);
   });

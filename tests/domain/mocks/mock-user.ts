@@ -8,7 +8,7 @@ export const mockUser = (mock: Partial<UserProps>): User => {
     id: id,
     cpf: faker.phone.number("###.###.###-##"),
     email: faker.internet.email(),
-    birthdate: faker.date.between({ from: "2000-01-01", to: "2000-01-01" }),
+    birthDate: faker.date.between({ from: "2000-01-01", to: "2000-01-01" }),
     name: faker.person.fullName(),
     password: faker.internet.password(),
     phone: faker.phone.number("##9########"),
