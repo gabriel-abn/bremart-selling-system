@@ -28,7 +28,7 @@ Exemplo:
 <details>
   <summary> <b> Registrar um novo usuário </b> </summary>
 
-- TEST (User) register-user
+- DONE (User) register-user
 - Receber nome, cpf, email, data de nascimento e telefone
   - Casos de erro:
     - CPF já presente no repositório (`CPF_EXISTS`: "CPF já presente no repositório.")
@@ -50,7 +50,7 @@ Exemplo:
 <details>
   <summary> <b> Verificar email </b> </summary>
 
-- TEST (User) verify-email
+- DONE (User) verify-email
 - Receber o email do usuário e o token de verificação
 - Verificar se o token corresponde com o email do usuário
   - Casos de erro:

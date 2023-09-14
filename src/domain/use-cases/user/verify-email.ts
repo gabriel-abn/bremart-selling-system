@@ -8,7 +8,7 @@ export namespace VerifyEmail {
 
   export type Result = {
     email: string;
-    authToken: string;
+    verified: boolean;
   };
 }
 

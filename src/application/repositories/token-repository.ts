@@ -1,4 +1,4 @@
 export interface ITokenRepository {
-  save(token: string, email: string): Promise<void>;
-  check(token: string, email: string): Promise<boolean>;
+  save(email: string, data: string[]): Promise<void>;
+  check(email: string, data: string): Promise<boolean>;
 }

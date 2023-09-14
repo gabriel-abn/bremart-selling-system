@@ -1,17 +1,29 @@
+import { ApplicationError } from "@application/common";
 import { ITokenRepository } from "@application/repositories";
 
 export class MockTokenRepository implements ITokenRepository {
-  items: Record<string, string>[] = [];
+  items: Map<string, string> = new Map();
 
-  async save(token: string, email: string): Promise<void> {
-    this.items.push({ token, email });
+  async save(email: string, data: string[]): Promise<void> {
+    if (this.items.has(email)) {
+      const oldData = this.items.get(email);
+      this.items.delete(email);
+      this.items.set(email, oldData.concat(data.join(";")));
+      return;
+    }
+
+    this.items.set(email, data.join(";"));
   }
 
-  async check(token: string, email: string): Promise<boolean> {
-    const item = this.items.find((item) => item.token === token);
+  async check(email: string, data: string): Promise<boolean> {
+    if (!this.items.has(email)) {
+      throw new ApplicationError("Invalid email.", "INVALID_EMAIL");
+    }
 
-    if (item) {
-      return item.email === email;
+    const userData = this.items.get(email);
+
+    if (userData.includes(data)) {
+      return true;
     }
 
     return false;
