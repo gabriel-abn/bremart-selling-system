@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest dev run --coverage",
+    "test": "vitest",
+    "test:cov": "vitest dev run --coverage",
     "dev": "nodemon src/server.ts --watch"
   },
   "keywords": [],
