@@ -21,7 +21,7 @@ export class RegisterUserUseCase implements RegisterUser {
 
     await this.dataValidator.validateEmail(params.email);
 
-    const password = await this.hasher.hash(this.hasher.generate());
+    const password = this.hasher.generate();
     const hashedPassword = await this.hasher.hash(password);
 
     const user = User.create({
@@ -40,7 +40,7 @@ export class RegisterUserUseCase implements RegisterUser {
 
     const token = this.uuidGenerator.generate().split("-")[0].toUpperCase();
 
-    await this.tokenRepository.save(token, user.getProps().email);
+    await this.tokenRepository.save(user.getProps().email, [token]);
 
     await this.emailSender.sendEmail({
       to: user.getProps().email,
