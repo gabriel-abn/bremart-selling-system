@@ -40,14 +40,14 @@ export class RegisterUserUseCase implements RegisterUser {
 
     const token = this.uuidGenerator.generate().split("-")[0].toUpperCase();
 
-    await this.tokenRepository.save(user.getProps().email, [token]);
+    await this.tokenRepository.save(user.props.email, [token]);
 
     await this.emailSender.sendEmail({
-      to: user.getProps().email,
+      to: user.props.email,
       subject: "Bem vindo ao sistema",
       template: "welcome",
       params: {
-        "user.name": user.getName(),
+        "user.name": user.props.name,
         token: token,
       },
     });
@@ -55,7 +55,7 @@ export class RegisterUserUseCase implements RegisterUser {
     const result = await this.userRepository.register(user);
 
     return {
-      email: user.getProps().email,
+      email: user.props.email,
       createdAt: user.getUpdateDates().createdAt,
       hashedPassword: hashedPassword,
       cryptedId: result.id,

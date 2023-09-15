@@ -2,7 +2,6 @@ import { ApplicationError } from "@application/common";
 import { CreatePurchaseUseCase } from "@application/use-cases/purchase";
 import { PaymentType } from "@domain/entities";
 import {
-  MockLeadRepository,
   MockProductRepository,
   MockPurchaseRepository,
   MockUserRepository,
@@ -16,7 +15,6 @@ import { mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it } from "vitest";
 
 const makeSut = () => {
-  const mockLeadRepository = new MockLeadRepository();
   const userRepository = new MockUserRepository();
 
   userRepository.items.push(mockUser({ id: "1" }));
@@ -31,7 +29,7 @@ const makeSut = () => {
   return { sut };
 };
 
-const mockProps = mockCompletePurchase({ userId: "1" }).getProps();
+const mockProps = mockCompletePurchase({ userId: "1" }).props;
 
 describe("Create purchase use case", () => {
   it("should return a purchase", async () => {

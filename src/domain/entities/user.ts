@@ -15,7 +15,7 @@ export type UserProps = {
   addresses: Address[];
   defaultAddress?: Address;
   shoppingCart?: Product[];
-  purchaseHistory?: Purchase[];
+  purchaseHistoric?: Purchase[];
 };
 
 export class User extends Entity<UserProps> {
@@ -23,43 +23,23 @@ export class User extends Entity<UserProps> {
     super(props, props.id);
   }
 
-  public setName(name: string): void {
-    this.props.name = name;
+  public set name(name: string) {
+    this._props.name = name;
   }
 
-  public getName(): string {
-    return this.props.name;
-  }
-
-  public getPassword(): string {
-    return this.props.password;
-  }
-
-  public setPassword(password: string): void {
-    this.props.password = password;
-  }
-
-  public getDefaultAddress(): Address {
-    return this.props.defaultAddress;
+  public set password(password: string) {
+    this._props.password = password;
   }
 
   public addAddress(address: Address): void {
-    this.props.addresses.push({
-      id: this.getId() + this.props.addresses.length.toString(),
+    this._props.addresses.push({
+      id: this.id + this._props.addresses.length.toString(),
       ...address,
     });
   }
 
-  public setDefaultAddress(addressId: number): void {
+  public set defaultAddress(addressId: number) {
     this.props.defaultAddress = this.props.addresses[addressId];
-  }
-
-  public getAddresses(): Address[] {
-    return this.props.addresses;
-  }
-
-  public getShoppingCart(): Product[] {
-    return this.props.shoppingCart;
   }
 
   public addProductToShoppingCart(product: Product): void {
@@ -82,10 +62,6 @@ export class User extends Entity<UserProps> {
       }
       return product;
     });
-  }
-
-  public getPurchaseHistoric(): Purchase[] {
-    return this.props.purchaseHistory;
   }
 
   public static restore(props: UserProps): User {
@@ -115,7 +91,7 @@ export class User extends Entity<UserProps> {
     }
 
     return new User({
-      purchaseHistory: [],
+      purchaseHistoric: [],
       shoppingCart: [],
       ...props,
     });

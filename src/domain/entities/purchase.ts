@@ -31,6 +31,7 @@ export type PurchaseProps = {
   freightDiscountValue: number;
   status?: PurchaseStatus;
   deliveryStatus?: DeliveryStatus;
+  totalValue?: number;
 };
 
 export class Purchase extends Entity<PurchaseProps> {
@@ -38,36 +39,12 @@ export class Purchase extends Entity<PurchaseProps> {
     super(props, props.id);
   }
 
-  public getShoppingCart(): Product[] {
-    return this.props.items;
+  public set status(status: PurchaseStatus) {
+    this._props.status = status;
   }
 
-  public getPurchaseValue(): number {
-    return this.props.purchaseValue;
-  }
-
-  public getFreightValue(): number {
-    return this.props.freightValue;
-  }
-
-  public getTotalValue(): number {
-    return this.props.purchaseValue + this.props.freightValue;
-  }
-
-  public getStatus(): string {
-    return this.props.status;
-  }
-
-  public setStatus(status: PurchaseStatus): void {
-    this.props.status = status;
-  }
-
-  public getDeliveryStatus(): DeliveryStatus {
-    return this.props.deliveryStatus;
-  }
-
-  public setDeliveryStatus(deliveryStatus: DeliveryStatus): void {
-    this.props.deliveryStatus = deliveryStatus;
+  public set deliveryStatus(deliveryStatus: DeliveryStatus) {
+    this._props.deliveryStatus = deliveryStatus;
   }
 
   public updateDeliveryAddress(address: Address): void {
@@ -77,11 +54,7 @@ export class Purchase extends Entity<PurchaseProps> {
       }
     }
 
-    this.props.address = address;
-  }
-
-  public getDeliveryAddress(): Address {
-    return this.props.address;
+    this._props.address = address;
   }
 
   public static restore(props: PurchaseProps): Purchase {
@@ -160,6 +133,7 @@ export class Purchase extends Entity<PurchaseProps> {
       ...props,
       status: PurchaseStatus.PENDING_PAYMENT,
       deliveryStatus: null,
+      totalValue: props.purchaseValue + props.freightValue,
     });
   }
 }

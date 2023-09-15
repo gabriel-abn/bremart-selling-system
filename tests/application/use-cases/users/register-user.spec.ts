@@ -44,8 +44,8 @@ describe("Register User Use Case", () => {
 
       await expect(
         sut.execute({
-          ...mock.getProps(),
-          birthDate: mock.getProps().birthDate.toISOString(),
+          ...mock.props,
+          birthDate: mock.props.birthDate.toISOString(),
         })
       ).rejects.toThrowError("CPF_EXISTS");
     });
@@ -55,8 +55,8 @@ describe("Register User Use Case", () => {
 
       await expect(
         sut.execute({
-          ...mock.getProps(),
-          birthDate: mock.getProps().birthDate.toISOString(),
+          ...mock.props,
+          birthDate: mock.props.birthDate.toISOString(),
         })
       ).rejects.toThrow(ApplicationError);
     });
@@ -66,8 +66,8 @@ describe("Register User Use Case", () => {
     const spyHash = vi.spyOn(FakeHasher.prototype, "hash");
 
     const response = await makeSut().sut.execute({
-      ...mockUser({}).getProps(),
-      birthDate: mockUser({}).getProps().birthDate.toISOString(),
+      ...mockUser({}).props,
+      birthDate: mockUser({}).props.birthDate.toISOString(),
     });
 
     expect(response.hashedPassword).not.toBe("");
@@ -78,7 +78,7 @@ describe("Register User Use Case", () => {
   it("should generate a random token and store it", async () => {
     const spy = vi.spyOn(MockTokenRepository.prototype, "save");
 
-    const mock = mockUser({}).getProps();
+    const mock = mockUser({}).props;
 
     await makeSut().sut.execute({
       ...mock,
@@ -89,7 +89,7 @@ describe("Register User Use Case", () => {
   });
   it("should send a confirmation email", async () => {
     const spy = vi.spyOn(SpyEmailSender.prototype, "sendEmail");
-    const fake = mockUser({}).getProps();
+    const fake = mockUser({}).props;
 
     await makeSut().sut.execute({
       ...fake,
@@ -102,8 +102,8 @@ describe("Register User Use Case", () => {
     const { sut } = makeSut();
 
     const response = await sut.execute({
-      ...mockUser({}).getProps(),
-      birthDate: mockUser({}).getProps().birthDate.toISOString(),
+      ...mockUser({}).props,
+      birthDate: mockUser({}).props.birthDate.toISOString(),
     });
 
     expect(response).toBeTruthy();

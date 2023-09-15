@@ -38,14 +38,14 @@ describe("Create Entity", () => {
   it("should return props of the entity", () => {
     const product = mockCompletePurchase({});
 
-    expect(product.getProps()).toEqual(
-      expect.objectContaining<PurchaseProps>(product.getProps())
+    expect(product.props).toEqual(
+      expect.objectContaining<PurchaseProps>(product.props)
     );
   });
   it("should return the ID of the entity", () => {
     const product = mockCompletePurchase({});
 
-    expect(product.getId()).toEqual(product.getId());
+    expect(product.id).toEqual(product.id);
   });
   it("should have a creation date", () => {
     expect(mockCompletePurchase({}).getUpdateDates().createdAt).not.toBeNull();

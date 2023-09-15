@@ -27,9 +27,9 @@ export class Payment extends Entity<PaymentProps> {
     super(props, props.id);
   }
 
-  public updateStatus(status: PaymentStatus): void {
-    if (this.props.status === PaymentStatus.PENDING) {
-      this.props.status = status;
+  public set status(status: PaymentStatus) {
+    if (this._props.status === PaymentStatus.PENDING) {
+      this._props.status = status;
       return;
     }
 
@@ -37,7 +37,7 @@ export class Payment extends Entity<PaymentProps> {
   }
 
   public get status(): PaymentStatus {
-    return this.props.status;
+    return this._props.status;
   }
 
   public static restore(props: PaymentProps): Payment {

@@ -1,13 +1,13 @@
 export abstract class Entity<T> {
-  protected readonly id: string;
-  protected readonly props: T;
+  protected readonly _id: string;
+  protected readonly _props: T;
 
   protected readonly createdAt: Date;
   protected readonly updatedAt: Date;
 
   constructor(props: T, id: string, createdAt?: Date, updatedAt?: Date) {
-    this.id = id;
-    this.props = props;
+    this._id = id;
+    this._props = props;
     this.createdAt = new Date() ?? createdAt;
     this.updatedAt = new Date() ?? updatedAt;
   }
@@ -28,18 +28,18 @@ export abstract class Entity<T> {
       return true;
     }
 
-    return this.id === object.id;
+    return this._id === object._id;
   };
 
-  public getProps = (): T => {
-    return this.props;
-  };
+  public get props(): T {
+    return this._props;
+  }
 
-  public getId = (): string => {
-    return this.id;
-  };
+  public get id() {
+    return this._id;
+  }
 
   public toString(): string {
-    return `${this.constructor.name}: ${this.id}`;
+    return `${this.constructor.name}: ${this._id}`;
   }
 }

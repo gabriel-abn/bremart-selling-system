@@ -7,36 +7,36 @@ export class MockPurchaseRepository implements IPurchaseRepository {
   async create(purchase: Purchase): Promise<{ id: string }> {
     this.items.push(purchase);
 
-    return { id: purchase.getId() };
+    return { id: purchase.id };
   }
 
   async findById(id: string): Promise<PurchaseProps> {
-    const purchase = this.items.find((purchase) => purchase.getId() === id);
+    const purchase = this.items.find((purchase) => purchase.id === id);
 
     if (purchase) {
-      return purchase.getProps();
+      return purchase.props;
     }
 
     return null;
   }
 
   async getAll(): Promise<PurchaseProps[]> {
-    return this.items.map((p) => p.getProps());
+    return this.items.map((p) => p.props);
   }
 
   async edit(purchase: Purchase): Promise<PurchaseProps> {
-    const edit = await this.findById(purchase.getId());
+    const edit = await this.findById(purchase.id);
 
-    const newPurchase = Purchase.create(purchase.getProps());
+    const newPurchase = Purchase.create(purchase.props);
 
     this.items.splice(
-      this.items.findIndex((item) => item.getId() == purchase.getId()),
+      this.items.findIndex((item) => item.id == purchase.id),
       1
     );
 
     this.items.push(newPurchase);
 
-    return newPurchase.getProps();
+    return newPurchase.props;
   }
 
   async delete(id: string): Promise<boolean> {
@@ -47,7 +47,7 @@ export class MockPurchaseRepository implements IPurchaseRepository {
     }
 
     this.items.splice(
-      this.items.findIndex((item) => item.getId() == id),
+      this.items.findIndex((item) => item.id == id),
       1
     );
 
@@ -56,7 +56,7 @@ export class MockPurchaseRepository implements IPurchaseRepository {
 
   async getAllByUserId(userId: string): Promise<PurchaseProps[]> {
     return this.items
-      .filter((p) => p.getProps().userId === userId)
-      .map((p) => p.getProps());
+      .filter((p) => p.props.userId === userId)
+      .map((p) => p.props);
   }
 }

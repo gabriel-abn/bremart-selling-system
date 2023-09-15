@@ -9,15 +9,15 @@ describe("Purchase business rules", () => {
       DomainError
     );
   });
-  it("should throw if purchase has no items", () => {
+  it("should throw if purchase has no products", () => {
     expect(() => mockCompletePurchase({ items: [] })).toThrow(DomainError);
   });
-  it("should return shopping cart", () => {
+  it("should return product list", () => {
     const purchase = mockCompletePurchase({
       items: [mockProduct({}), mockProduct({})],
     });
 
-    expect(purchase.getShoppingCart()).toHaveLength(2);
+    expect(purchase.props.items).toHaveLength(2);
   });
   describe("Delivery address", () => {
     it("should throw if address is not provided", () => {
@@ -53,7 +53,7 @@ describe("Purchase business rules", () => {
         zipCode: "12345678",
       });
 
-      expect(purchase.getDeliveryAddress()).toEqual({
+      expect(purchase.props.address).toEqual({
         street: "Rua B",
         number: "321",
         city: "São Paulo",
@@ -85,7 +85,7 @@ describe("Purchase business rules", () => {
         items: [mockProduct({ price: 50 }), mockProduct({ price: 50 })],
       });
 
-      expect(purchase.getPurchaseValue()).toBe(100);
+      expect(purchase.props.purchaseValue).toBe(100);
     });
     it("should apply discount if any given", () => {
       const purchasePercentageDiscount = mockCompletePurchase({
@@ -104,9 +104,9 @@ describe("Purchase business rules", () => {
         items: [mockProduct({ price: 100 })],
       });
 
-      expect(purchasePercentageDiscount.getPurchaseValue()).toBe(90);
-      expect(purchaseValueDiscount.getPurchaseValue()).toBe(40);
-      expect(purchaseBothDiscount.getPurchaseValue()).toBe(80);
+      expect(purchasePercentageDiscount.props.purchaseValue).toBe(90);
+      expect(purchaseValueDiscount.props.purchaseValue).toBe(40);
+      expect(purchaseBothDiscount.props.purchaseValue).toBe(80);
     });
     it("should throw if discount total value is greater than purchase value", () => {
       expect(() =>
@@ -122,7 +122,7 @@ describe("Purchase business rules", () => {
         items: [mockProduct({ price: 300 })],
       });
 
-      expect(purchase.getPurchaseValue()).toBe(270);
+      expect(purchase.props.purchaseValue).toBe(270);
     });
     it("should throw if discount percentage is greater than 1 or less than 0", () => {
       expect(() =>
@@ -143,7 +143,7 @@ describe("Purchase business rules", () => {
     it("should be greater or equal to 0", () => {
       const purchase = mockCompletePurchase({ freightValue: 0 });
 
-      expect(purchase.getFreightValue()).toBe(0);
+      expect(purchase.props.freightValue).toBe(0);
       expect(() =>
         mockCompletePurchase({
           freightValue: -1,
@@ -167,9 +167,9 @@ describe("Purchase business rules", () => {
         freightDiscountValue: 10,
       });
 
-      expect(purchasePercentageDiscount.getFreightValue()).toBe(90);
-      expect(purchaseValueDiscount.getFreightValue()).toBe(190);
-      expect(purchaseBothDiscount.getFreightValue()).toBe(260);
+      expect(purchasePercentageDiscount.props.freightValue).toBe(90);
+      expect(purchaseValueDiscount.props.freightValue).toBe(190);
+      expect(purchaseBothDiscount.props.freightValue).toBe(260);
     });
     it("should throw if discount gets greater than initial value", () => {
       expect(() =>
@@ -199,43 +199,43 @@ describe("Purchase business rules", () => {
         freightValue: 100,
       });
 
-      expect(purchase.getTotalValue()).toBe(200);
+      expect(purchase.props.totalValue).toBe(200);
     });
   });
   describe("Purchase status", () => {
     it("should be initialized as 'PENDING_PAYMENT'", () => {
       const purchase = mockCompletePurchase();
 
-      expect(purchase.getStatus()).toBe("PENDING_PAYMENT");
+      expect(purchase.props.status).toBe("PENDING_PAYMENT");
     });
     it("should be able to update status", () => {
       const purchase = mockCompletePurchase();
 
-      purchase.setStatus(PurchaseStatus.CANCELED);
+      purchase.status = PurchaseStatus.CANCELED;
 
-      expect(purchase.getStatus()).toBe("CANCELED");
+      expect(purchase.props.status).toBe("CANCELED");
     });
   });
   describe("Delivery status", () => {
     it("should be initialized as null", () => {
       const purchase = mockCompletePurchase();
 
-      expect(purchase.getDeliveryStatus()).toBeNull();
+      expect(purchase.props.deliveryStatus).toBeNull();
     });
     it("should be able to update delivery status", () => {
       const purchase = mockCompletePurchase();
 
-      purchase.setDeliveryStatus({
+      purchase.deliveryStatus = {
         description: "DELIVERED",
         location: "São Paulo",
-        purchaseId: purchase.getId(),
+        purchaseId: purchase.id,
         trackingId: "123456789",
-      });
+      };
 
-      expect(purchase.getDeliveryStatus()).toEqual({
+      expect(purchase.props.deliveryStatus).toEqual({
         description: "DELIVERED",
         location: "São Paulo",
-        purchaseId: purchase.getId(),
+        purchaseId: purchase.id,
         trackingId: "123456789",
       });
     });

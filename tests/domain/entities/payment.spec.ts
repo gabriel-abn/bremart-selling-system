@@ -13,17 +13,17 @@ describe("Payment business rules", () => {
     it("should update payment status just if it's pending", () => {
       const pendingPayment = mockPayment({});
 
-      pendingPayment.updateStatus(PaymentStatus.CONFIRMED);
+      pendingPayment.status = PaymentStatus.CONFIRMED;
 
       expect(pendingPayment.status).toBe("CONFIRMED");
     });
     it("should throw if update confirmed payment status", () => {
       const confirmedPayment = mockPayment({});
 
-      confirmedPayment.updateStatus(PaymentStatus.CONFIRMED);
+      confirmedPayment.status = PaymentStatus.CONFIRMED;
 
-      expect(() =>
-        confirmedPayment.updateStatus(PaymentStatus.PENDING)
+      expect(
+        () => (confirmedPayment.status = PaymentStatus.PENDING)
       ).toThrowError(DomainError);
     });
   });

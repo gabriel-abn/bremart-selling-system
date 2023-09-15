@@ -6,9 +6,7 @@ export class MockUserRepository implements IUserRepository {
   public items: User[] = [];
 
   async register(user: User): Promise<{ id: string }> {
-    const exist = this.items.find(
-      (u) => u.getProps().cpf == user.getProps().cpf
-    );
+    const exist = this.items.find((u) => u.props.cpf == user.props.cpf);
 
     if (exist) {
       throw new ApplicationError(
@@ -18,12 +16,12 @@ export class MockUserRepository implements IUserRepository {
     }
 
     this.items.push(user);
-    return { id: user.getId() };
+    return { id: user.id };
   }
 
   async getById(id: string): Promise<User> {
     const user = this.items.find((u) => {
-      if (u.getId() === id) {
+      if (u.id === id) {
         return u;
       }
     });
@@ -37,7 +35,7 @@ export class MockUserRepository implements IUserRepository {
 
   async getByCPF(cpf: string): Promise<User> {
     const user = this.items.find((u) => {
-      return u.getProps().cpf === cpf;
+      return u.props.cpf === cpf;
     });
 
     if (!user) {
