@@ -1,9 +1,24 @@
 import { ApplicationError } from "@application/common";
 import { GetUserUseCase } from "@application/use-cases/user";
-import { MockDataValidation } from "@test-application/mocks/protocols";
+import { MockDataValidation } from "@test-application/mocks/protocols/apis";
 import { MockUserRepository } from "@test-application/mocks/repositories";
 import { mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it } from "vitest";
+
+/**
+- DONE (User) get-user
+- Receber o id ou cpf do usuário
+  - Casos de erro:
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+- Caso de sucesso:
+  - ID do usuário criptografado
+  - Dados do usuário
+    - Nome
+    - CPF
+    - Email
+    - Data de nascimento
+    - Telefone
+*/
 
 const makeSut = () => {
   const repository = new MockUserRepository();

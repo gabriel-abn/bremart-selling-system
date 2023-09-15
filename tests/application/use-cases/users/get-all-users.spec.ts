@@ -3,6 +3,13 @@ import { MockUserRepository } from "@test-application/mocks/repositories";
 import { mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it } from "vitest";
 
+/**
+- TEST (User) get-all-users
+- Recuperar todos os usuários
+- Caso de sucesso:
+  - Lista de usuários
+ */
+
 const makeSut = () => {
   const repository = new MockUserRepository();
 

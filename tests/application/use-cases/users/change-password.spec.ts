@@ -1,5 +1,28 @@
 import { describe, it } from "vitest";
 
+/**
+- TEST (User) change-password
+- Receber o email do usuário e um campo opcional contendo um token de verificação e a nova senha
+- Se o caso de uso receber apenas o email do usuário:
+  - Enviar um email para o usuário com um link para alterar a senha
+    - Casos de erro:
+      - Email não encontrado (`EMAIL_NOT_FOUND`: "Email não encontrado.")
+  - Caso de sucesso:
+    - Email do usuário
+    - Token de verificação
+    - Tempo máximo de espera para verificação do email
+- Se o caso de uso receber o email do usuário, a senha e o token de verificação:
+  - Verificar se o token corresponde com o email do usuário
+    - Casos de erro:
+      - Email não encontrado (`EMAIL_NOT_FOUND`: "Email não encontrado.")
+      - Token expirado (`EXPIRED_TOKEN`: "Token expirado.")
+      - Token não corresponde com o email do usuário (`INVALID_TOKEN`: "Token não corresponde com o email do usuário.")
+  - Alterar a senha do usuário
+  - Caso de sucesso:
+    - Email do usuário
+    - Senha criptografada
+ */
+
 describe("Use Case: change-password", () => {
   describe("Receiving just the user email", () => {
     it("should throw an error if email not found", () => {});

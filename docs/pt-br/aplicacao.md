@@ -28,7 +28,6 @@ Exemplo:
 <details>
   <summary> <b> Registrar um novo usuário </b> </summary>
 
-- DONE (User) register-user
 - Receber nome, cpf, email, data de nascimento e telefone
   - Casos de erro:
     - CPF já presente no repositório (`CPF_EXISTS`: "CPF já presente no repositório.")
@@ -50,7 +49,6 @@ Exemplo:
 <details>
   <summary> <b> Verificar email </b> </summary>
 
-- DONE (User) verify-email
 - Receber o email do usuário e o token de verificação
 - Verificar se o token corresponde com o email do usuário
   - Casos de erro:
@@ -68,7 +66,6 @@ Exemplo:
 <details>
   <summary> <b> Verificar número de telefone </b> </summary>
 
-- TEST (User) verify-phone
 - Receber o número de telefone do usuário e o código de verificação
 - Verificar se o código corresponde com o número de telefone do usuário
   - Casos de erro:
@@ -85,7 +82,6 @@ Exemplo:
 <details>
   <summary> <b> Adicionar um endereço de entrega </b> </summary>
 
-- TEST (User) add-address
 - Receber o id do usuário e os dados do endereço
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
@@ -99,7 +95,6 @@ Exemplo:
 <details>
   <summary> <b> Adicionar um produto ao carrinho </b> </summary>
 
-- TEST (User) add-product-to-cart
 - Receber o id do usuário e os dados do produto
   - Casos de erro:
     - Produto não encontrado (`PRODUCT_NOT_FOUND`: "Produto não encontrado.")
@@ -115,7 +110,6 @@ Exemplo:
 <details>
   <summary> <b> Remover um produto do carrinho </b> </summary>
 
-- TEST (User) remove-product-from-cart
 - Receber o id do usuário e o id do produto
   - Casos de erro:
     - Produto não encontrado (`PRODUCT_NOT_FOUND`: "Produto não encontrado.")
@@ -129,7 +123,6 @@ Exemplo:
 <details>
   <summary> <b> Mostrar o histórico de compras do usuário </b> </summary>
 
-- TEST (User) show-purchase-history
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
@@ -143,7 +136,6 @@ Exemplo:
 <details>
   <summary> <b> Mostrar o carrinho </b> </summary>
 
-- TEST (User) show-shopping-cart
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
@@ -157,7 +149,6 @@ Exemplo:
 <details>
   <summary> <b> Mostrar os dados do usuário </b> </summary>
 
-- DONE (User) get-user
 - Receber o id ou cpf do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
@@ -175,7 +166,6 @@ Exemplo:
 <details>
   <summary> <b> Atualizar os dados do usuário </b> </summary>
 
-- TEST (User) update-user
 - Receber o id do usuário e os dados do usuário
   - Casos de erro:
     - ID do usuário não encontrado
@@ -187,7 +177,6 @@ Exemplo:
 <details>
   <summary> <b> Alterar a senha do usuário </b> </summary>
 
-- TEST (User) change-password
 - Receber o email do usuário e um campo opcional contendo um token de verificação e a nova senha
 - Se o caso de uso receber apenas o email do usuário:
   - Enviar um email para o usuário com um link para alterar a senha
@@ -243,7 +232,6 @@ Exemplo:
 <details>
   <summary> <b> Desativar o usuário </b> </summary>
 
-- TEST (User) disable-user
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
@@ -258,7 +246,6 @@ Exemplo:
 <details>
   <summary> <b> Remover usuário </b> </summary>
 
-- TEST (User) remove-user
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
@@ -272,7 +259,6 @@ Exemplo:
 <details>
   <summary> <b> Recuperar todos os usuários </b> </summary>
 
-- TEST (User) get-all-users
 - Recuperar todos os usuários
 - Caso de sucesso:
   - Lista de usuários
@@ -290,7 +276,6 @@ Exemplo:
 <details>
   <summary> <b> Finalizar uma compra, pegando os produtos do carrinho e criando uma nova compra </b> </summary>
 
-- TODO (Purchase) create-purchase
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
@@ -307,7 +292,6 @@ Exemplo:
 <details>
   <summary> <b> Cancelar uma compra </b> </summary>
 
-- DOING (Purchase) cancel-purchase
 - Receber o id do usuário e o id da compra
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")

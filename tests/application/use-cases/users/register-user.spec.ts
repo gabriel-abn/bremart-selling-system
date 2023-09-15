@@ -10,6 +10,27 @@ import { UUIDGeneratorMock } from "@test-domain/mocks";
 import { mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it, vi } from "vitest";
 
+/**
+ * 
+ * #DONE (User) register-user
+  - Receber nome, cpf, email, data de nascimento e telefone
+    - Casos de erro:
+      - CPF já presente no repositório (`CPF_EXISTS`: "CPF já presente no repositório.")
+      - CPF inválido (`INVALID_CPF`: "CPF inválido.")
+      - Email inválido (`INVALID_EMAIL`: "Email inválido.")
+      - Formato da data de nascimento inválida (`INVALID_DATE_FORMAT`: "Formato da data de nascimento inválida.")
+      - Telefone inválido (`INVALID_PHONE_NUMBER`: "Telefone inválido.")
+  - A senha deve ser gerada automaticamente
+  - A senha deve ser criptografada antes do armazenamento
+  - O usuário deve receber um email de confirmação
+  - Caso de Sucesso:
+    - ID do usuário criptografado
+    - Email do usuário
+    - Senha criptografada
+    - Tempo máximo de espera para verificação do email      
+ * 
+ */
+
 const makeSut = () => {
   const userRepository = new MockUserRepository();
 

@@ -14,6 +14,20 @@ import {
 import { mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it } from "vitest";
 
+/* 
+- TODO (Purchase) create-purchase
+- Receber o id do usuário
+  - Casos de erro:
+    - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
+- Recuperar todos os produtos do carrinho
+  - Casos de erro:
+    - Carrinho vazio (`EMPTY_CART`: "Carrinho vazio.")
+- Criar uma nova compra com os produtos do carrinho
+- Caso de sucesso:
+  - ID da compra criptografado
+  - Valor total da compra
+*/
+
 const makeSut = () => {
   const userRepository = new MockUserRepository();
 
