@@ -2,7 +2,7 @@ import { Address, User, UserProps } from "@domain/entities";
 import { faker } from "@faker-js/faker";
 
 export const mockUser = (mock: Partial<UserProps>): User => {
-  const id = "ID" + Math.floor(Math.random() * 100).toString();
+  const id = "ID" + Math.floor(Math.random() * 100).toString() || mock.id;
 
   return User.create({
     id: id,
@@ -15,7 +15,7 @@ export const mockUser = (mock: Partial<UserProps>): User => {
     rg: faker.phone.number("##.###.###"),
     addresses: [
       {
-        id: id + "1",
+        id: id + "-0",
         street: faker.location.street(),
         number: faker.location.buildingNumber(),
         city: faker.location.city(),
@@ -34,7 +34,7 @@ export const mockAddress = (
   mock?: Partial<Omit<Address, "id">>
 ): Address => {
   return {
-    id: id + "1",
+    id,
     street: faker.location.street(),
     number: faker.location.buildingNumber(),
     city: faker.location.city(),

@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 
 /* 
 
-- TEST (User) add-address
+- DONE (User) add-address
 - Receber o id do usuário e os dados do endereço
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")

@@ -1,5 +1,5 @@
 import { DomainError } from "@domain/common/domain-error";
-import { mockUser } from "@test-domain/mocks/mock-user";
+import { mockAddress, mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it } from "vitest";
 
 describe("User business rules", () => {
@@ -101,6 +101,14 @@ describe("User business rules", () => {
     user.defaultAddress = 1;
 
     expect(user.props.defaultAddress).toHaveProperty("street", "Rua 2");
+  });
+  it("should throw if add duplicated address", () => {
+    const user = mockUser({
+      id: "123",
+      addresses: [mockAddress("123")],
+    });
+
+    expect(() => user.addAddress(mockAddress("123-0"))).toThrow(DomainError);
   });
   it("should be initialized with empty shopping cart and purchase historic", () => {
     const user = mockUser({});
