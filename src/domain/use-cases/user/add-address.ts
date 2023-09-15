@@ -3,7 +3,7 @@ import { Address } from "@domain/entities";
 
 export namespace AddAddress {
   export type Params = {
-    email: string;
+    id: string;
     address: Address;
   };
   export type Result = {

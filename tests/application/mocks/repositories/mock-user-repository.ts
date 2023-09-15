@@ -19,7 +19,7 @@ export class MockUserRepository implements IUserRepository {
     return { id: user.id };
   }
 
-  async getById(id: string): Promise<User> {
+  async get(id: string): Promise<User> {
     const user = this.items.find((u) => {
       if (u.id === id) {
         return u;
@@ -33,16 +33,26 @@ export class MockUserRepository implements IUserRepository {
     return user;
   }
 
-  async getByCPF(cpf: string): Promise<User> {
+  async delete(id: string): Promise<void> {
     const user = this.items.find((u) => {
-      return u.props.cpf === cpf;
+      if (u.id === id) {
+        return u;
+      }
     });
 
     if (!user) {
       throw new ApplicationError("User not found.", "USER_NOT_FOUND");
     }
 
-    return user;
+    this.items = this.items.filter((u) => u.id !== id);
+  }
+
+  async update(user: User): Promise<void> {
+    this.items.map((u) => {
+      if (u.id === user.id) {
+        u = user;
+      }
+    });
   }
 
   async getAll(): Promise<User[]> {
