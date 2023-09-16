@@ -5,8 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
-    "test:cov": "vitest dev run --coverage",
-    "dev": "nodemon src/server.ts --watch"
+    "test:stagged": "vitest related --run",
+    "test:push": "vitest --run --coverage",
+    "dev": "nodemon src/server.ts --watch",
+    "lint": "eslint --ext .ts src",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write",
+      "npm run test:stagged"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -16,8 +26,15 @@
     "@types/node": "^18.15.11",
     "@types/nodemon": "^1.19.2",
     "@types/uuid4": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
     "@vitest/coverage-v8": "^0.34.4",
+    "eslint": "^8.49.0",
+    "eslint-config-prettier": "^9.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "nodemon": "^2.0.22",
+    "prettier": "^3.0.3",
     "tsx": "^3.12.8",
     "typescript": "^5.0.4",
     "vite-tsconfig-paths": "^4.2.1",
