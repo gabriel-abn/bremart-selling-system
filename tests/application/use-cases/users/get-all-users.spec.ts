@@ -4,7 +4,7 @@ import { mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it } from "vitest";
 
 /**
-- TEST (User) get-all-users
+- DONE (User) get-all-users
 - Recuperar todos os usuários
 - Caso de sucesso:
   - Lista de usuários
@@ -13,14 +13,7 @@ import { describe, expect, it } from "vitest";
 const makeSut = () => {
   const repository = new MockUserRepository();
 
-  repository.items.push(
-    mockUser({}),
-    mockUser({}),
-    mockUser({}),
-    mockUser({}),
-    mockUser({}),
-    mockUser({})
-  );
+  repository.items.push(mockUser({}), mockUser({}), mockUser({}), mockUser({}), mockUser({}), mockUser({}));
 
   const sut = new GetAllUsersUseCase(repository);
 
