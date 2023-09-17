@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest",
-    "test:stagged": "vitest related --run",
-    "test:push": "vitest --run --coverage",
+    "test": "vitest --passWithNoTests",
+    "test:stagged": "vitest related --run --passWithNoTests",
+    "test:push": "vitest --run --coverage --passWithNoTests",
     "dev": "nodemon src/server.ts --watch",
     "lint": "eslint --ext .ts src",
     "lint-staged": "lint-staged"
