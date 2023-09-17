@@ -21,11 +21,7 @@ import { describe, expect, it } from "vitest";
 const makeSut = () => {
   const repository = new MockUserRepository();
 
-  repository.items.push(
-    mockUser({ id: "valid_id", email: "valid_email" }),
-    mockUser({}),
-    mockUser({})
-  );
+  repository.items.push(mockUser({ id: "valid_id", email: "valid_email" }), mockUser({}), mockUser({}));
 
   const sut = new AddAddressUseCase(repository, new FakeCrypter());
   return { sut };
@@ -39,7 +35,7 @@ describe("Add address use case", () => {
       sut.execute({
         id: "invalid_id",
         address: mockAddress("ID"),
-      })
+      }),
     ).rejects.toThrowError("USER_NOT_FOUND");
   });
 
@@ -50,7 +46,7 @@ describe("Add address use case", () => {
 
     const response = await sut.execute({
       id: "valid_id",
-      address: mockAddress("ID"),
+      address: mockAddress("valid_id"),
     });
 
     expect(response.cryptedAddressId).toBeTruthy();
