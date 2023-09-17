@@ -9,10 +9,7 @@ export class MockUserRepository implements IUserRepository {
     const exist = this.items.find((u) => u.props.cpf == user.props.cpf);
 
     if (exist) {
-      throw new ApplicationError(
-        "CPF already exists in repository.",
-        "CPF_EXISTS"
-      );
+      throw new ApplicationError("CPF already exists in repository.", "CPF_EXISTS");
     }
 
     this.items.push(user);
@@ -20,17 +17,11 @@ export class MockUserRepository implements IUserRepository {
   }
 
   async get(id: string): Promise<User> {
-    const user = this.items.find((u) => {
+    return this.items.find((u) => {
       if (u.id === id) {
         return u;
       }
     });
-
-    if (!user) {
-      throw new ApplicationError("User not found.", "USER_NOT_FOUND");
-    }
-
-    return user;
   }
 
   async delete(id: string): Promise<void> {
