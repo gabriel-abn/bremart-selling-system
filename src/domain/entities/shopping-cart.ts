@@ -30,7 +30,6 @@ export class ShoppingCart {
     }
 
     this.totalValue -= product.price * product.quantity;
-
     this.products = this.products.filter((product) => product.id !== productId);
   }
 
