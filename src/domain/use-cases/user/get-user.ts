@@ -7,7 +7,7 @@ export namespace GetUser {
     cpf: string;
   }>;
 
-  export type Result = User;
+  export type Result = Omit<User, "id, cpf, password">;
 }
 
 export interface GetUser extends UseCase<GetUser.Params, GetUser.Result> {

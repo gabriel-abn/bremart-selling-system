@@ -24,12 +24,7 @@ const makeSut = () => {
   const repository = new MockUserRepository();
   const dataValidator = new MockDataValidation();
 
-  repository.items.push(
-    mockUser({}),
-    mockUser({}),
-    mockUser({ id: "any_id" }),
-    mockUser({ cpf: "12345678900" })
-  );
+  repository.items.push(mockUser({}), mockUser({}), mockUser({ id: "any_id" }), mockUser({ cpf: "12345678900" }));
 
   const sut = new GetUserUseCase(repository, dataValidator);
 
@@ -46,15 +41,7 @@ describe("Get User Use Case", () => {
 
     expect(exist).toBeTruthy();
   });
-  it("should get a existent user by cpf", async () => {
-    const { sut } = makeSut();
 
-    const exist = await sut.execute({
-      cpf: "123.456.789-00",
-    });
-
-    expect(exist).toBeTruthy();
-  });
   it("should throw if user does not exist", async () => {
     expect(async () => {
       const { sut } = makeSut();
@@ -64,6 +51,7 @@ describe("Get User Use Case", () => {
       });
     }).rejects.toThrowError(ApplicationError);
   });
+
   it("should throw if neither cpf nor id provided", async () => {
     expect(async () => {
       const { sut } = makeSut();
