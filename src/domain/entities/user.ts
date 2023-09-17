@@ -49,12 +49,14 @@ export class User extends Entity<UserProps> {
     this.props.defaultAddress = this.props.addresses[addressId];
   }
 
-  public addProductToShoppingCart(product: Product): void {
-    if (!product.productId) {
-      throw new DomainError("Product must have an id.");
-    }
+  public addProductToShoppingCart(...product: Product[]): void {
+    product.forEach((p) => {
+      if (!p.productId) {
+        throw new DomainError(`Product ${p.name} must have an id.`);
+      }
 
-    this._props.shoppingCart.addProduct(product);
+      this._props.shoppingCart.addProduct(p);
+    });
   }
 
   public removeProductFromShoppingCart(productId: string): void {
