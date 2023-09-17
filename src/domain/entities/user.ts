@@ -35,7 +35,7 @@ export class User extends Entity<UserProps> {
   public addAddress(address: Address): void {
     this.props.addresses.map((a) => {
       if (a.id === address.id) {
-        throw new DomainError(["Address already exists."]);
+        throw new DomainError("Address already exists.");
       }
     });
 
@@ -87,7 +87,7 @@ export class User extends Entity<UserProps> {
     }
 
     if (errors.length > 0) {
-      throw new DomainError(errors);
+      throw new DomainError(...errors);
     }
 
     return new User({
