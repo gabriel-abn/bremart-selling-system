@@ -3,5 +3,6 @@ export * from "./add-product-to-cart-use-case";
 export * from "./get-all-users-use-case";
 export * from "./get-user-use-case";
 export * from "./register-user-use-case";
+export * from "./show-purchase-historic-use-case";
 export * from "./show-shopping-cart-use-case";
 export * from "./verify-email-use-case";

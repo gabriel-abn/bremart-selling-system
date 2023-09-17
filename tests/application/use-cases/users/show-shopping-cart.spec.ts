@@ -4,7 +4,7 @@ import { mockProduct, mockUser } from "@test-domain/mocks";
 import { describe, expect, it } from "vitest";
 
 /**
-- DOING (User) show-shopping-cart
+- DONE (User) show-shopping-cart
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
