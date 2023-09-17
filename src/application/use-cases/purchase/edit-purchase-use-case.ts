@@ -1,8 +1,5 @@
 import { ApplicationError, UseCase } from "@application/common";
-import {
-  IProductRepository,
-  IPurchaseRepository,
-} from "@application/repositories";
+import { IProductRepository, IPurchaseRepository } from "@application/repositories";
 import { PaymentType, Product } from "@domain/entities";
 
 export namespace EditPurchase {
@@ -18,12 +15,10 @@ export namespace EditPurchase {
   };
 }
 
-export class EditPurchaseUseCase
-  implements UseCase<EditPurchase.Params, EditPurchase.Result>
-{
+export class EditPurchaseUseCase implements UseCase<EditPurchase.Params, EditPurchase.Result> {
   constructor(
     private purchaseRepository: IPurchaseRepository,
-    private purchaseItemRepository: IProductRepository
+    private purchaseItemRepository: IProductRepository,
   ) {}
 
   async execute(data: EditPurchase.Params): Promise<EditPurchase.Result> {
@@ -39,15 +34,10 @@ export class EditPurchaseUseCase
 
     const itemsID = data.items.map((p) => p.id);
 
-    const purchaseItems = await this.purchaseItemRepository.findManybyID(
-      itemsID
-    );
+    const purchaseItems = await this.purchaseItemRepository.getMany(itemsID);
 
     if (purchaseItems.length == 0) {
-      throw new ApplicationError(
-        "Invalid items IDs provided",
-        this.constructor.name
-      );
+      throw new ApplicationError("Invalid items IDs provided", this.constructor.name);
     }
 
     return {

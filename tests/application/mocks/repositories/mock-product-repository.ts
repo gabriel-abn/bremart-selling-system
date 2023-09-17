@@ -11,10 +11,10 @@ export class MockProductRepository implements IProductRepository {
     mockProduct({ id: "valid_id_2" }),
   ];
 
-  async findByID(id: string): Promise<Product> {
+  async get(id: string): Promise<Product> {
     return this.items.find((p) => p.id === id);
   }
-  async findManybyID(ids: string[]): Promise<Product[]> {
+  async getMany(ids: string[]): Promise<Product[]> {
     return this.items.filter((p) => ids.includes(p.id));
   }
 }

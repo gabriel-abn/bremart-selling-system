@@ -10,9 +10,7 @@ export namespace DeletePurchase {
   };
 }
 
-export class DeletePurchaseUseCase
-  implements UseCase<DeletePurchase.Params, DeletePurchase.Result>
-{
+export class DeletePurchaseUseCase implements UseCase<DeletePurchase.Params, DeletePurchase.Result> {
   constructor(private readonly purchaseRepository: IPurchaseRepository) {}
 
   async execute(data: DeletePurchase.Params): Promise<DeletePurchase.Result> {
