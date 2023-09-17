@@ -2,6 +2,7 @@ import { DomainError, Entity } from "../common";
 import { Address } from "./address";
 import { Product } from "./product";
 import { Purchase } from "./purchase";
+import { ShoppingCart } from "./shopping-cart";
 
 export type UserProps = {
   id: string;
@@ -14,7 +15,7 @@ export type UserProps = {
   phone: string;
   addresses: Address[];
   defaultAddress?: Address;
-  shoppingCart?: Product[];
+  shoppingCart?: ShoppingCart;
   purchaseHistoric?: Purchase[];
 };
 
@@ -49,25 +50,19 @@ export class User extends Entity<UserProps> {
   }
 
   public addProductToShoppingCart(product: Product): void {
-    this.props.shoppingCart.push(product);
+    if (!product.productId) {
+      throw new DomainError("Product must have an id.");
+    }
+
+    this._props.shoppingCart.addProduct(product);
   }
 
   public removeProductFromShoppingCart(productId: string): void {
-    this.props.shoppingCart = this.props.shoppingCart.filter(
-      (product) => product.id !== productId
-    );
+    this._props.shoppingCart.removeProduct(productId);
   }
 
-  public updateProductQuantityInCart(
-    productId: string,
-    quantity: number
-  ): void {
-    this.props.shoppingCart = this.props.shoppingCart.map((product) => {
-      if (product.id === productId) {
-        product.quantity = quantity;
-      }
-      return product;
-    });
+  public updateProductQuantityInCart(productId: string, quantity: number): void {
+    this._props.shoppingCart.updateProductQuantity(productId, quantity);
   }
 
   public static restore(props: UserProps): User {
@@ -75,12 +70,9 @@ export class User extends Entity<UserProps> {
   }
 
   public static create(props: UserProps): User {
-    var errors: string[] = [];
+    const errors: string[] = [];
 
-    if (
-      new Date(Date.now()).getFullYear() - props.birthDate.getFullYear() <
-      18
-    ) {
+    if (new Date(Date.now()).getFullYear() - props.birthDate.getFullYear() < 18) {
       errors.push("Users with less than 18 years are not allowed");
     }
 
@@ -98,7 +90,7 @@ export class User extends Entity<UserProps> {
 
     return new User({
       purchaseHistoric: [],
-      shoppingCart: [],
+      shoppingCart: new ShoppingCart(),
       ...props,
     });
   }

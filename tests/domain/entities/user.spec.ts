@@ -1,4 +1,5 @@
 import { DomainError } from "@domain/common/domain-error";
+import { mockProduct } from "@test-domain/mocks";
 import { mockAddress, mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it } from "vitest";
 
@@ -7,7 +8,7 @@ describe("User business rules", () => {
     expect(() =>
       mockUser({
         birthDate: new Date("2010-01-01"),
-      })
+      }),
     ).toThrow(DomainError);
   });
   it("should be able to update user name", () => {
@@ -113,7 +114,7 @@ describe("User business rules", () => {
   it("should be initialized with empty shopping cart and purchase historic", () => {
     const user = mockUser({});
 
-    expect(user.props.shoppingCart).toEqual([]);
+    expect(user.props.shoppingCart.items).toEqual([]);
     expect(user.props.purchaseHistoric).toEqual([]);
   });
   it("should be able to add products to cart", () => {
@@ -128,7 +129,7 @@ describe("User business rules", () => {
       uniqueDiscount: 0,
     });
 
-    expect(user.props.shoppingCart[0]).toHaveProperty("name", "Product 1");
+    expect(user.props.shoppingCart.items[0]).toHaveProperty("name", "Product 1");
   });
   it("should be able to remove products from cart", () => {
     const user = mockUser({});
@@ -144,7 +145,7 @@ describe("User business rules", () => {
 
     user.removeProductFromShoppingCart("123");
 
-    expect(user.props.shoppingCart).toEqual([]);
+    expect(user.props.shoppingCart.items).toEqual([]);
   });
   it("should be able to update products quantity in cart", () => {
     const user = mockUser({});
@@ -160,6 +161,14 @@ describe("User business rules", () => {
 
     user.updateProductQuantityInCart("123", 2);
 
-    expect(user.props.shoppingCart[0]).toHaveProperty("quantity", 2);
+    expect(user.props.shoppingCart.items[0]).toHaveProperty("quantity", 2);
+  });
+  it("should throw if add duplicated product to cart", () => {
+    const user = mockUser({});
+    const product = mockProduct({ id: "123" });
+
+    user.addProductToShoppingCart(product);
+
+    expect(() => user.addProductToShoppingCart(product)).toThrow(DomainError);
   });
 });
