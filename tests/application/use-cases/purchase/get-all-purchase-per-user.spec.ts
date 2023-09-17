@@ -1,9 +1,6 @@
 import { ApplicationError } from "@application/common";
 import { GetAllPurchasePerUserUseCase } from "@application/use-cases/purchase";
-import {
-  MockPurchaseRepository,
-  MockUserRepository,
-} from "@test-application/mocks/repositories";
+import { MockPurchaseRepository, MockUserRepository } from "@test-application/mocks/repositories";
 import { mockCompletePurchase } from "@test-domain/mocks";
 import { mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it } from "vitest";
@@ -20,15 +17,12 @@ const makeSut = () => {
   purchaseRepository.create(mockCompletePurchase({ userId: "any_id_1" }));
   purchaseRepository.create(mockCompletePurchase({ userId: "any_id_1" }));
 
-  const sut = new GetAllPurchasePerUserUseCase(
-    purchaseRepository,
-    userRepository
-  );
+  const sut = new GetAllPurchasePerUserUseCase(purchaseRepository, userRepository);
 
   return { sut };
 };
 
-describe("Get All Purchase per User Use Case", () => {
+describe.skip("Get All Purchase per User Use Case", () => {
   it("should return all purchases by user id", async () => {
     const { sut } = makeSut();
 

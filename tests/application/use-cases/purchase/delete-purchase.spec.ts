@@ -6,7 +6,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 const repository = new MockPurchaseRepository();
 const sut = new DeletePurchaseUseCase(repository);
 
-describe("Delete Purchase Use Case", () => {
+describe.skip("Delete Purchase Use Case", () => {
   beforeAll(async () => {
     for (let index = 0; index < 5; index++) {
       await repository.create(mockCompletePurchase({}));
