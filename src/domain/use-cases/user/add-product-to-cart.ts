@@ -1,10 +1,9 @@
 import { UseCase } from "@domain/common";
-import { Product } from "@domain/entities";
 
 export namespace AddProductToCart {
   export type Params = {
     userId: string;
-    product: Product;
+    productId: string;
   };
 
   export type Result = {
@@ -13,9 +12,6 @@ export namespace AddProductToCart {
   };
 }
 
-export interface AddProductToCart
-  extends UseCase<AddProductToCart.Params, AddProductToCart.Result> {
-  execute: (
-    params: AddProductToCart.Params
-  ) => Promise<AddProductToCart.Result>;
+export interface AddProductToCart extends UseCase<AddProductToCart.Params, AddProductToCart.Result> {
+  execute: (params: AddProductToCart.Params) => Promise<AddProductToCart.Result>;
 }
