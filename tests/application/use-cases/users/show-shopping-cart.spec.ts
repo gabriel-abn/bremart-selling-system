@@ -31,7 +31,7 @@ describe("Use Case: Show Shopping Cart", () => {
   it("should throw if user not found", async () => {
     const { sut } = makeSut();
 
-    await expect(sut.execute({ userId: "invalid_id" })).rejects.toThrow("USER_NOT_FOUND");
+    await expect(() => sut.execute({ userId: "invalid_id" })).rejects.toThrow("USER_NOT_FOUND");
   });
   it("should return user's shopping cart", async () => {
     const { sut } = makeSut();
