@@ -14,7 +14,7 @@ import { describe, it } from "vitest";
   - Confirmação de verificação do número de telefone
 */
 
-describe("Verify phone", () => {
+describe.todo("Verify phone", () => {
   it("should throw if verify code is invalid");
   it("should throw if verify code is expired");
   it("should throw if phone is not found");

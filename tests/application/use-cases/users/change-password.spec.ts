@@ -23,7 +23,7 @@ import { describe, it } from "vitest";
     - Senha criptografada
  */
 
-describe("Use Case: change-password", () => {
+describe.todo("Use Case: change-password", () => {
   describe("Receiving just the user email", () => {
     it("should throw an error if email not found", () => {});
     it("should send email with verification code");
