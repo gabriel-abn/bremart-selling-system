@@ -17,6 +17,7 @@ export type UserProps = {
   defaultAddress?: Address;
   shoppingCart?: ShoppingCart;
   purchaseHistoric?: Purchase[];
+  status?: "ACTIVE" | "DISABLED";
 };
 
 export class User extends Entity<UserProps> {
@@ -47,6 +48,18 @@ export class User extends Entity<UserProps> {
 
   public set defaultAddress(addressId: number) {
     this.props.defaultAddress = this.props.addresses[addressId];
+  }
+
+  public get status(): "ACTIVE" | "DISABLED" {
+    return this._props.status;
+  }
+
+  public set status(status: "ACTIVE" | "DISABLED") {
+    if (this.status === "DISABLED" && status === "DISABLED") {
+      throw new DomainError("User is already disabled.");
+    }
+
+    this._props.status = status;
   }
 
   public addProductToShoppingCart(...product: Product[]): void {
@@ -93,6 +106,7 @@ export class User extends Entity<UserProps> {
     return new User({
       purchaseHistoric: [],
       shoppingCart: new ShoppingCart(),
+      status: "ACTIVE",
       ...props,
     });
   }

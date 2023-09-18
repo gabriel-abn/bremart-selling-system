@@ -189,4 +189,12 @@ describe("User business rules", () => {
 
     expect(() => user.removeProductFromShoppingCart(product.id)).toThrow(DomainError);
   });
+
+  it("should update status", () => {
+    const user = mockUser({});
+
+    user.status = "DISABLED";
+
+    expect(() => (user.status = "DISABLED")).toThrow(DomainError);
+  });
 });
