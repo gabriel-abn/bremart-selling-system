@@ -1,10 +1,10 @@
-import { Purchase, PurchaseProps } from "@domain/entities";
+import { Purchase } from "@domain/entities";
 
 export interface IPurchaseRepository {
   create(purchase: Purchase): Promise<{ id: string }>;
-  findById(id: string): Promise<PurchaseProps>;
-  getAll(): Promise<PurchaseProps[]>;
-  edit(purchase: Purchase): Promise<PurchaseProps>;
+  get(id: string): Promise<Purchase>;
+  getAll(): Promise<Purchase[]>;
+  edit(purchase: Purchase): Promise<boolean>;
   delete(id: string): Promise<boolean>;
-  getAllByUserId(userId: string): Promise<PurchaseProps[]>;
+  getAllByUserId(userId: string): Promise<Purchase[]>;
 }

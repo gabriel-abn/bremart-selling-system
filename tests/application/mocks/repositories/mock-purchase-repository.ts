@@ -1,8 +1,8 @@
 import { IPurchaseRepository } from "@application/repositories";
-import { Purchase, PurchaseProps } from "@domain/entities";
+import { Purchase } from "@domain/entities";
 
 export class MockPurchaseRepository implements IPurchaseRepository {
-  private items: Purchase[] = [];
+  items: Purchase[] = [];
 
   async create(purchase: Purchase): Promise<{ id: string }> {
     this.items.push(purchase);
@@ -10,37 +10,34 @@ export class MockPurchaseRepository implements IPurchaseRepository {
     return { id: purchase.id };
   }
 
-  async findById(id: string): Promise<PurchaseProps> {
-    const purchase = this.items.find((purchase) => purchase.id === id);
-
-    if (purchase) {
-      return purchase.props;
-    }
-
-    return null;
+  async get(id: string): Promise<Purchase> {
+    return this.items.find((purchase) => purchase.id === id);
   }
 
-  async getAll(): Promise<PurchaseProps[]> {
-    return this.items.map((p) => p.props);
+  async getAll(): Promise<Purchase[]> {
+    return this.items.map((p) => p);
   }
 
-  async edit(purchase: Purchase): Promise<PurchaseProps> {
-    const edit = await this.findById(purchase.id);
+  async edit(purchase: Purchase): Promise<boolean> {
+    const edit = await this.get(purchase.id);
 
-    const newPurchase = Purchase.create(purchase.props);
+    const newPurchase = Purchase.create({
+      ...edit,
+      ...purchase.props,
+    });
 
     this.items.splice(
       this.items.findIndex((item) => item.id == purchase.id),
-      1
+      1,
     );
 
     this.items.push(newPurchase);
 
-    return newPurchase.props;
+    return true;
   }
 
   async delete(id: string): Promise<boolean> {
-    const purchase = await this.findById(id);
+    const purchase = await this.get(id);
 
     if (!purchase) {
       return false;
@@ -48,15 +45,13 @@ export class MockPurchaseRepository implements IPurchaseRepository {
 
     this.items.splice(
       this.items.findIndex((item) => item.id == id),
-      1
+      1,
     );
 
     return true;
   }
 
-  async getAllByUserId(userId: string): Promise<PurchaseProps[]> {
-    return this.items
-      .filter((p) => p.props.userId === userId)
-      .map((p) => p.props);
+  async getAllByUserId(userId: string): Promise<Purchase[]> {
+    return this.items.filter((p) => p.props.userId === userId).map((p) => p);
   }
 }
