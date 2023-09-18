@@ -46,7 +46,7 @@ const makeSut = () => {
   return { sut };
 };
 
-describe("Add Product To Cart", () => {
+describe("Use Case: Add Product To Cart", () => {
   describe("error handling", () => {
     it("should throw if product does not exist", async () => {
       const { sut } = makeSut();

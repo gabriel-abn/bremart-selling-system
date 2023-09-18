@@ -2,10 +2,7 @@ import { ApplicationError } from "@application/common";
 import { RegisterUserUseCase } from "@application/use-cases/user";
 import { FakeHasher, SpyEmailSender } from "@test-application/mocks/protocols";
 import { MockDataValidation } from "@test-application/mocks/protocols/apis";
-import {
-  MockTokenRepository,
-  MockUserRepository,
-} from "@test-application/mocks/repositories";
+import { MockTokenRepository, MockUserRepository } from "@test-application/mocks/repositories";
 import { UUIDGeneratorMock } from "@test-domain/mocks";
 import { mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it, vi } from "vitest";
@@ -39,7 +36,7 @@ const makeSut = () => {
     mockUser({}),
     mockUser({ rg: "12345678" }),
     mockUser({ cpf: "12345678900" }),
-    mockUser({ cpf: "11100011100" })
+    mockUser({ cpf: "11100011100" }),
   );
 
   const sut = new RegisterUserUseCase(
@@ -48,7 +45,7 @@ const makeSut = () => {
     new MockDataValidation(),
     new SpyEmailSender(),
     new FakeHasher(),
-    new MockTokenRepository()
+    new MockTokenRepository(),
   );
 
   return {
@@ -57,7 +54,7 @@ const makeSut = () => {
   };
 };
 
-describe("Register User Use Case", () => {
+describe("Use Case: Register User", () => {
   describe("Basic user fields error handling", () => {
     it("should throw if CPF already exists", async () => {
       const { sut } = makeSut();
@@ -67,7 +64,7 @@ describe("Register User Use Case", () => {
         sut.execute({
           ...mock.props,
           birthDate: mock.props.birthDate.toISOString(),
-        })
+        }),
       ).rejects.toThrowError("CPF_EXISTS");
     });
     it("should throw if email is invalid", async () => {
@@ -78,7 +75,7 @@ describe("Register User Use Case", () => {
         sut.execute({
           ...mock.props,
           birthDate: mock.props.birthDate.toISOString(),
-        })
+        }),
       ).rejects.toThrow(ApplicationError);
     });
   });

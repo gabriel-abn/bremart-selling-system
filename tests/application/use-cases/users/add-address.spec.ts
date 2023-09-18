@@ -27,7 +27,7 @@ const makeSut = () => {
   return { sut };
 };
 
-describe("Add address use case", () => {
+describe("Use Case: Add address", () => {
   it("should throw if user does not exist", async () => {
     const { sut } = makeSut();
 

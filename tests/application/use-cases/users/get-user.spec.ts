@@ -31,7 +31,7 @@ const makeSut = () => {
   return { sut };
 };
 
-describe("Get User Use Case", () => {
+describe("Use Case: Get User", () => {
   it("should get a existent user by userID", async () => {
     const { sut } = makeSut();
 

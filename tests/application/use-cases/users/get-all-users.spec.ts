@@ -20,7 +20,7 @@ const makeSut = () => {
   return { sut, repository };
 };
 
-describe("Get All Users Use Case", () => {
+describe("Use Case: Get All Users", () => {
   it("should return all users", async () => {
     const { sut, repository } = makeSut();
 

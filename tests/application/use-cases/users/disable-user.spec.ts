@@ -4,7 +4,7 @@ import { mockUser } from "@test-domain/mocks";
 import { describe, expect, it } from "vitest";
 
 /**
-- DOING (User) disable-user
+- DONE (User) disable-user
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")

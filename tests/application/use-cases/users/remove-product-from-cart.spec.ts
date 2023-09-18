@@ -36,7 +36,7 @@ const makeSut = () => {
   return { sut };
 };
 
-describe("Remove Product From Cart", () => {
+describe("Use Case: Remove Product From Cart", () => {
   it("should throw if user not found", async () => {
     const { sut } = makeSut();
 
