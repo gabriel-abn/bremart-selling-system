@@ -3,7 +3,8 @@ export class DomainError extends Error {
   public readonly message: string;
 
   constructor(...message: string[]) {
-    super(Array.isArray(message) ? message.join(", ") : message);
+    super();
     this.name = "DomainError";
+    this.message = Array.isArray(message) ? message.join(", ") : message;
   }
 }
