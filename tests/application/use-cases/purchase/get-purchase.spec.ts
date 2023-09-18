@@ -1,34 +1,33 @@
-import { GetPurchase, GetPurchaseUseCase } from "@application/use-cases/purchase";
+import { GetPurchaseUseCase } from "@application/use-cases/purchase";
 import { MockPurchaseRepository } from "@test-application/mocks/repositories";
 import { mockCompletePurchase } from "@test-domain/mocks";
-import { beforeAll, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
-const repository = new MockPurchaseRepository();
-const sut = new GetPurchaseUseCase(repository);
+/* 
+- DOING (Purchase) get-purchase
+*/
 
-describe.skip("Get Purchase Use Case", () => {
-  beforeAll(async () => {
-    for (let index = 0; index < 5; index++) {
-      await repository.create(mockCompletePurchase({ id: `any_id_${index}` }));
-    }
+const makeSut = () => {
+  const repository = new MockPurchaseRepository();
 
-    await repository.create(mockCompletePurchase({ id: "any_id" }));
+  repository.items.push(mockCompletePurchase({ id: "any_id" }));
+
+  const sut = new GetPurchaseUseCase(repository);
+
+  return { sut, repository };
+};
+
+describe("Use Case: Get Purchase", () => {
+  it("should throw if purchase does not exists", async () => {
+    const { sut } = makeSut();
+
+    await expect(() => sut.execute({ id: "invalid_id" })).rejects.toThrow("NO_PURCHASE_FOUND");
   });
+
   it("should return purchase by id", async () => {
+    const { sut } = makeSut();
     const purchase = await sut.execute({ id: "any_id" });
 
     expect(purchase).toBeTruthy();
-  });
-
-  it("should throw if purchase does not exists", async () => {
-    const purchase = async (): Promise<GetPurchase.Result> => {
-      const response = await sut.execute({ id: "invalid_id" });
-
-      console.log(response);
-
-      return response;
-    };
-
-    expect(purchase).rejects.toThrow("GetPurchaseUseCase: Purchase not found");
   });
 });

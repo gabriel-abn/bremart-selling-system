@@ -13,21 +13,19 @@ export namespace GetPurchase {
   };
 }
 
-export class GetPurchaseUseCase
-  implements UseCase<GetPurchase.Params, GetPurchase.Result>
-{
+export class GetPurchaseUseCase implements UseCase<GetPurchase.Params, GetPurchase.Result> {
   constructor(private purchaseRepository: IPurchaseRepository) {}
 
   async execute(data: GetPurchase.Params): Promise<GetPurchase.Result> {
-    const purchase = await this.purchaseRepository.findById(data.id);
+    const purchase = await this.purchaseRepository.get(data.id);
 
     if (!purchase) {
-      throw new ApplicationError("Purchase not found", this.constructor.name);
+      throw new ApplicationError("Purchase not found", "NO_PURCHASE_FOUND");
     }
 
     return {
       id: purchase.id,
-      items: purchase.items,
+      items: purchase.props.items,
       total: 0,
     };
   }
