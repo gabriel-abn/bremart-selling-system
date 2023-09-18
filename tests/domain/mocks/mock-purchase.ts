@@ -1,4 +1,4 @@
-import { Freight, PaymentType, Product, Purchase, PurchaseProps } from "@domain/entities";
+import { Freight, PaymentType, Product, Purchase, PurchaseConstructor } from "@domain/entities";
 
 import { faker } from "@faker-js/faker";
 import { mockAddress } from "./mock-user";
@@ -15,7 +15,7 @@ export const mockProduct = (mock: Partial<Product>): Product => {
   };
 };
 
-export const mockCompletePurchase = (mock?: Partial<PurchaseProps>): Purchase => {
+export const mockCompletePurchase = (mock?: Partial<PurchaseConstructor>): Purchase => {
   const id = Math.floor(Math.random() * 100).toString();
 
   return Purchase.create({
@@ -24,10 +24,11 @@ export const mockCompletePurchase = (mock?: Partial<PurchaseProps>): Purchase =>
     address: mockAddress(id),
     items: [mockProduct({ id: "valid_id_1" })],
     paymentType: PaymentType.PIX,
-    purchaseValue: 0,
-    discountPercentage: 0,
-    discountValue: 0,
     freight: new Freight(0, 0, 0),
+    discount: {
+      percentage: 0,
+      value: 0,
+    },
     ...mock,
   });
 };

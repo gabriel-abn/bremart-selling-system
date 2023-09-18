@@ -3,6 +3,7 @@ import { Address } from "./address";
 import { Freight } from "./freight";
 import { PaymentType } from "./payment";
 import { Product } from "./product";
+import { PurchaseValue } from "./purchase-value";
 
 export enum PurchaseStatus {
   PENDING_PAYMENT = "PENDING_PAYMENT",
@@ -24,13 +25,24 @@ export type PurchaseProps = {
   items: Product[];
   address: Address;
   paymentType: PaymentType;
-  discountPercentage: number;
-  discountValue: number;
-  purchaseValue: number;
+  value: PurchaseValue;
   freight: Freight;
   status?: PurchaseStatus;
   deliveryStatus?: DeliveryStatus;
-  totalValue?: number;
+  totalValue: number;
+};
+
+export type PurchaseConstructor = {
+  id: string;
+  userId: string;
+  items: Product[];
+  address: Address;
+  paymentType: PaymentType;
+  discount: {
+    percentage: number;
+    value: number;
+  };
+  freight: Freight;
 };
 
 export class Purchase extends Entity<PurchaseProps> {
@@ -44,6 +56,10 @@ export class Purchase extends Entity<PurchaseProps> {
 
   public get freight(): Freight {
     return this._props.freight;
+  }
+
+  public get value(): PurchaseValue {
+    return this._props.value;
   }
 
   public set deliveryStatus(deliveryStatus: DeliveryStatus) {
@@ -64,9 +80,10 @@ export class Purchase extends Entity<PurchaseProps> {
     return new Purchase(props);
   }
 
-  public static create(props: Omit<PurchaseProps, "status" | "totalValue">): Purchase {
+  public static create(props: PurchaseConstructor): Purchase {
     const errors: string[] = [];
-    let total: number = 0;
+
+    let totalValue: number = 0;
 
     if (!props.userId) {
       errors.push("User id must be provided");
@@ -76,31 +93,19 @@ export class Purchase extends Entity<PurchaseProps> {
       errors.push("Purchase must have at least one item");
     }
 
-    props.purchaseValue = props.items
+    let purchaseValue = props.items
       .map((item) => item.price)
       .reduce((a, b) => {
         return a + b;
       }, 0);
 
-    if (props.purchaseValue <= 0) {
-      errors.push("Total value must be greater than 0");
+    if (props.paymentType === PaymentType.PIX && purchaseValue >= 300) {
+      purchaseValue -= purchaseValue * 0.1;
     }
 
-    if (props.discountPercentage > 1 || props.discountPercentage < 0) {
-      errors.push("Discount percentage must be between 0 and 1");
-    }
+    const value = new PurchaseValue(purchaseValue, props.discount.percentage, props.discount.value);
 
-    if (props.discountValue > props.purchaseValue) {
-      errors.push("Discount value must be less than total value");
-    }
-
-    props.purchaseValue = props.purchaseValue * (1 - props.discountPercentage) - props.discountValue;
-
-    total = props.purchaseValue + props.freight.total;
-
-    if (props.paymentType === PaymentType.PIX && props.purchaseValue >= 300) {
-      props.purchaseValue -= props.purchaseValue * 0.1;
-    }
+    totalValue = value.total + props.freight.total;
 
     if (props.address === null) {
       errors.push("Address must be provided");
@@ -118,7 +123,8 @@ export class Purchase extends Entity<PurchaseProps> {
       ...props,
       status: PurchaseStatus.PENDING_PAYMENT,
       deliveryStatus: null,
-      totalValue: total,
+      value,
+      totalValue,
     });
   }
 }

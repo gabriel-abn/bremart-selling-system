@@ -21,6 +21,7 @@ describe("Purchase business rules", () => {
     it("should throw if address is not provided", () => {
       expect(() => mockCompletePurchase({ address: null })).toThrow(DomainError);
     });
+
     it("should throw if address fields are not valid", () => {
       expect(() =>
         mockCompletePurchase({
@@ -36,6 +37,7 @@ describe("Purchase business rules", () => {
         }),
       ).toThrow(DomainError);
     });
+
     it("should be able to update delivery address", () => {
       const purchase = mockCompletePurchase({});
 
@@ -59,6 +61,7 @@ describe("Purchase business rules", () => {
         zipCode: "12345678",
       });
     });
+
     it("should throw if update delivery address with invalid fields", () => {
       const purchase = mockCompletePurchase({});
 
@@ -75,66 +78,74 @@ describe("Purchase business rules", () => {
       ).toThrow(DomainError);
     });
   });
+
   describe("Purchase value", () => {
     it("should sum all products values and be greater than 0", () => {
       const purchase = mockCompletePurchase({
         items: [mockProduct({ price: 50 }), mockProduct({ price: 50 })],
       });
 
-      expect(purchase.props.purchaseValue).toBe(100);
+      expect(purchase.value.total).toBe(100);
     });
+
     it("should apply discount if any given", () => {
       const purchasePercentageDiscount = mockCompletePurchase({
-        discountPercentage: 0.1,
+        discount: { percentage: 0.1, value: 0 },
         items: [mockProduct({ price: 100 })],
       });
 
       const purchaseValueDiscount = mockCompletePurchase({
-        discountValue: 10,
+        discount: { value: 10, percentage: 0 },
         items: [mockProduct({ price: 50 })],
       });
 
       const purchaseBothDiscount = mockCompletePurchase({
-        discountPercentage: 0.1,
-        discountValue: 10,
+        discount: {
+          percentage: 0.1,
+          value: 10,
+        },
         items: [mockProduct({ price: 100 })],
       });
 
-      expect(purchasePercentageDiscount.props.purchaseValue).toBe(90);
-      expect(purchaseValueDiscount.props.purchaseValue).toBe(40);
-      expect(purchaseBothDiscount.props.purchaseValue).toBe(80);
+      expect(purchasePercentageDiscount.value.total).toBe(90);
+      expect(purchaseValueDiscount.value.total).toBe(40);
+      expect(purchaseBothDiscount.value.total).toBe(80);
     });
+
     it("should throw if discount total value is greater than purchase value", () => {
       expect(() =>
         mockCompletePurchase({
-          discountValue: 100,
+          discount: { value: 100, percentage: 0 },
           items: [mockProduct({ price: 50 })],
         }),
       ).toThrow(DomainError);
     });
+
     it("should apply 10% discount if total value is greater than 300 and payment method is PIX", () => {
       const purchase = mockCompletePurchase({
         paymentType: PaymentType.PIX,
         items: [mockProduct({ price: 300 })],
       });
 
-      expect(purchase.props.purchaseValue).toBe(270);
+      expect(purchase.value.total).toBe(270);
     });
+
     it("should throw if discount percentage is greater than 1 or less than 0", () => {
       expect(() =>
         mockCompletePurchase({
-          discountPercentage: 2,
+          discount: { percentage: 2, value: 0 },
           items: [mockProduct({ price: 50 })],
         }),
       ).toThrow(DomainError);
       expect(() =>
         mockCompletePurchase({
-          discountPercentage: -1,
+          discount: { percentage: -1, value: 0 },
           items: [mockProduct({ price: 50 })],
         }),
       ).toThrow(DomainError);
     });
   });
+
   describe("Freight value", () => {
     it("should be greater or equal to 0", () => {
       const purchase = mockCompletePurchase({ freight: new Freight(0, 0, 0) });
