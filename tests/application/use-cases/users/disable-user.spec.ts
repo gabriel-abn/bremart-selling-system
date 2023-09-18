@@ -1,7 +1,10 @@
-import { describe, it } from "vitest";
+import { DisableUserUseCase } from "@application/use-cases/user";
+import { MockUserRepository } from "@test-application/mocks/repositories";
+import { mockUser } from "@test-domain/mocks";
+import { describe, expect, it } from "vitest";
 
 /**
-- TEST (User) disable-user
+- DOING (User) disable-user
 - Receber o id do usuário
   - Casos de erro:
     - ID do usuário não encontrado (`USER_NOT_FOUND`: "ID do usuário não encontrado.")
@@ -10,10 +13,37 @@ import { describe, it } from "vitest";
 - Caso de sucesso:
   - ID do usuário criptografado
   - Email do usuário
- */
+*/
+
+const makeSut = () => {
+  const repo = new MockUserRepository();
+
+  repo.items.push(
+    mockUser({
+      id: "valid_user",
+    }),
+  );
+
+  const sut = new DisableUserUseCase(repo);
+
+  return { sut, repo };
+};
 
 describe("Use Case: Disable User", () => {
-  it("should throw an error if the user does not exist");
-  it("should throw an error if the user is already disabled");
-  it("should disable the user");
+  it("should throw an error if the user does not exist", async () => {
+    const { sut } = makeSut();
+
+    await expect(() => sut.execute({ userId: "invalid_user" })).rejects.toThrow("USER_NOT_FOUND");
+  });
+
+  it("should disable the user", async () => {
+    const { sut, repo } = makeSut();
+
+    const res = await sut.execute({ userId: "valid_user" });
+
+    const user = await repo.get("valid_user");
+
+    expect(user.status).toBe("DISABLED");
+    expect(res.success).toBe(true);
+  });
 });
