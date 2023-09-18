@@ -115,7 +115,7 @@ Uma **Purchase** terá uma lista de produtos, um tipo de pagamento, um status, u
       `purchaseValue = purchaseValue * (1 - discountPercentage) - discountValue`
     - O valor do desconto deve ser maior ou igual a 0 e menor que o valor total
     - Se a porcentagem do desconto for 100%, o valor total deve ser 0
-    - Se o valor total for maior que 300 e o pagamento for feito por pix, o desconto deve ser de 10%
+    - REVIEW (Purchase) Se o valor total for maior que 300 e o pagamento for feito por pix, o desconto deve ser de 10%
   - Sobre o frete:
     - O valor do frete deve ser maior ou igual a 0
     - O cálculo do frete será o seguinte:
