@@ -1,5 +1,6 @@
 import { DomainError, Entity } from "../common";
 import { Address } from "./address";
+import { AddressList } from "./address-list";
 import { Product } from "./product";
 import { Purchase } from "./purchase";
 import { ShoppingCart } from "./shopping-cart";
@@ -13,11 +14,10 @@ export type UserProps = {
   rg: string;
   birthDate: Date;
   phone: string;
-  addresses: Address[];
-  defaultAddress?: Address;
-  shoppingCart?: ShoppingCart;
-  purchaseHistoric?: Purchase[];
-  status?: "ACTIVE" | "DISABLED";
+  addressList?: AddressList;
+  shoppingCart: ShoppingCart;
+  purchaseHistoric: Purchase[];
+  status: "ACTIVE" | "DISABLED";
 };
 
 export class User extends Entity<UserProps> {
@@ -33,21 +33,24 @@ export class User extends Entity<UserProps> {
     this._props.password = password;
   }
 
-  public addAddress(address: Address): void {
-    this.props.addresses.map((a) => {
-      if (a.id === address.id) {
-        throw new DomainError("Address already exists.");
-      }
-    });
-
-    this._props.addresses.push({
-      id: this.id + this._props.addresses.length.toString(),
-      ...address,
-    });
+  public get addressList(): AddressList {
+    return this._props.addressList;
   }
 
-  public set defaultAddress(addressId: number) {
-    this.props.defaultAddress = this.props.addresses[addressId];
+  public addAddress(address: Address): void {
+    this.addressList.addAddress(address, this._id);
+  }
+
+  public removeAddress(addressId: string): void {
+    this.addressList.removeAddress(addressId);
+  }
+
+  public set defaultAddress(addressId: string) {
+    this.addressList.setDefaultAddress(addressId);
+  }
+
+  public get defaultAddress(): Address {
+    return this.addressList.defaultAddress;
   }
 
   public get status(): "ACTIVE" | "DISABLED" {
@@ -81,22 +84,20 @@ export class User extends Entity<UserProps> {
   }
 
   public static restore(props: UserProps): User {
-    return new User(props);
+    const user = new User(props);
+
+    if (!user) {
+      throw new DomainError("Error restoring user.");
+    }
+
+    return user;
   }
 
-  public static create(props: UserProps): User {
+  public static create(props: Omit<UserProps, "shoppingCart" | "status" | "purchaseHistoric">): User {
     const errors: string[] = [];
 
     if (new Date(Date.now()).getFullYear() - props.birthDate.getFullYear() < 18) {
       errors.push("Users with less than 18 years are not allowed");
-    }
-
-    props.addresses.map((address, i) => {
-      address.id = props.id + "-" + i.toString();
-    });
-
-    if (props.addresses.length === 1) {
-      props.defaultAddress = props.addresses[0];
     }
 
     if (errors.length > 0) {

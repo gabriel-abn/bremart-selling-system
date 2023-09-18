@@ -1,6 +1,7 @@
 import { DomainError } from "@domain/common/domain-error";
+import { AddressList } from "@domain/entities";
 import { mockProduct } from "@test-domain/mocks";
-import { mockAddress, mockUser } from "@test-domain/mocks/mock-user";
+import { mockAddress, mockAddressList, mockUser } from "@test-domain/mocks/mock-user";
 import { describe, expect, it } from "vitest";
 
 describe("User business rules", () => {
@@ -32,162 +33,122 @@ describe("User business rules", () => {
     expect(user.props.password).toBe("654321");
   });
 
-  it("should set default address if just one given", () => {
-    const user = mockUser({
-      addresses: [
-        {
-          street: "Rua 1",
-          number: "123",
-          city: "São Paulo",
-          state: "SP",
-          zipCode: "12345678",
-          complement: "",
-          neighborhood: "",
-        },
-      ],
+  describe("User: Address rules", () => {
+    it("should set default address if just one given", () => {
+      const user = mockUser({
+        id: "123",
+        addressList: mockAddressList("123"),
+      });
+
+      expect(user.defaultAddress).toHaveProperty("id", "123-0");
     });
 
-    expect(user.props.defaultAddress).toHaveProperty("zipCode", "12345678");
-  });
+    it("should be able to add addresses", () => {
+      const user = mockUser({
+        id: "123",
+        addressList: mockAddressList("123"),
+      });
 
-  it("should be able to add addresses", () => {
-    const user = mockUser({
-      addresses: [
-        {
-          street: "Rua 1",
-          number: "123",
-          city: "São Paulo",
-          state: "SP",
-          zipCode: "12345678",
-          complement: "",
-          neighborhood: "",
-        },
-      ],
+      user.addAddress(mockAddress("123"));
+
+      expect(user.defaultAddress).toHaveProperty("id", "123-0");
+      expect(user.addressList.addresses[1]).toHaveProperty("id", "123-1");
+      expect(user.addressList.addresses).toHaveLength(2);
     });
 
-    user.addAddress({
-      street: "Rua 2",
-      number: "123",
-      city: "São Paulo",
-      state: "SP",
-      zipCode: "12345678",
-      complement: "",
-      neighborhood: "",
+    it("should be able to update user's default address if more than one given", () => {
+      const user = mockUser({
+        id: "123",
+        addressList: new AddressList("123", mockAddress("123"), mockAddress("123")),
+      });
+
+      user.defaultAddress = "1";
+
+      expect(user.defaultAddress).toHaveProperty("id", "123-1");
     });
 
-    expect(user.props.defaultAddress).toHaveProperty("street", "Rua 1");
-    expect(user.props.addresses[1]).toHaveProperty("street", "Rua 2");
-    expect(user.props.addresses.length).toBe(2);
+    it("should throw if add duplicated address", () => {
+      const user = mockUser({
+        id: "123",
+        addressList: mockAddressList("123"),
+      });
+
+      expect(() => user.addAddress(mockAddress("123-0"))).toThrow(DomainError);
+    });
   });
 
-  it("should be able to update user's default address if more than one given", () => {
-    const user = mockUser({
-      addresses: [
-        {
-          street: "Rua 1",
-          number: "123",
-          city: "São Paulo",
-          state: "SP",
-          zipCode: "12345678",
-          complement: "",
-          neighborhood: "",
-        },
-        {
-          street: "Rua 2",
-          number: "123",
-          city: "São Paulo",
-          state: "SP",
-          zipCode: "12345678",
-          complement: "",
-          neighborhood: "",
-        },
-      ],
+  describe("User: Purchase rules", () => {
+    it("should be initialized with empty shopping cart and purchase historic", () => {
+      const user = mockUser({});
+
+      expect(user.props.shoppingCart.items).toEqual([]);
+      expect(user.props.purchaseHistoric).toEqual([]);
     });
 
-    user.defaultAddress = 1;
+    it("should be able to add products to cart", () => {
+      const user = mockUser({});
 
-    expect(user.props.defaultAddress).toHaveProperty("street", "Rua 2");
-  });
+      user.addProductToShoppingCart({
+        id: "123",
+        name: "Product 1",
+        price: 100,
+        productId: "123",
+        quantity: 1,
+        uniqueDiscount: 0,
+      });
 
-  it("should throw if add duplicated address", () => {
-    const user = mockUser({
-      id: "123",
-      addresses: [mockAddress("123")],
+      expect(user.props.shoppingCart.items[0]).toHaveProperty("name", "Product 1");
     });
 
-    expect(() => user.addAddress(mockAddress("123-0"))).toThrow(DomainError);
-  });
+    it("should be able to remove products from cart", () => {
+      const user = mockUser({});
 
-  it("should be initialized with empty shopping cart and purchase historic", () => {
-    const user = mockUser({});
+      user.addProductToShoppingCart({
+        id: "123",
+        name: "Product 1",
+        price: 100,
+        productId: "123",
+        quantity: 1,
+        uniqueDiscount: 0,
+      });
 
-    expect(user.props.shoppingCart.items).toEqual([]);
-    expect(user.props.purchaseHistoric).toEqual([]);
-  });
+      user.removeProductFromShoppingCart("123");
 
-  it("should be able to add products to cart", () => {
-    const user = mockUser({});
-
-    user.addProductToShoppingCart({
-      id: "123",
-      name: "Product 1",
-      price: 100,
-      productId: "123",
-      quantity: 1,
-      uniqueDiscount: 0,
+      expect(user.props.shoppingCart.items).toEqual([]);
     });
 
-    expect(user.props.shoppingCart.items[0]).toHaveProperty("name", "Product 1");
-  });
+    it("should be able to update products quantity in cart", () => {
+      const user = mockUser({});
 
-  it("should be able to remove products from cart", () => {
-    const user = mockUser({});
+      user.addProductToShoppingCart({
+        id: "123",
+        name: "Product 1",
+        price: 100,
+        productId: "123",
+        quantity: 1,
+        uniqueDiscount: 0,
+      });
 
-    user.addProductToShoppingCart({
-      id: "123",
-      name: "Product 1",
-      price: 100,
-      productId: "123",
-      quantity: 1,
-      uniqueDiscount: 0,
+      user.updateProductQuantityInCart("123", 2);
+
+      expect(user.props.shoppingCart.items[0]).toHaveProperty("quantity", 2);
     });
 
-    user.removeProductFromShoppingCart("123");
+    it("should throw if add duplicated product to cart", () => {
+      const user = mockUser({});
+      const product = mockProduct({ id: "123" });
 
-    expect(user.props.shoppingCart.items).toEqual([]);
-  });
+      user.addProductToShoppingCart(product);
 
-  it("should be able to update products quantity in cart", () => {
-    const user = mockUser({});
-
-    user.addProductToShoppingCart({
-      id: "123",
-      name: "Product 1",
-      price: 100,
-      productId: "123",
-      quantity: 1,
-      uniqueDiscount: 0,
+      expect(() => user.addProductToShoppingCart(product)).toThrow(DomainError);
     });
 
-    user.updateProductQuantityInCart("123", 2);
+    it("should throw if try to remove product not in cart", () => {
+      const user = mockUser({});
+      const product = mockProduct({ id: "123" });
 
-    expect(user.props.shoppingCart.items[0]).toHaveProperty("quantity", 2);
-  });
-
-  it("should throw if add duplicated product to cart", () => {
-    const user = mockUser({});
-    const product = mockProduct({ id: "123" });
-
-    user.addProductToShoppingCart(product);
-
-    expect(() => user.addProductToShoppingCart(product)).toThrow(DomainError);
-  });
-
-  it("should throw if try to remove product not in cart", () => {
-    const user = mockUser({});
-    const product = mockProduct({ id: "123" });
-
-    expect(() => user.removeProductFromShoppingCart(product.id)).toThrow(DomainError);
+      expect(() => user.removeProductFromShoppingCart(product.id)).toThrow(DomainError);
+    });
   });
 
   it("should update status", () => {
