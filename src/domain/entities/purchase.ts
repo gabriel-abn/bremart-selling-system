@@ -1,5 +1,6 @@
 import { DomainError, Entity } from "../common";
 import { Address } from "./address";
+import { Freight } from "./freight";
 import { PaymentType } from "./payment";
 import { Product } from "./product";
 
@@ -25,10 +26,8 @@ export type PurchaseProps = {
   paymentType: PaymentType;
   discountPercentage: number;
   discountValue: number;
-  purchaseValue?: number;
-  freightValue: number;
-  freightDiscountPercentage: number;
-  freightDiscountValue: number;
+  purchaseValue: number;
+  freight: Freight;
   status?: PurchaseStatus;
   deliveryStatus?: DeliveryStatus;
   totalValue?: number;
@@ -43,6 +42,10 @@ export class Purchase extends Entity<PurchaseProps> {
     this._props.status = status;
   }
 
+  public get freight(): Freight {
+    return this._props.freight;
+  }
+
   public set deliveryStatus(deliveryStatus: DeliveryStatus) {
     this._props.deliveryStatus = deliveryStatus;
   }
@@ -50,7 +53,7 @@ export class Purchase extends Entity<PurchaseProps> {
   public updateDeliveryAddress(address: Address): void {
     for (const field in address) {
       if (address[field] === null || address[field] === "") {
-        throw new DomainError([`Address ${field} must be provided`]);
+        throw new DomainError(`Address ${field} must be provided`);
       }
     }
 
@@ -61,8 +64,9 @@ export class Purchase extends Entity<PurchaseProps> {
     return new Purchase(props);
   }
 
-  public static create(props: PurchaseProps): Purchase {
-    var errors: string[] = [];
+  public static create(props: Omit<PurchaseProps, "status" | "totalValue">): Purchase {
+    const errors: string[] = [];
+    let total: number = 0;
 
     if (!props.userId) {
       errors.push("User id must be provided");
@@ -90,32 +94,13 @@ export class Purchase extends Entity<PurchaseProps> {
       errors.push("Discount value must be less than total value");
     }
 
-    props.purchaseValue =
-      props.purchaseValue * (1 - props.discountPercentage) -
-      props.discountValue;
+    props.purchaseValue = props.purchaseValue * (1 - props.discountPercentage) - props.discountValue;
+
+    total = props.purchaseValue + props.freight.total;
 
     if (props.paymentType === PaymentType.PIX && props.purchaseValue >= 300) {
       props.purchaseValue -= props.purchaseValue * 0.1;
     }
-
-    if (props.freightValue < 0) {
-      errors.push("Freight value must be greater or equal to 0");
-    }
-
-    if (
-      props.freightDiscountPercentage > 1 ||
-      props.freightDiscountPercentage < 0
-    ) {
-      errors.push("Freight discount percentage must be between 0 and 1");
-    }
-
-    if (props.freightDiscountValue > props.freightValue) {
-      errors.push("Freight discount value must be less than freight value");
-    }
-
-    props.freightValue =
-      props.freightValue * (1 - props.freightDiscountPercentage) -
-      props.freightDiscountValue;
 
     if (props.address === null) {
       errors.push("Address must be provided");
@@ -127,13 +112,13 @@ export class Purchase extends Entity<PurchaseProps> {
       }
     }
 
-    if (errors.length > 0) throw new DomainError(errors);
+    if (errors.length > 0) throw new DomainError(...errors);
 
     return new Purchase({
       ...props,
       status: PurchaseStatus.PENDING_PAYMENT,
       deliveryStatus: null,
-      totalValue: props.purchaseValue + props.freightValue,
+      totalValue: total,
     });
   }
 }
