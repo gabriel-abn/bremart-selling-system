@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest",
+    "test": "vitest --coverage",
     "test:stagged": "vitest related --run",
     "test:push": "vitest --run --coverage",
     "dev": "nodemon src/server.ts --watch",
