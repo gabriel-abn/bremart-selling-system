@@ -10,7 +10,7 @@ import {
 import { FreightServiceSpy } from "@test-application/services/purchase";
 import { UUIDGeneratorMock, mockProduct, mockPurchase } from "@test-domain/mocks";
 import { mockUser } from "@test-domain/mocks/mock-user";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 /* 
 - DOING (Purchase) create-purchase
@@ -74,14 +74,23 @@ describe("Use Case: Create Purchase", () => {
   it("should throw if purchase has no items", async () => {
     expect(async () => {
       const { sut } = makeSut();
-      const mock = mockPurchase({ userId: "1" });
 
       await sut.execute({
-        user: { id: mock.id },
-        paymentType: mock.props.paymentType,
+        user: { id: "valid_id_2" },
+        paymentType: PaymentType.PIX,
         products: [],
       });
     }).rejects.toThrowError(ApplicationError);
+
+    expect(async () => {
+      const { sut } = makeSut();
+
+      await sut.execute({
+        user: { id: "valid_id_2" },
+        paymentType: PaymentType.PIX,
+        products: [],
+      });
+    }).rejects.toThrowError("INVALID_PURCHASE_ITEMS");
   });
 
   it.todo("should give 5% discount if payment type is in cash and total price greater than 500", async () => {
@@ -97,38 +106,37 @@ describe("Use Case: Create Purchase", () => {
     expect(purchase.total).toBe(570);
   });
 
-  it("should throw if invalid purchase items given", async () => {
+  it("should throw if invalid products given", async () => {
     expect(async () => {
       const { sut } = makeSut();
 
       await sut.execute({
-        products: ["valid_product_id"],
+        products: ["invalid_product_id"],
         paymentType: PaymentType.PIX,
-        user: { id: "1" },
+        user: { id: "valid_id_1" },
       });
     }).rejects.toThrowError(ApplicationError);
+
+    expect(async () => {
+      const { sut } = makeSut();
+
+      await sut.execute({
+        products: ["valid_product_id", "invalid_product_id"],
+        paymentType: PaymentType.PIX,
+        user: { id: "valid_id_1" },
+      });
+    }).rejects.toThrowError("INVALID_PRODUCT_ID_invalid_product_id");
   });
 
-  it.todo("should receive user's default address if no address given", async () => {});
-  it.todo("should ");
+  it.todo("should create with user's default address if no address given", async () => {});
+  it.todo("should throw if invalid address given", async () => {});
 
-  it("should return a purchase with a valid result", async () => {
+  it.todo("should throw if purchase not saved");
+
+  it("should create purchase, store and return crypred id", async () => {
     const { sut } = makeSut();
     const mock = mockPurchase({ userId: "1" });
-
-    const purchase = await sut.execute({
-      user: { id: "valid_id_1" },
-      products: ["valid_product_id"],
-      paymentType: mock.props.paymentType,
-    });
-
-    expect(purchase.cryptedPurchaseId).toBeTruthy();
-    expect(purchase.total).toBeGreaterThan(0);
-  });
-
-  it("should return a purchase", async () => {
-    const { sut } = makeSut();
-    const mock = mockPurchase({ userId: "1" });
+    const purchaseRepo = vi.spyOn(MockPurchaseRepository.prototype, "create");
 
     const purchase = await sut.execute({
       user: { id: "valid_id_2" },
@@ -136,6 +144,9 @@ describe("Use Case: Create Purchase", () => {
       paymentType: mock.props.paymentType,
     });
 
-    expect(purchase).toBeTruthy();
+    expect(purchaseRepo).toHaveBeenCalled();
+    expect(purchaseRepo).toHaveReturned();
+    expect(purchase.cryptedPurchaseId).toBeTruthy();
+    expect(purchase.total).toBeGreaterThan(0);
   });
 });

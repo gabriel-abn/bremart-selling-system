@@ -37,8 +37,11 @@ export class CreatePurchaseUseCase implements CreatePurchase {
     }
 
     params.products.forEach((productId) => {
-      if (purchaseItems.find((p) => p.id === productId) === undefined) {
-        throw new ApplicationError("Purchase has invalid items. Product ID: " + productId, "INVALID_PURCHASE_ITEMS");
+      if (!purchaseItems.find((p) => p.id === productId)) {
+        throw new ApplicationError(
+          "Purchase has invalid items. Product ID: " + productId,
+          "INVALID_PRODUCT_ID_" + productId,
+        );
       }
     });
 
@@ -62,7 +65,7 @@ export class CreatePurchaseUseCase implements CreatePurchase {
     const id = await this.purchaseRepository.create(purchase).then((r) => r.id);
 
     if (!id) {
-      throw new ApplicationError("Purchase not created.", "PURCHASE_NOT_CREATED");
+      throw new ApplicationError("Error while saving purchase.", "PURCHASE_NOT_SAVED");
     }
 
     const cryptedPurchaseId = await this.crypter.encrypt(id);

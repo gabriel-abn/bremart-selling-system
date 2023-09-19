@@ -1,6 +1,6 @@
 import { ShowPurchaseHistoricUseCase } from "@application/use-cases/user";
 import { MockUserRepository } from "@test-application/mocks/repositories";
-import { mockCompletePurchase, mockUser } from "@test-domain/mocks";
+import { mockPurchase, mockUser } from "@test-domain/mocks";
 import { describe, expect, it } from "vitest";
 
 /**
@@ -18,7 +18,7 @@ const makeSut = () => {
   const repo = new MockUserRepository();
   const user = mockUser({ id: "valid_id" });
 
-  user.props.purchaseHistoric = [mockCompletePurchase({}), mockCompletePurchase({}), mockCompletePurchase({})];
+  user.props.purchaseHistoric = [mockPurchase({}), mockPurchase({}), mockPurchase({})];
 
   repo.items.push(user);
 
