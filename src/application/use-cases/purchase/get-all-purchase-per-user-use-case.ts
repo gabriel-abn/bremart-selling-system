@@ -1,35 +1,22 @@
 import { ApplicationError } from "@application/common";
-import {
-  IPurchaseRepository,
-  IUserRepository,
-} from "@application/repositories";
-import { PurchaseProps } from "@domain/entities";
+import { IPurchaseRepository, IUserRepository } from "@application/repositories";
+import { GetAllPurchasePerUser } from "@domain/use-cases/purchase";
 
-export namespace GetAllPurchasePerUser {
-  export type Params = {
-    userId: string;
-  };
-
-  export type Result = PurchaseProps[];
-}
-
-export class GetAllPurchasePerUserUseCase {
+export class GetAllPurchasePerUserUseCase implements GetAllPurchasePerUser {
   constructor(
     private readonly purchaseRepository: IPurchaseRepository,
-    private readonly userRepository: IUserRepository
+    private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute({
-    userId,
-  }: GetAllPurchasePerUser.Params): Promise<GetAllPurchasePerUser.Result> {
-    const user = await this.userRepository.getById(userId);
+  async execute(params: GetAllPurchasePerUser.Params): Promise<GetAllPurchasePerUser.Result> {
+    const user = await this.userRepository.get(params.userId);
 
     if (!user) {
-      throw new ApplicationError("User not found", this.constructor.name);
+      throw new ApplicationError("User not found", "USER_NOT_FOUND");
     }
 
-    const purchases = await this.purchaseRepository.getAllByUserId(userId);
+    const purchases = await this.purchaseRepository.getAllByUserId(params.userId);
 
-    return purchases;
+    return purchases.map((purchase) => purchase.props);
   }
 }

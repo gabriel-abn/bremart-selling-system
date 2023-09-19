@@ -21,8 +21,8 @@ export class MockPurchaseRepository implements IPurchaseRepository {
   async edit(purchase: Purchase): Promise<boolean> {
     const edit = await this.get(purchase.id);
 
-    const newPurchase = Purchase.create({
-      ...edit,
+    const newPurchase = Purchase.restore({
+      ...edit.props,
       ...purchase.props,
     });
 
