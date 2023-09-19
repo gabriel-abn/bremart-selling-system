@@ -53,6 +53,10 @@ export class User extends Entity<UserProps> {
     return this.addressList.defaultAddress;
   }
 
+  public getAddress(id: string): Address {
+    return this.addressList.addresses.find((a) => a.id === id);
+  }
+
   public get status(): "ACTIVE" | "DISABLED" {
     return this._props.status;
   }
