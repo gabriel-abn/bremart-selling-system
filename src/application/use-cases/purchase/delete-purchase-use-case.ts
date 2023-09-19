@@ -1,27 +1,23 @@
-import { ApplicationError, UseCase } from "@application/common";
+import { ApplicationError } from "@application/common";
 import { IPurchaseRepository } from "@application/repositories";
+import { DeletePurchase } from "@domain/use-cases/purchase";
 
-export namespace DeletePurchase {
-  export type Params = {
-    id: string;
-  };
-  export type Result = {
-    deleted: boolean;
-  };
-}
-
-export class DeletePurchaseUseCase implements UseCase<DeletePurchase.Params, DeletePurchase.Result> {
+export class DeletePurchaseUseCase implements DeletePurchase {
   constructor(private readonly purchaseRepository: IPurchaseRepository) {}
 
   async execute(data: DeletePurchase.Params): Promise<DeletePurchase.Result> {
-    const purchase = await this.purchaseRepository.findById(data.id);
+    const purchase = await this.purchaseRepository.get(data.id);
 
     if (!purchase) {
-      throw new ApplicationError("Purchase not found", this.constructor.name);
+      throw new ApplicationError("Purchase not found", "PURCHASE_NOT_FOUND");
     }
 
-    return {
-      deleted: await this.purchaseRepository.delete(data.id),
-    };
+    const deleted = await this.purchaseRepository.delete(data.id);
+
+    if (!deleted) {
+      throw new ApplicationError("Purchase not deleted.", "PURCHASE_NOT_DELETED");
+    }
+
+    return true;
   }
 }
