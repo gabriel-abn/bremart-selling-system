@@ -27,8 +27,8 @@ export type PurchaseProps = {
   paymentType: PaymentType;
   value: PurchaseValue;
   freight: Freight;
-  status?: PurchaseStatus;
-  deliveryStatus?: DeliveryStatus;
+  status: PurchaseStatus;
+  deliveryStatus: DeliveryStatus;
   totalValue: number;
 };
 
