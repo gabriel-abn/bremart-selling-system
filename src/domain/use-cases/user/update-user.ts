@@ -1,18 +1,13 @@
 import { UseCase } from "@domain/common";
-import { User } from "@domain/entities";
 
 export namespace UpdateUser {
   export type Params = {
-    user: User;
+    userId: string;
   };
 
-  export type Result = {
-    user: User;
-    success: boolean;
-  };
+  export type Result = boolean;
 }
 
-export interface UpdateUser
-  extends UseCase<UpdateUser.Params, UpdateUser.Result> {
+export interface UpdateUser extends UseCase<UpdateUser.Params, UpdateUser.Result> {
   execute(params: UpdateUser.Params): Promise<UpdateUser.Result>;
 }

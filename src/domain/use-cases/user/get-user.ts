@@ -1,5 +1,5 @@
 import { UseCase } from "@domain/common";
-import { User } from "@domain/entities";
+import { UserProps } from "@domain/entities";
 
 export namespace GetUser {
   export type Params = Partial<{
@@ -7,7 +7,7 @@ export namespace GetUser {
     cpf: string;
   }>;
 
-  export type Result = Omit<User, "id, cpf, password">;
+  export type Result = Omit<UserProps, "id" | "cpf" | "password">;
 }
 
 export interface GetUser extends UseCase<GetUser.Params, GetUser.Result> {
