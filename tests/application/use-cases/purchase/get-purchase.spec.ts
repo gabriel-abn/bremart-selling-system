@@ -1,16 +1,16 @@
 import { GetPurchaseUseCase } from "@application/use-cases/purchase";
 import { MockPurchaseRepository } from "@test-application/mocks/repositories";
-import { mockCompletePurchase } from "@test-domain/mocks";
+import { mockPurchase } from "@test-domain/mocks";
 import { describe, expect, it } from "vitest";
 
 /* 
-- DOING (Purchase) get-purchase
+- DONE (Purchase) get-purchase
 */
 
 const makeSut = () => {
   const repository = new MockPurchaseRepository();
 
-  repository.items.push(mockCompletePurchase({ id: "any_id" }));
+  repository.items.push(mockPurchase({ id: "any_id" }));
 
   const sut = new GetPurchaseUseCase(repository);
 

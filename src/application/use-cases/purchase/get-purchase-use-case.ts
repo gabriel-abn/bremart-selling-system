@@ -1,19 +1,8 @@
-import { ApplicationError, UseCase } from "@application/common";
+import { ApplicationError } from "@application/common";
 import { IPurchaseRepository } from "@application/repositories";
-import { Product } from "@domain/entities";
+import { GetPurchase } from "@domain/use-cases/purchase";
 
-export namespace GetPurchase {
-  export type Params = {
-    id: string;
-  };
-  export type Result = {
-    id: string;
-    items: Product[];
-    total: number;
-  };
-}
-
-export class GetPurchaseUseCase implements UseCase<GetPurchase.Params, GetPurchase.Result> {
+export class GetPurchaseUseCase implements GetPurchase {
   constructor(private purchaseRepository: IPurchaseRepository) {}
 
   async execute(data: GetPurchase.Params): Promise<GetPurchase.Result> {
