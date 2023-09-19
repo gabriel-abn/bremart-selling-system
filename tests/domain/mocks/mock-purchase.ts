@@ -15,7 +15,7 @@ export const mockProduct = (mock: Partial<Product>): Product => {
   };
 };
 
-export const mockCompletePurchase = (mock?: Partial<PurchaseConstructor>): Purchase => {
+export const mockPurchase = (mock?: Partial<PurchaseConstructor>): Purchase => {
   const id = Math.floor(Math.random() * 100).toString();
 
   return Purchase.create({
