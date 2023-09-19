@@ -75,6 +75,10 @@ describe("User business rules", () => {
 
       expect(() => user.addAddress(mockAddress("123-0"))).toThrow(DomainError);
     });
+
+    it.todo("should throw if try to set default address not in list", () => {});
+    it.todo("should be able to get address by id");
+    it.todo("should throw if try to get address by id not in list");
   });
 
   describe("User: Purchase rules", () => {
