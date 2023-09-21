@@ -1,82 +1,120 @@
-import { ApplicationError } from "@application/common";
 import { EditPurchaseUseCase } from "@application/use-cases/purchase";
 import { PaymentType } from "@domain/entities";
-import { MockProductRepository, MockPurchaseRepository } from "@test-application/mocks/repositories";
-import { mockCompletePurchase, mockProduct } from "@test-domain/mocks";
-import { beforeAll, describe, expect, it } from "vitest";
+import {
+  MockProductRepository,
+  MockPurchaseRepository,
+  MockUserRepository,
+} from "@test-application/mocks/repositories";
+import { mockProduct, mockPurchase, mockUser } from "@test-domain/mocks";
+import { describe, expect, it } from "vitest";
 
-const purchaseRepository = new MockPurchaseRepository();
-const purchaseItemRepository = new MockProductRepository();
-const sut = new EditPurchaseUseCase(purchaseRepository, purchaseItemRepository);
+/* 
+- DOING (Purchase) edit-purchase
+*/
 
-describe.skip("Edit Purchase Use Case", () => {
-  beforeAll(async () => {
-    for (let index = 0; index < 5; index++) {
-      await purchaseRepository.create(mockCompletePurchase({}));
-    }
+const makeSut = () => {
+  const purchaseRepository = new MockPurchaseRepository();
+  const productRepository = new MockProductRepository();
+  const userRepository = new MockUserRepository();
 
-    await purchaseRepository.create(mockCompletePurchase({ id: "any_id" }));
+  userRepository.items.push(
+    mockUser({ id: "user_id_1" }),
+    mockUser({ id: "user_id_2" }),
+    mockUser({ id: "user_id_3" }),
+    mockUser({ id: "user_id_4" }),
+  );
 
-    await purchaseRepository.create(
-      mockCompletePurchase({
-        id: "discount_id",
-        items: [mockProduct({ price: 600 })],
-        paymentType: PaymentType.PIX,
-      }),
-    );
-  });
-  it("should throw if invalid id is provided", async () => {
-    expect(async () => {
-      await sut.execute({
-        id: "invalid_id",
-        items: [mockProduct({})],
-        paymentType: PaymentType.PIX,
-      });
-    }).rejects.toThrow("EditPurchaseUseCase: Purchase not found");
-  });
-  it("should throw if no purchase items provided", async () => {
-    expect(async () => {
-      await sut.execute({
-        id: "any_id",
-        items: [],
-        paymentType: PaymentType.PIX,
-      });
-    }).rejects.toThrow("EditPurchaseUseCase: No items provided");
-  });
-  it("should return the edited purchase on success", async () => {
-    const purchase = await sut.execute({
-      id: "any_id",
-      items: [mockProduct({ id: "valid_id_1", price: 100 })],
-      paymentType: PaymentType.CREDIT_CARD,
-    });
+  productRepository.items.push(
+    mockProduct({ id: "product_id_1" }),
+    mockProduct({ id: "product_id_2" }),
+    mockProduct({ id: "product_id_3" }),
+    mockProduct({ id: "product_id_4" }),
+  );
 
-    expect(purchase).toHaveProperty("id", "any_id");
-  });
-  it("should return the edited purchase if only one field provided", async () => {
-    const purchase = await sut.execute({
-      id: "any_id",
-      items: [mockProduct({ id: "valid_id_1", price: 100 })],
-      paymentType: PaymentType.BOLETO,
-    });
-
-    expect(purchase).toBeTruthy();
-  });
-  it("should remove discount if total price gets below 500.00", async () => {
-    const purchase = await sut.execute({
-      id: "discount_id",
-      items: [mockProduct({ id: "valid_id_1", price: 100 })],
+  purchaseRepository.items.push(
+    mockPurchase({ id: "purchase_id_1", userId: "user_id_1", paymentType: PaymentType.CREDIT_CARD }),
+    mockPurchase({ id: "purchase_id_2", userId: "user_id_2" }),
+    mockPurchase({ id: "purchase_id_3", userId: "user_id_3" }),
+    mockPurchase({
+      id: "purchase_id_4",
+      userId: "user_id_4",
       paymentType: PaymentType.PIX,
+      items: [
+        mockProduct({ id: "product_id_1", price: 300 }),
+        mockProduct({ id: "product_id_2", price: 300 }),
+        mockProduct({ id: "product_id_3", price: 300 }),
+      ],
+    }),
+  );
+
+  const sut = new EditPurchaseUseCase(purchaseRepository, productRepository, userRepository);
+
+  return { sut, purchaseRepository };
+};
+
+describe.todo("Edit Purchase Use Case", () => {
+  describe("Errors", () => {
+    it("should throw if invalid id is provided", async () => {
+      const { sut } = makeSut();
+
+      expect(async () => {
+        await sut.execute({
+          id: "invalid_id",
+          user: { id: "user_id_1" },
+          products: ["product_id_1", "product_id_2"],
+          paymentType: PaymentType.PIX,
+        });
+      }).rejects.toThrow("PURCHASE_NOT_FOUND");
     });
 
-    expect(purchase.total).toBe(100);
+    it("should throw if no purchase items provided", async () => {
+      const { sut } = makeSut();
+
+      expect(async () => {
+        await sut.execute({
+          id: "purchase_id_1",
+          user: { id: "user_id_1" },
+          products: [],
+          paymentType: PaymentType.PIX,
+        });
+      }).rejects.toThrow("NO_PRODUCTS_PROVIDED");
+    });
+
+    it("should throw if invalid purchase item ids provided", async () => {
+      const { sut } = makeSut();
+
+      expect(async () => {
+        await sut.execute({
+          id: "purchase_id_1",
+          user: { id: "user_id_1" },
+          products: ["invalid_id_1", "invalid_id_2"],
+          paymentType: PaymentType.PIX,
+        });
+      }).rejects.toThrowError("NO_VALID_PRODUCTS_FOUND");
+
+      expect(async () => {
+        await sut.execute({
+          id: "purchase_id_2",
+          user: { id: "user_id_2" },
+          products: ["product_id_2", "invalid_id_2"],
+          paymentType: PaymentType.PIX,
+        });
+      }).rejects.toThrow("INVALID_PRODUCT_ID");
+    });
   });
-  it("should throw if invalid purchase item ids provided", async () => {
+
+  it("should edit purchase", () => {
     expect(async () => {
-      await sut.execute({
-        id: "any_id",
-        items: [mockProduct({})],
+      const { sut } = makeSut();
+
+      const res = await sut.execute({
+        id: "purchase_id_1",
+        user: { id: "user_id_1" },
+        products: ["valid_id_1"],
         paymentType: PaymentType.PIX,
       });
-    }).rejects.toThrowError(ApplicationError);
+
+      return res;
+    }).toBeTruthy();
   });
 });

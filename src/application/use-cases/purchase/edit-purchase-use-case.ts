@@ -1,49 +1,54 @@
-import { ApplicationError, UseCase } from "@application/common";
-import { IProductRepository, IPurchaseRepository } from "@application/repositories";
-import { PaymentType, Product } from "@domain/entities";
+import { ApplicationError } from "@application/common";
+import { IProductRepository, IPurchaseRepository, IUserRepository } from "@application/repositories";
+import { Purchase } from "@domain/entities";
+import { EditPurchase } from "@domain/use-cases/purchase/edit-purchase";
 
-export namespace EditPurchase {
-  export type Params = {
-    id: string;
-    items: Product[];
-    paymentType: PaymentType;
-  };
-  export type Result = {
-    id: string;
-    total: number;
-    userId: string;
-  };
-}
-
-export class EditPurchaseUseCase implements UseCase<EditPurchase.Params, EditPurchase.Result> {
+export class EditPurchaseUseCase implements EditPurchase {
   constructor(
     private purchaseRepository: IPurchaseRepository,
-    private purchaseItemRepository: IProductRepository,
+    private productRepository: IProductRepository,
+    private userRepository: IUserRepository,
   ) {}
 
   async execute(data: EditPurchase.Params): Promise<EditPurchase.Result> {
-    const find = await this.purchaseRepository.findById(data.id);
+    const purchase = await this.purchaseRepository.get(data.id);
 
-    if (!find) {
-      throw new ApplicationError("Purchase not found", this.constructor.name);
+    if (!purchase) {
+      throw new ApplicationError("Purchase not found", "PURCHASE_NOT_FOUND");
     }
 
-    if (data.items.length == 0) {
-      throw new ApplicationError("No items provided", this.constructor.name);
+    if (purchase.props.userId !== data.user.id) {
+      throw new ApplicationError("Purchase does not match with user.", "INVALID_USER_PURCHASE");
     }
 
-    const itemsID = data.items.map((p) => p.id);
+    const user = await this.userRepository.get(data.user.id);
 
-    const purchaseItems = await this.purchaseItemRepository.getMany(itemsID);
-
-    if (purchaseItems.length == 0) {
-      throw new ApplicationError("Invalid items IDs provided", this.constructor.name);
+    if (!data.products.length) {
+      throw new ApplicationError("No products provided", "NO_PRODUCTS_PROVIDED");
     }
 
-    return {
-      id: "",
-      total: 3,
-      userId: "",
-    };
+    const products = await this.productRepository.getMany(data.products);
+
+    if (products.length == 0) {
+      throw new ApplicationError("Invalid products provided", "NO_VALID_PRODUCTS_FOUND");
+    }
+
+    data.products.forEach((productId) => {
+      if (!products.find((product) => product.id === productId)) {
+        throw new ApplicationError("Invalid product id provided", "INVALID_PRODUCT_ID_" + productId);
+      }
+    });
+
+    if (data.user.address) {
+      purchase.updateDeliveryAddress(user.getAddress(data.user.address));
+    }
+
+    const edit: Purchase = undefined;
+
+    await this.purchaseRepository.edit(edit).then((saved) => {
+      if (!saved) throw new ApplicationError("Purchase not saved", "PURCHASE_NOT_SAVED");
+    });
+
+    return true;
   }
 }
