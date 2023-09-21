@@ -17,6 +17,7 @@ describe("Purchase business rules", () => {
 
     expect(purchase.props.items).toHaveLength(2);
   });
+
   describe("Delivery address", () => {
     it("should throw if address is not provided", () => {
       expect(() => mockPurchase({ address: null })).toThrow(DomainError);
@@ -208,6 +209,7 @@ describe("Purchase business rules", () => {
       expect(purchase.props.totalValue).toBe(200);
     });
   });
+
   describe("Purchase status", () => {
     it("should be initialized as 'PENDING_PAYMENT'", () => {
       const purchase = mockPurchase();
@@ -222,6 +224,7 @@ describe("Purchase business rules", () => {
       expect(purchase.props.status).toBe("CANCELED");
     });
   });
+
   describe("Delivery status", () => {
     it("should be initialized as null", () => {
       const purchase = mockPurchase();
